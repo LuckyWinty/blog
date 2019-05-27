@@ -5,7 +5,7 @@
 + [项目常用配置](https://github.com/LuckyWinty/blog/blob/master/markdown/%E9%A1%B9%E7%9B%AE%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE.md)
 
 #### | NODE
-+ [问题记录]
++ [问题记录](https://github.com/LuckyWinty/blog/blob/master/markdown/node/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
 #### | 好文收集
 ##### 服务端相关
 + [探索 Serverless 中的前端开发模式](https://juejin.im/post/5cdc3dc2e51d453b6c1d9d3a)

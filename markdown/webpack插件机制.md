@@ -36,7 +36,7 @@ webpack 插件机制是整个 webpack 工具的骨架，而 webpack 本身也是
     // 暴露 js 函数
     module.exports = MyPlugin;
 ##### apply方法的定义
-webpack中调用插件的方式就是plugin.apply()。webpack核心[源码](https://github.com/webpack/webpack/blob/10282ea20648b465caec6448849f24fc34e1ba3e/lib/webpack.js#L35)：
+webpack中调用插件的方式就是plugin.apply()。webpack部分[源码](https://github.com/webpack/webpack/blob/10282ea20648b465caec6448849f24fc34e1ba3e/lib/webpack.js#L35)：
 
     const webpack = (options, callback) => {
         ...
@@ -47,3 +47,24 @@ webpack中调用插件的方式就是plugin.apply()。webpack核心[源码](http
     }
 ##### compiler对象
 compiler 对象是 webpack 的编译器对象，compiler 对象会在启动 webpack 的时候被一次性的初始化，compiler 对象中包含了所有 webpack 可自定义操作的配置，例如 loader 的配置，plugin 的配置，entry 的配置等各种原始 webpack 配置等，在 webpack 插件中的自定义子编译流程中，我们肯定会用到 compiler 对象中的相关配置信息，我们相当于可以通过 compiler 对象拿到 webpack 的主环境所有的信息。
+webpack部分[源码](https://github.com/webpack/webpack/blob/10282ea20648b465caec6448849f24fc34e1ba3e/lib/webpack.js#L30)
+
+    // webpack/lib/webpack.js
+    const Compiler = require("./Compiler")
+
+    const webpack = (options, callback) => {
+        ...
+        options = new WebpackOptionsDefaulter().process(options) // 初始化 webpack 各配置参数
+        let compiler = new Compiler(options.context)     // 初始化 compiler 对象，这里 options.context 为 process.cwd()
+        compiler.options = options                      // 往 compiler 添加初始化参数
+        new NodeEnvironmentPlugin().apply(compiler)// 往 compiler 添加 Node 环境相关方法
+        for (const plugin of options.plugins) {
+            plugin.apply(compiler);
+        }
+        ...
+    }
+
+##### compilation 对象
+compilation 实例继承于 compiler，compilation 对象代表了一次单一的版本 webpack 构建和生成编译资源(编译资源是 webpack 通过配置生成的一份静态资源管理 Map（一切都在内存中保存），以 key-value 的形式描述一个 webpack 打包后的文件，编译资源就是这一个个 key-value 组成的 Map)的过程。当运行 webpack 开发环境中间件时，每当检测到一个文件变化，一次新的编译将被创建，从而生成一组新的编译资源以及新的 compilation 对象。一个 compilation 对象包含了 当前的模块资源、编译生成资源、变化的文件、以及 被跟踪依赖的状态信息。编译对象也提供了很多关键点回调供插件做自定义处理时选择使用。
+##### Tapable & Tapable 实例
+webpack 的插件架构主要基于 Tapable 实现的，Tapable 是 webpack 项目组的一个内部库，主要是抽象了一套插件机制。webpack 源代码中的一些 Tapable 实例都继承或混合了 Tapable 类。Tapable 能够让我们为 javaScript 模块添加并应用插件。 它可以被其它模块继承或混合。它类似于 NodeJS 的 EventEmitter 类，专注于自定义事件的触发和操作。 除此之外, Tapable 允许你通过回调函数的参数访问事件的生产者。

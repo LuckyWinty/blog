@@ -72,6 +72,39 @@ compilation 实例继承于 compiler，compilation 对象代表了一次单一�
 
 ##### Tapable & Tapable 实例
 webpack 的插件架构主要基于 Tapable 实现的，Tapable 是 webpack 项目组的一个内部库，主要是抽象了一套插件机制。webpack 源代码中的一些 Tapable 实例都继承或混合了 Tapable 类。Tapable 能够让我们为 javaScript 模块添加并应用插件。 它可以被其它模块继承或混合。它类似于 NodeJS 的 EventEmitter 类，专注于自定义事件的触发和操作。 除此之外, Tapable 允许你通过回调函数的参数访问事件的生产者。
+##### Plugin调用流程
+1. 注册，类似于 EventEmitter 的 on
+
+        compiler.plugin('emit', (compilation, callback) => {
+             // 在生成资源并输出到目录之前完成某些逻辑
+        })
+**对应[源码](https://github.com/webpack/tapable/blob/42b520760e138c23e7808881cb4322557e878307/lib/Tapable.js#L35)**
+
+    // Tapable.js
+    options => {
+        ...
+        if(hook !== undefined) {
+            const tapOpt = {
+            name: options.fn.name || "unnamed compat plugin",
+            stage: options.stage || 0
+            };
+            if(options.async)
+                // 将插件中异步钩子的回调函数注入
+                hook.tapAsync(tapOpt, options.fn); 
+            else
+                hook.tap(tapOpt, options.fn);
+            return true;
+        }
+    };
+2. 执行，类似于 EventEmitter 的emit
+
+**对应[源码](https://github.com/webpack/webpack/blob/e7c8fa414b718ac98d94a96e2553faceabfbc92f/lib/Compiler.js#L307)**
+
+    this.hooks.emit.callAsync(compilation, err => {
+        if (err) return callback(err);
+        outputPath = compilation.getPath(this.outputPath);
+        this.outputFileSystem.mkdirp(outputPath, emitFiles);
+    });
 
 ##### Plugin插件开发调试
 **npm link**
@@ -97,3 +130,6 @@ ResolveLoader 用于配置 Webpack 如何寻找 Loader ，它在默认情
             modules :['node modules','./loaders/'], 
         }
     }
+
+##### Webpack的一些钩子
+https://webpack.docschina.org/api/compiler/#%E4%BA%8B%E4%BB%B6%E9%92%A9%E5%AD%90

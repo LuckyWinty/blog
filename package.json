@@ -18,5 +18,8 @@
   "homepage": "https://github.com/LuckyWinty/blog#readme",
   "dependencies": {
     "tapable": "^1.1.3"
+  },
+  "devDependencies": {
+    "scp2": "^0.5.0"
   }
 }

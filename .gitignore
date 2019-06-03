@@ -3,11 +3,13 @@
 # dependencies
 /node_modules
 /code/uploadToServerPlugin//node_modules
+/code/bundleBuild//node_modules
 
 # production
 /build
 /dist
 /out
+/code/bundleBuild//dist
 
 # misc
 .DS_Store

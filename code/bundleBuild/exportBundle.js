@@ -3,7 +3,6 @@ const path = require('path')
 
 const exportBundle = (data)=>{
     const directoryPath = path.resolve(__dirname,'dist')
-    console.log('directoryPath',directoryPath);
     if (!fs.existsSync(directoryPath)) {
       fs.mkdirSync(directoryPath)
     }
@@ -21,4 +20,3 @@ const access = async filePath => new Promise((resolve, reject) => {
         resolve(true)
     })
 })
-module.exports = exportBundle

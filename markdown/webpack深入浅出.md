@@ -28,3 +28,16 @@ webpack是一个打包模块化 JavaScript 的工具，在 webpack里一切文�
 7. 输出完成：在确定好输出内容后，根据配置确定输出的路径和文件名，将文件的内容写入文件系统中。
 
 在以上过程中， Webpack 会在特定的时间点广播特定的事件，插件在监听到感兴趣的事件后会执行特定的逻辑，井且插件可以调用 Webpack 提供的 API 改变 Webpack 的运行结果。
+
+#### 打包模型的基本流程
+1. 利用babel完成代码转换,并生成单个文件的依赖
+2. 生成依赖图谱
+3. 生成最后打包代码
+
+#### Loader模型
+
+    module.exports = function (source ) { 
+      //source compiler 传递给 Loader 的一个文件的原内容
+      //该函数需要返回处理后的内容，这里为了简单起见，直接将原内容返回了，相当于该Loader 有做任何转换
+      return source; 
+    }

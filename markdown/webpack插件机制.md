@@ -15,7 +15,6 @@ webpack 插件机制是整个 webpack 工具的骨架，而 webpack 本身也是
 
 #### Webpakck插件的基本模型
     // 1、BasicPlugin.js 文件（独立模块）
-
     // 2、模块对外暴露的 js 函数
     class BasicPlugin{ 
         //在构造函数中获取用户为该插件传入的配置
@@ -112,10 +111,8 @@ webpack 的插件架构主要基于 Tapable 实现的，Tapable 是 webpack 项�
 Npm link 专门用于开发和调试本地的 Npm 模块，能做到在不发布模块的情况下， 将本地的一个正在开发的模块的源码链接到项目的 node_modules 目录下，让项目可以直接使
 用本地的 Npm 模块。由于是通过软链接的方式实现的，编辑了本地的 Npm 模块的代码，所以在项目中也能使用到编辑后的代码。
 1. 确保正在开发的本地 Loader 模块的 package.json 已经配置好(最主要的main字段的入口文件指向要正确)
-2. 在本地的 Npm 模块根目录下执行 npm link ，将本地模块注册到全局
-3. 在项目根目录下执行 npm link loader-name ，将第 2 步注册到全局的本地 Npm
-模块链接到项目的 node moduels 下，其中的 loader-name 是指在第 1 步的
-package.json 文件中配置的模块名称
+2. 在本地的 Npm 模块根目录下执行 npm link，将本地模块注册到全局
+3. 在项目根目录下执行 npm link loader-name ，将第 2 步注册到全局的本地 Npm 模块链接到项目的 node moduels 下，其中的 loader-name 是指在第 1 步的package.json 文件中配置的模块名称
 
 **Resolveloader**
 

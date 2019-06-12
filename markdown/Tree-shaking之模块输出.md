@@ -21,7 +21,7 @@ Tree-Shaking的原理，通过静态分析，找出未被引用、未被执行�
 9. umd
 10. jsonp
 
-这就很鸡肋了...所以写类库的时候，要导出esm的话，无法用webpack编译。webpack插件系统庞大，确实有支持模块级的Tree-Shacking的插件，如webpack-deep-scope-analysis-plugin。但是粒度更细化的，一个模块里面的某个方法，没有被引用的也可以去掉的，就不行了....这个时候，就要上rollup了。
+这就很鸡肋了...所以写类库的时候，要导出esm的话，无法用webpack编译。webpack插件系统庞大，确实有支持模块级的Tree-Shacking的插件，如webpack-deep-scope-analysis-plugin。但是粒度更细化的，一个模块里面的某个方法，本来如果没有被引用的话也可以去掉的，就不行了....这个时候，就要上rollup了。
 明显的2大特性：
 1. 它支持导出ES模块的包。
 2. 它支持程序流分析，能更加正确的判断项目本身的代码是否有副作用。

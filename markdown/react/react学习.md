@@ -33,4 +33,26 @@ React 严格定义了组件的生命周期，生命周期可能会经历如下�
 5. componentDidUpdate 
 
 + this.setState 方法触发的更新过程不会调用 componentWillReceiveProps ，这是因为这个函数适合根据新的 props 值来计算出是不是要更新内部状态 state 更新组件内部状态的方法就是 this.setState ，如果 this.setState 的调用导致componentWillReceiveProps 再一次被调用，那就是一个死循环了
-+ shouldComponentUpdate,
++ shouldComponentUpdate的参数就是接下来的 props 和 state 的值,我们可以根据这2个参数的前后对比，判断出是返回 true 还是返回 false，从而决定是否要重新渲染。
+
+        shouldComponentUpdate(nextProps, nextState) { 
+            return (nextProps.caption !== this.props.caption)|| 
+            (nextState.count !==this.state.count); 
+        }
++ 如果组件的 shouldComponentUpdate 函数返回 true, React 接下来就会依次调用对应
+组件的 componentWillUpdate 、render 、componentDidUpdate 函数。这对函数，在服务端渲染时同样会执行。
+
+##### Unmount过程
+
++ React 组件的卸载过程只涉及一个函数 omponentWillUnmount ，React 组件要从
+DOM 树上删除掉之前，对应的 componentWillUnmount 函数会被调用，所以这个函数适
+合做一些清理性的工作。
++ componentWillUnmount 中的工作往往和 componentDidMount 有关，比如，在
+componentDidMount 中用非 React 的方法创造了一些 DOM 元素，如果撒手不管可能会造
+成内存泄露，那就需要在 componentWillUnmount 中把这些创造的 DOM 元素清理掉。
+
+#### Redux
+基本原则：
+1. 唯一数据源（ Single Source of Truth)
+2. 保持状态只读（ State is read-only)
+3. 数据改变只能通过纯函数完成（Changes are made with pure functions)

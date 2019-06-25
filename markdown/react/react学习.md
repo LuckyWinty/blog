@@ -4,6 +4,7 @@
 + 组件的划分要满足高内聚（High Cohesion）和低藕合（LowCoupling）的原则
 + prop 是组件的对外接口， state 是组件的内部状态，对外用prop ，内部用 state
 + 组件不应该改变 prop 的值，而 state 存在的目的就是让组件来改变的
++ 每个 React 组件的 props 中都可以一个特殊属性 children ，代表的是子组件。
 
 #### 组件的生命周期
 React 严格定义了组件的生命周期，生命周期可能会经历如下三个过程：
@@ -56,3 +57,8 @@ componentDidMount 中用非 React 的方法创造了一些 DOM 元素，如果�
 1. 唯一数据源（ Single Source of Truth)
 2. 保持状态只读（ State is read-only)
 3. 数据改变只能通过纯函数完成（Changes are made with pure functions)
+
+#### React-redux
++ Context ,就是"上下文环境"，让一个树状组件上所有组件都能访问一个共同的对象，为了完成这个任务，需要上级组件和下级组件配合
++ 上级组件要宣称自己支持 context ，并且提供一个函数来返回代表 Context对象
++ 这个上级组件之下的所有子孙组件，只要宣称自己需要这个 context ，就可以通过 this.context 访问到这个共同的环境对象

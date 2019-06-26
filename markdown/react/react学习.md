@@ -70,3 +70,5 @@ componentDidMount 中用非 React 的方法创造了一些 DOM 元素，如果�
 3. Store 的状态树设计(一个模块控制一个状态节点、避免冗余数据、树形结构扁平)
 
 #### React 组件的性能优化
+1. 利用 shouldComponentUpdate 函数
+2. 列表渲染，用稳定唯一的key值，不要用不稳定的key值，如index

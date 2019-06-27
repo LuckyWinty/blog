@@ -72,3 +72,8 @@ componentDidMount 中用非 React 的方法创造了一些 DOM 元素，如果�
 #### React 组件的性能优化
 1. 利用 shouldComponentUpdate 函数
 2. 列表渲染，用稳定唯一的key值，不要用不稳定的key值，如index
+3. 用 reselect 提高数据获取性能
+4. 范式化状态树
+
+#### React高阶组件
+高阶组件就是根据一个组件类产生一个新的组件类。

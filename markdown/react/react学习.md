@@ -132,3 +132,6 @@ componentDidMount 中用非 React 的方法创造了一些 DOM 元素，如果�
 3. redux-mock-store
 
 #### 扩展Redux
+
++ 中间件
++ Store Enhancer

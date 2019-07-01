@@ -136,4 +136,8 @@ componentDidMount 中用非 React 的方法创造了一些 DOM 元素，如果�
 + 中间件
 + Store Enhancer
 
-#### 动画
+#### 多页面应用
+
+路由：
+
+React-Router 库提供了两个组件来完成路由功能，一个是 Router ，另 一个是 Route。前者 Router 在整个应用中只需要一个实例，代表整个路由器 后者 Route 则代表每一个路径对应页面的路由规则，一个应用中应该会有多个 Route 实例。

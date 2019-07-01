@@ -28,4 +28,17 @@
 
 最新的和最推荐的方法怎么可以使得 Javascript 变得如此慢，造成这个的原因主要有 2 个。reduce 和 forEach 需要一个执行一个回调函数，这个函数被递归调用并使堆栈"膨胀",以及对执行代码进行附加操作和验证。
 
-**1.复制数组**
+**2.复制数组**
+
+复制数组看起来不是一个有趣的场景，但这是不可变函数的基石，它在生成输出时不会修改输入。
+
+性能测试同样出现了有意思的结果：
+
+        Duplicate using Slice, average: ~367 microseconds
+        Duplicate using Map, average: ~469 microseconds
+        Duplicate using Spread, average: ~512 microseconds
+        Duplicate using Conct, average: ~366 microseconds
+        Duplicate using Array From, average: ~1,436 microseconds
+        Duplicate manually, average: ~412 microseconds
+
+**3.对象迭代**

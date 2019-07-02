@@ -50,3 +50,13 @@
         Object iterate For-In, average: ~240 microseconds
         Object iterate Keys For Each, average: ~294 microseconds
         Object iterate Entries For-Of, average: ~535 microseconds
+
+出现这样结果的原因是，后两种方案创建了可枚举的数值组，而不是在没有 keys 的情况下直接遍历数组。但是最终的结果仍然值得关注。
+
+**结论**
+
+我的结论显而易见——如果性能对你的应用很关键，或者你的服务需要处理一些过载，那么使用酷的，可读性更高的，更简洁的方法会对你的应用产生重大的性能影响——可能会慢 10 倍！
+
+之后，在盲目跟随新趋势之前，先确保这些新方法是否满足需求，对于小应用，快速迭代和用高可读性对代码是完美的，但是对于压力大的服务器和庞大的客户端应用，可能不是最佳实践。
+
+原文：https://hackernoon.com/3-javascript-performance-mistakes-you-should-stop-doing-ebf84b9de951

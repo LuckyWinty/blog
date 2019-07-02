@@ -13,3 +13,5 @@
 ##### 服务端相关
 + [探索 Serverless 中的前端开发模式](https://juejin.im/post/5cdc3dc2e51d453b6c1d9d3a)
 + [Node应用没有错误监控怎么行？](https://mp.weixin.qq.com/s/P8zP0j6hzo1KOcPnZwE8UQ)
+##### 翻译
++ [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)

@@ -43,3 +43,10 @@
 
 **3.对象迭代**
 
+另一个经常遇到的场景就是对象迭代，通常就是我们不能根据特定的 key取值，而必须遍历 JSON 结构 或者 Object。我们有老方法 for-in (for(let key in obj))，也有新方法 Object.keys(obj) 和 Object.entries(obj)。
+
+我们用上述方法，对 10 万个对象，每个对象都包含 1000 个随机的 keys 和 values 进行性能分析。结果如下：
+
+        Object iterate For-In, average: ~240 microseconds
+        Object iterate Keys For Each, average: ~294 microseconds
+        Object iterate Entries For-Of, average: ~535 microseconds

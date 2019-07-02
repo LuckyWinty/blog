@@ -32,7 +32,7 @@
 
 复制数组看起来不是一个有趣的场景，但这是不可变函数的基石，它在生成输出时不会修改输入。
 
-性能测试同样出现了有意思的结果：
+性能测试同样出现了有意思的结果——当复制 10 万条随机数据时，用老方法还是比新方法快。用 ES6 的扩展运算操作 [...arr] 和 Array.from, 加上 ES5 的 map 方法，arr.map(x=>x) 性能都不如老方法 arr.slice() 和 连接方法 [].concat(arr)
 
         Duplicate using Slice, average: ~367 microseconds
         Duplicate using Map, average: ~469 microseconds
@@ -42,3 +42,4 @@
         Duplicate manually, average: ~412 microseconds
 
 **3.对象迭代**
+

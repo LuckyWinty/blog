@@ -20,3 +20,4 @@ const access = async filePath => new Promise((resolve, reject) => {
         resolve(true)
     })
 })
+module.exports = exportBundle

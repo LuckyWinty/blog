@@ -7,13 +7,20 @@
 
 #### | Node
 + [问题记录](https://github.com/LuckyWinty/blog/blob/master/markdown/node/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
+
 #### | React
 + [深入浅出react和redux读书笔记](https://github.com/LuckyWinty/blog/blob/master/markdown/react/react%E5%AD%A6%E4%B9%A0.md)
+
+#### | 调研
++ [用户行为录帧调研](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%B8%A7%E8%AE%B0%E5%BD%95.md)
+
 #### | 好文收集
 ##### 服务端相关
 + [探索 Serverless 中的前端开发模式](https://juejin.im/post/5cdc3dc2e51d453b6c1d9d3a)
 + [Node应用没有错误监控怎么行？](https://mp.weixin.qq.com/s/P8zP0j6hzo1KOcPnZwE8UQ)
+
 #### | 翻译
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)
+
 #### | 学习之路
 + [每周学习&成果输出记录](https://github.com/LuckyWinty/blog/blob/master/markdown/record/%E6%AF%8F%E5%91%A8%E5%AD%A6%E4%B9%A0%26%E6%88%90%E6%9E%9C%E8%BE%93%E5%87%BA%E8%AE%B0%E5%BD%95.md)

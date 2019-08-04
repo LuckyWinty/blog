@@ -5,4 +5,4 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 基本实现原理大致这样的，构建 bundle 的时候，加入一段 HMR runtime 的 js 和一段和服务沟通的 js 。文件修改会触发 webpack 重新构建，服务器通过向浏览器发送更新消息，浏览器通过 jsonp 拉取更新的模块文件，jsonp 回调触发模块热替换逻辑。
 
 #### 热更新配置
-
+1. 使用webpack-dev-server

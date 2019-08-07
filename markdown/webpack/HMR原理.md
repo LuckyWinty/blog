@@ -22,6 +22,14 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
             ...
         }
         export default hot(module)(Record);
+    或
+
+        if (module.hot) {
+            module.hot.accept('./App', function () {
+                var NextApp = require('./App')
+                ReactDOM.render(<NextApp />, rootEl)
+            })
+        }
 
 #### HMR原理
 1. 在 webpack 的 watch 模式下，文件系统中某一个文件发生修改，webpack 监听到文件变化，根据配置文件对模块重新编译打包，并将打包后的代码通过简单的 JavaScript 对象保存在内存中。
@@ -37,3 +45,4 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 + 服务器构建、推送更新消息
 + 浏览器模块更新
 + 模块更新后页面渲染
+

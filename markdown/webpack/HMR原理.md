@@ -102,3 +102,43 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
         // eslint-disable-next-line no-param-reassign
         compiler.outputFileSystem = fileSystem;
         }
+
+3. devServer 通知浏览器端文件发生改变，在启动 devServer 的时候，sockjs 在服务端和浏览器端建立了一个 webSocket 长连接，以便将 webpack 编译和打包的各个阶段状态告知浏览器，最关键的步骤还是 webpack-dev-server 调用 webpack api 监听 compile的 done 事件，当compile 完成后，webpack-dev-server通过 _sendStatus 方法将编译打包后的新模块 hash 值发送到浏览器端。
+
+        // webpack-dev-server/lib/Server.js
+        const addHooks = (compiler) => {
+        const { compile, invalid, done } = compiler.hooks;
+
+        compile.tap('webpack-dev-server', invalidPlugin);
+        invalid.tap('webpack-dev-server', invalidPlugin);
+        done.tap('webpack-dev-server', (stats) => {
+            this._sendStats(this.sockets, this.getStats(stats));
+            this._stats = stats;
+        });
+        };
+        ...
+        // send stats to a socket or multiple sockets
+        _sendStats(sockets, stats, force) {
+            const shouldEmit =
+            !force &&
+            stats &&
+            (!stats.errors || stats.errors.length === 0) &&
+            stats.assets &&
+            stats.assets.every((asset) => !asset.emitted);
+
+            if (shouldEmit) {
+            return this.sockWrite(sockets, 'still-ok');
+            }
+
+            this.sockWrite(sockets, 'hash', stats.hash);
+
+            if (stats.errors.length > 0) {
+            this.sockWrite(sockets, 'errors', stats.errors);
+            } else if (stats.warnings.length > 0) {
+            this.sockWrite(sockets, 'warnings', stats.warnings);
+            } else {
+            this.sockWrite(sockets, 'ok');
+            }
+        }
+
+#### "浏览器"接收到服务端消息做出响应

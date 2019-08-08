@@ -42,7 +42,63 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 8. 最后一步，当 HMR 失败后，回退到 live reload 操作，也就是进行浏览器刷新来获取最新打包代码。
 
 #### 实现过程
-+ watch 编译过程、devServer 推送更新消息到浏览器
-+ "浏览器"接收到服务端消息做出响应
-+ 对模块进行热更新或刷新页面
+1. watch 编译过程、devServer 推送更新消息到浏览器
+2. "浏览器"接收到服务端消息做出响应
+3. 对模块进行热更新或刷新页面
 
+#### watch 编译过程、devServer 推送更新消息到浏览器
+1. webpack-dev-server 里引用了 webpack-dev-middleware，相关的 watch 逻辑就是在里面实现的。
+
+        //webpack-dev-server/lib/Server.js
+        setupDevMiddleware() {
+            // middleware for serving webpack bundle
+            this.middleware = webpackDevMiddleware(
+            this.compiler,
+            Object.assign({}, this.options, { logLevel: this.log.options.level })
+            );
+        }
+        // webpack-dev-middleware/index.js
+        if (!options.lazy) {
+            context.watching = compiler.watch(options.watchOptions, (err) => {
+            if (err) {
+                context.log.error(err.stack || err);
+                if (err.details) {
+                context.log.error(err.details);
+                }
+            }
+            });
+        } else {
+            context.state = true;
+        }
+以上代码可以看出，webpack-dev-middleware 是通过调用 webpack 的 api 对文件系统 watch 的。watchOptions 如果没有配置的话，会取默认值。值的含义见：https://webpack.js.org/configuration/watch/
+
+2. 当文件发生变化时，重新编译输出 bundle.js。devServer 下，是没有文件会输出到 output.path 目录下的，这时 webpack 是把文件输出到了内存中。webpack 中使用的操作内存的库是 memory-fs，它是 NodeJS 原生 fs 模块内存版(in-memory)的完整功能实现，会将你请求的url映射到对应的内存区域当中，因此读写都比较快。
+
+        // webpack-dev-middleware/lib/fs.js
+        const isMemoryFs =
+        !isConfiguredFs &&
+        !compiler.compilers &&
+        compiler.outputFileSystem instanceof MemoryFileSystem;
+
+        if (isConfiguredFs) {
+        // eslint-disable-next-line no-shadow
+        const { fs } = context.options;
+
+        if (typeof fs.join !== 'function') {
+            // very shallow check
+            throw new Error(
+            'Invalid options: options.fs.join() method is expected'
+            );
+        }
+
+        // eslint-disable-next-line no-param-reassign
+        compiler.outputFileSystem = fs;
+        fileSystem = fs;
+        } else if (isMemoryFs) {
+        fileSystem = compiler.outputFileSystem;
+        } else {
+        fileSystem = new MemoryFileSystem();
+
+        // eslint-disable-next-line no-param-reassign
+        compiler.outputFileSystem = fileSystem;
+        }

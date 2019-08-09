@@ -5,7 +5,7 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 基本实现原理大致这样的，构建 bundle 的时候，加入一段 HMR runtime 的 js 和一段和服务沟通的 js 。文件修改会触发 webpack 重新构建，服务器通过向浏览器发送更新消息，浏览器通过 jsonp 拉取更新的模块文件，jsonp 回调触发模块热替换逻辑。
 
 #### 热更新配置
-+ 使用webpack-dev-server,设置 hot 属性为 true.
++ **使用webpack-dev-server,设置 hot 属性为 true.**
 写模块时，按照以下写法:
 
         if (module.hot) { //判断是否有热加载
@@ -14,8 +14,9 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
                 printMe();
             })
         }
-缺点：
-+ react 的热加载，使用 react-hot-loader
+缺点：更新逻辑得自己写。比如要使页面显示的内容生效，需要在回调中写入document.append(xxx)
+
++ **react 的热加载，使用 react-hot-loader**
 
         import { hot } from 'react-hot-loader';
         const Record = ()=>{
@@ -43,8 +44,8 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
         setupDevMiddleware() {
             // middleware for serving webpack bundle
             this.middleware = webpackDevMiddleware(
-            this.compiler,
-            Object.assign({}, this.options, { logLevel: this.log.options.level })
+                this.compiler,
+                Object.assign({}, this.options, { logLevel: this.log.options.level })
             );
         }
         // webpack-dev-middleware/index.js
@@ -69,38 +70,21 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
         !isConfiguredFs &&
         !compiler.compilers &&
         compiler.outputFileSystem instanceof MemoryFileSystem;
-
-        if (isConfiguredFs) {
-        // eslint-disable-next-line no-shadow
-        const { fs } = context.options;
-
-        if (typeof fs.join !== 'function') {
-            // very shallow check
-            throw new Error(
-            'Invalid options: options.fs.join() method is expected'
-            );
-        }
-
-        // eslint-disable-next-line no-param-reassign
+        ...
         compiler.outputFileSystem = fs;
         fileSystem = fs;
         } else if (isMemoryFs) {
-        fileSystem = compiler.outputFileSystem;
+            fileSystem = compiler.outputFileSystem;
         } else {
-        fileSystem = new MemoryFileSystem();
-
-        // eslint-disable-next-line no-param-reassign
-        compiler.outputFileSystem = fileSystem;
+            fileSystem = new MemoryFileSystem();
+            compiler.outputFileSystem = fileSystem;
         }
 
 3. devServer 通知浏览器端文件发生改变，在启动 devServer 的时候，sockjs 在服务端和浏览器端建立了一个 webSocket 长连接，以便将 webpack 编译和打包的各个阶段状态告知浏览器，最关键的步骤还是 webpack-dev-server 调用 webpack api 监听 compile的 done 事件，当compile 完成后，webpack-dev-server通过 _sendStatus 方法将编译打包后的新模块 hash 值发送到浏览器端。
 
         // webpack-dev-server/lib/Server.js
         const addHooks = (compiler) => {
-        const { compile, invalid, done } = compiler.hooks;
-
-        compile.tap('webpack-dev-server', invalidPlugin);
-        invalid.tap('webpack-dev-server', invalidPlugin);
+        ...
         done.tap('webpack-dev-server', (stats) => {
             this._sendStats(this.sockets, this.getStats(stats));
             this._stats = stats;
@@ -109,25 +93,15 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
         ...
         // send stats to a socket or multiple sockets
         _sendStats(sockets, stats, force) {
-            const shouldEmit =
-            !force &&
-            stats &&
-            (!stats.errors || stats.errors.length === 0) &&
-            stats.assets &&
-            stats.assets.every((asset) => !asset.emitted);
-
-            if (shouldEmit) {
-            return this.sockWrite(sockets, 'still-ok');
-            }
-
+            ...
             this.sockWrite(sockets, 'hash', stats.hash);
 
             if (stats.errors.length > 0) {
-            this.sockWrite(sockets, 'errors', stats.errors);
+                this.sockWrite(sockets, 'errors', stats.errors);
             } else if (stats.warnings.length > 0) {
-            this.sockWrite(sockets, 'warnings', stats.warnings);
+                this.sockWrite(sockets, 'warnings', stats.warnings);
             } else {
-            this.sockWrite(sockets, 'ok');
+                this.sockWrite(sockets, 'ok');
             }
         }
 
@@ -151,14 +125,7 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
         }
         ...
         [].concat(config).forEach((config) => {
-        /** @type {Boolean} */
-        const webTarget =
-            config.target === 'web' ||
-            config.target === 'webworker' ||
-            config.target === 'electron-renderer' ||
-            config.target === 'node-webkit' ||
-            config.target == null;
-        /** @type {Entry} */
+        ...
         const additionalEntries = checkInject(
             options.injectClient,
             config,
@@ -177,8 +144,6 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
             config.plugins = config.plugins || [];
             if (
             !config.plugins.find(
-                // Check for the name rather than the constructor reference in case
-                // there are multiple copies of webpack installed
                 (plugin) => plugin.constructor.name === 'HotModuleReplacementPlugin'
             )
             ) {
@@ -201,12 +166,12 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
     },
     ...
     ok() {
-        sendMessage('Ok');
+            sendMessage('Ok');
         if (options.useWarningOverlay || options.useErrorOverlay) {
-        overlay.clear();
+            overlay.clear();
         }
         if (options.initial) {
-        return (options.initial = false);
+            return (options.initial = false);
         } // eslint-disable-line no-return-assign
         reloadApp(options, status);
     }
@@ -317,30 +282,13 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 
         // remove "parents" references from all children
         for (j = 0; j < module.children.length; j++) {
-            var child = installedModules[module.children[j]];
-            if (!child) continue;
-            idx = child.parents.indexOf(moduleId);
-            if (idx >= 0) {
-                child.parents.splice(idx, 1);
-            }
+            ...
         }
         // remove outdated dependency from module children
 		var dependency;
 		var moduleOutdatedDependencies;
 		for (moduleId in outdatedDependencies) {
-			if (
-				Object.prototype.hasOwnProperty.call(outdatedDependencies, moduleId)
-			) {
-				module = installedModules[moduleId];
-				if (module) {
-					moduleOutdatedDependencies = outdatedDependencies[moduleId];
-					for (j = 0; j < moduleOutdatedDependencies.length; j++) {
-						dependency = moduleOutdatedDependencies[j];
-						idx = module.children.indexOf(dependency);
-						if (idx >= 0) module.children.splice(idx, 1);
-					}
-				}
-			}
+			...
 		}
 4. 将新的模块添加到 modules 中，当下次调用 __webpack_require__ (webpack 重写的 require 方法)方法的时候，就是获取到了新的模块代码了。
 

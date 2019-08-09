@@ -145,6 +145,7 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 
 这里的主要逻辑位于 webpack-dev-server/client-src 中，webpack-dev-server 修改了webpack 配置中的 entry 属性，在里面添加了 webpack-dev-client 的代码，这样在最后的 bundle.js 文件中就会有接收 websocket 消息的代码了。
 
+        //webpack-dev-server/lib/utils/addEntries.js
         /** @type {string} */
         const clientEntry = `${require.resolve(
         '../../client/'
@@ -200,5 +201,84 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 + 找到修改的模块，生成一个补丁 js 文件和更新描述 json 文件
 
 先看一张图，看看 websocket 中的消息长什么样子：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/websocket.jpg)
+可以看到，接收的消息只有 type 和 hash 两个内容。在 client 里面的逻辑，他们分别对应不同的处理逻辑：
+
+    // webpack-dev-server/client-src/default/index.js
+    hash(hash) {
+        status.currentHash = hash;
+    },
+    ...
+    ok() {
+        sendMessage('Ok');
+        if (options.useWarningOverlay || options.useErrorOverlay) {
+        overlay.clear();
+        }
+        if (options.initial) {
+        return (options.initial = false);
+        } // eslint-disable-line no-return-assign
+        reloadApp(options, status);
+    }
+可以看出，当接收到 type 为 hash 消息后会将 hash 值暂存起来，当接收到 type 为 ok 的消息后对应用执行 reload 操作，而 hash 消息是在 ok 消息之前的。再看看 reload 里面的处理逻辑：
+
+    // webpack-dev-server/client-src/default/reloadApp.js
+    if (hot) {
+        log.info('[WDS] App hot update...');
+        const hotEmitter = require('webpack/hot/emitter');
+        hotEmitter.emit('webpackHotUpdate', currentHash);
+        if (typeof self !== 'undefined' && self.window) {
+        // broadcast update to window
+        self.postMessage(`webpackHotUpdate${currentHash}`, '*');
+        }
+    }
+    // allow refreshing the page only if liveReload isn't disabled
+    else if (liveReload) {
+        let rootWindow = self;
+        // use parent window for reload (in case we're in an iframe with no valid src)
+        const intervalId = self.setInterval(() => {
+        if (rootWindow.location.protocol !== 'about:') {
+            // reload immediately if protocol is valid
+            applyReload(rootWindow, intervalId);
+        } else {
+            rootWindow = rootWindow.parent;
+            if (rootWindow.parent === rootWindow) {
+            // if parent equals current window we've reached the root which would continue forever, so trigger a reload anyways
+            applyReload(rootWindow, intervalId);
+            }
+        }
+        });
+    }
+可以看出，如果配置了模块热更新，就调用 webpack/hot/emitter 将最新 hash 值发送给 webpack，然后将控制权交给 webpack 客户端代码。如果没有配置模块热更新，就进行 liveReload 的逻辑。webpack/hot/dev-server 中会监听 webpack-dev-server/client-src 发送的 webpackHotUpdate 消息,然后调用 webpack/lib/HotModuleReplacement.runtime 中的 check 方法，检测是否有新的更新：
+
+    // webpack/hot/dev-server.js
+    var hotEmitter = require("./emitter");
+        hotEmitter.on("webpackHotUpdate", function(currentHash) {
+            lastHash = currentHash;
+            if (!upToDate() && module.hot.status() === "idle") {
+                log("info", "[HMR] Checking for updates on the server...");
+                check();
+            }
+        });
+        
+    // webpack/lib/HotModuleReplacement.runtime
+        function hotCheck(apply) {
+           ...
+            return hotDownloadManifest(hotRequestTimeout).then(function(update) {
+                ...
+                    /*globals chunkId */
+                    hotEnsureUpdateChunk(chunkId);
+                ...
+                return promise;
+            });
+        }
+        function hotEnsureUpdateChunk(chunkId) {
+            if (!hotAvailableFilesMap[chunkId]) {
+                hotWaitingFilesMap[chunkId] = true;
+            } else {
+                hotRequestedFilesMap[chunkId] = true;
+                hotWaitingFiles++;
+                hotDownloadUpdateChunk(chunkId);
+            }
+        }
 
 #### 对模块进行热更新或刷新页面

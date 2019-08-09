@@ -142,3 +142,59 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
         }
 
 #### "浏览器"接收到服务端消息做出响应
+
+这里的主要逻辑位于 webpack-dev-server/client-src 中，webpack-dev-server 修改了webpack 配置中的 entry 属性，在里面添加了 webpack-dev-client 的代码，这样在最后的 bundle.js 文件中就会有接收 websocket 消息的代码了。
+
+        /** @type {string} */
+        const clientEntry = `${require.resolve(
+        '../../client/'
+        )}?${domain}${sockHost}${sockPath}${sockPort}`;
+
+        /** @type {(string[] | string)} */
+        let hotEntry;
+
+        if (options.hotOnly) {
+            hotEntry = require.resolve('webpack/hot/only-dev-server');
+        } else if (options.hot) {
+            hotEntry = require.resolve('webpack/hot/dev-server');
+        }
+        ...
+        [].concat(config).forEach((config) => {
+        /** @type {Boolean} */
+        const webTarget =
+            config.target === 'web' ||
+            config.target === 'webworker' ||
+            config.target === 'electron-renderer' ||
+            config.target === 'node-webkit' ||
+            config.target == null;
+        /** @type {Entry} */
+        const additionalEntries = checkInject(
+            options.injectClient,
+            config,
+            webTarget
+        )
+            ? [clientEntry]
+            : [];
+
+        if (hotEntry && checkInject(options.injectHot, config, true)) {
+            additionalEntries.push(hotEntry);
+        }
+
+        config.entry = prependEntry(config.entry || './src', additionalEntries);
+
+        if (options.hot || options.hotOnly) {
+            config.plugins = config.plugins || [];
+            if (
+            !config.plugins.find(
+                // Check for the name rather than the constructor reference in case
+                // there are multiple copies of webpack installed
+                (plugin) => plugin.constructor.name === 'HotModuleReplacementPlugin'
+            )
+            ) {
+                config.plugins.push(new webpack.HotModuleReplacementPlugin());
+            }
+        }
+        });
+以上代码可以看出，如果选择了热加载，输出的 bundle.js 会包含接收 websocket 消息的代码。而且 plugin 也会注入一个 HotModuleReplacementPlugin，构建过程中热加载相关的逻辑都在这个插件中。这个插件主要处理两部分逻辑：
++ 注入 HMR runtime 逻辑
++ 找到修改的模块，生成一个补丁 js 文件和更新描述 json 文件

@@ -31,16 +31,6 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
             })
         }
 
-#### HMR原理
-1. 在 webpack 的 watch 模式下，文件系统中某一个文件发生修改，webpack 监听到文件变化，根据配置文件对模块重新编译打包，并将打包后的代码通过简单的 JavaScript 对象保存在内存中。
-2. 主要是 dev-server 的中间件 webpack-dev-middleware 和 webpack 之间的交互，webpack-dev-middleware 调用 webpack 暴露的 API对代码变化进行监控，并且告诉 webpack，将代码打包到内存中。
-3. webpack-dev-server/client 接收到服务端消息做出响应。
-4. webpack 接收到最新 hash 值验证并请求模块代码。
-5. HotModuleReplacement.runtime 对模块进行热更新。
-6. HotModuleReplacement.runtime 是客户端 HMR 的中枢，它接收到上一步传递给他的新模块的 hash 值，它通过 JsonpMainTemplate.runtime 向 server 端发送 Ajax 请求，服务端返回一个 json，该 json 包含了所有要更新的模块的 hash 值，获取到更新列表后，该模块再次通过 jsonp 请求，获取到最新的模块代码。
-7. HotModulePlugin 将会对新旧模块进行对比，决定是否更新模块，在决定更新模块后，检查模块之间的依赖关系，更新模块的同时更新模块间的依赖引用。
-8. 最后一步，当 HMR 失败后，回退到 live reload 操作，也就是进行浏览器刷新来获取最新打包代码。
-
 #### 实现过程
 1. watch 编译过程、devServer 推送更新消息到浏览器
 2. "浏览器"接收到服务端消息做出响应
@@ -143,7 +133,7 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 
 #### "浏览器"接收到服务端消息做出响应
 
-这里的主要逻辑位于 webpack-dev-server/client-src 中，webpack-dev-server 修改了webpack 配置中的 entry 属性，在里面添加了 webpack-dev-client 的代码，这样在最后的 bundle.js 文件中就会有接收 websocket 消息的代码了。
+1. 这里的主要逻辑位于 webpack-dev-server/client-src 中，webpack-dev-server 修改了webpack 配置中的 entry 属性，在里面添加了 webpack-dev-client 的代码，这样在最后的 bundle.js 文件中就会有接收 websocket 消息的代码了。
 
         //webpack-dev-server/lib/utils/addEntries.js
         /** @type {string} */
@@ -196,12 +186,13 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
             }
         }
         });
-以上代码可以看出，如果选择了热加载，输出的 bundle.js 会包含接收 websocket 消息的代码。而且 plugin 也会注入一个 HotModuleReplacementPlugin，构建过程中热加载相关的逻辑都在这个插件中。这个插件主要处理两部分逻辑：
+2. 以上代码可以看出，如果选择了热加载，输出的 bundle.js 会包含接收 websocket 消息的代码。而且 plugin 也会注入一个 HotModuleReplacementPlugin，构建过程中热加载相关的逻辑都在这个插件中。这个插件主要处理两部分逻辑：
 + 注入 HMR runtime 逻辑
 + 找到修改的模块，生成一个补丁 js 文件和更新描述 json 文件
 
 先看一张图，看看 websocket 中的消息长什么样子：
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/websocket.jpg)
+
 可以看到，接收的消息只有 type 和 hash 两个内容。在 client 里面的逻辑，他们分别对应不同的处理逻辑：
 
     // webpack-dev-server/client-src/default/index.js
@@ -219,66 +210,147 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
         } // eslint-disable-line no-return-assign
         reloadApp(options, status);
     }
-可以看出，当接收到 type 为 hash 消息后会将 hash 值暂存起来，当接收到 type 为 ok 的消息后对应用执行 reload 操作，而 hash 消息是在 ok 消息之前的。再看看 reload 里面的处理逻辑：
+3. 可以看出，当接收到 type 为 hash 消息后会将 hash 值暂存起来，当接收到 type 为 ok 的消息后对应用执行 reload 操作，而 hash 消息是在 ok 消息之前的。再看看 reload 里面的处理逻辑：
 
-    // webpack-dev-server/client-src/default/reloadApp.js
-    if (hot) {
-        log.info('[WDS] App hot update...');
-        const hotEmitter = require('webpack/hot/emitter');
-        hotEmitter.emit('webpackHotUpdate', currentHash);
-        if (typeof self !== 'undefined' && self.window) {
-        // broadcast update to window
-        self.postMessage(`webpackHotUpdate${currentHash}`, '*');
-        }
-    }
-    // allow refreshing the page only if liveReload isn't disabled
-    else if (liveReload) {
-        let rootWindow = self;
-        // use parent window for reload (in case we're in an iframe with no valid src)
-        const intervalId = self.setInterval(() => {
-        if (rootWindow.location.protocol !== 'about:') {
-            // reload immediately if protocol is valid
-            applyReload(rootWindow, intervalId);
-        } else {
-            rootWindow = rootWindow.parent;
-            if (rootWindow.parent === rootWindow) {
-            // if parent equals current window we've reached the root which would continue forever, so trigger a reload anyways
-            applyReload(rootWindow, intervalId);
+        // webpack-dev-server/client-src/default/reloadApp.js
+        if (hot) {
+            ...
+            const hotEmitter = require('webpack/hot/emitter');
+                hotEmitter.emit('webpackHotUpdate', currentHash);
+            if (typeof self !== 'undefined' && self.window) {
+                self.postMessage(`webpackHotUpdate${currentHash}`, '*');
             }
         }
-        });
-    }
-可以看出，如果配置了模块热更新，就调用 webpack/hot/emitter 将最新 hash 值发送给 webpack，然后将控制权交给 webpack 客户端代码。如果没有配置模块热更新，就进行 liveReload 的逻辑。webpack/hot/dev-server 中会监听 webpack-dev-server/client-src 发送的 webpackHotUpdate 消息,然后调用 webpack/lib/HotModuleReplacement.runtime 中的 check 方法，检测是否有新的更新：
+        else if (liveReload) {
+            ...
+        }
+4. 可以看出，如果配置了模块热更新，就调用 webpack/hot/emitter 将最新 hash 值发送给 webpack，然后将控制权交给 webpack 客户端代码。如果没有配置模块热更新，就进行 liveReload 的逻辑。webpack/hot/dev-server 中会监听 webpack-dev-server/client-src 发送的 webpackHotUpdate 消息,然后调用 webpack/lib/HotModuleReplacement.runtime 中的 check 方法，检测是否有新的更新：
 
-    // webpack/hot/dev-server.js
-    var hotEmitter = require("./emitter");
-        hotEmitter.on("webpackHotUpdate", function(currentHash) {
-            lastHash = currentHash;
-            if (!upToDate() && module.hot.status() === "idle") {
-                log("info", "[HMR] Checking for updates on the server...");
-                check();
-            }
-        });
-        
-    // webpack/lib/HotModuleReplacement.runtime
-        function hotCheck(apply) {
-           ...
-            return hotDownloadManifest(hotRequestTimeout).then(function(update) {
-                ...
-                    /*globals chunkId */
-                    hotEnsureUpdateChunk(chunkId);
-                ...
-                return promise;
+        // webpack/hot/dev-server.js
+        var hotEmitter = require("./emitter");
+            hotEmitter.on("webpackHotUpdate", function(currentHash) {
+                lastHash = currentHash;
+                if (!upToDate() && module.hot.status() === "idle") {
+                    log("info", "[HMR] Checking for updates on the server...");
+                    check();
+                }
             });
-        }
-        function hotEnsureUpdateChunk(chunkId) {
-            if (!hotAvailableFilesMap[chunkId]) {
-                hotWaitingFilesMap[chunkId] = true;
-            } else {
-                hotRequestedFilesMap[chunkId] = true;
-                hotWaitingFiles++;
-                hotDownloadUpdateChunk(chunkId);
+            
+        // webpack/lib/HotModuleReplacement.runtime
+            function hotCheck(apply) {
+            ...
+                return hotDownloadManifest(hotRequestTimeout).then(function(update) {
+                    ...
+                        /*globals chunkId */
+                        hotEnsureUpdateChunk(chunkId);
+                    ...
+                    return promise;
+                });
             }
-        }
+            function hotEnsureUpdateChunk(chunkId) {
+                if (!hotAvailableFilesMap[chunkId]) {
+                    hotWaitingFilesMap[chunkId] = true;
+                } else {
+                    hotRequestedFilesMap[chunkId] = true;
+                    hotWaitingFiles++;
+                    hotDownloadUpdateChunk(chunkId);
+                }
+            }
+5. 以上代码可以看出，在 check 过程中，主要调用了两个方法 hotDownloadManifest 和 hotDownloadUpdateChunk。hotDownloadManifest 是通过 Ajax 向服务器请求十分有更新的文件，如果有就返回对应的文件信息，hotDownloadUpdateChunk 是通过Jsonp的方式，请求最新的代码模块。如下图所示:
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/manifest.png)
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/module.png)
+
+补充，这两个文件的名称是可以配置的，如果没有配置，则取定义在 WebpackOptionsDefaulter 中的默认配置。
+
+    this.set("output.hotUpdateChunkFilename", "[id].[hash].hot-update.js");
+    this.set("output.hotUpdateMainFilename", "[hash].hot-update.json");
 
 #### 对模块进行热更新或刷新页面
+综上，我们获得了更新的内容。接下来就可以进行更新了。这部分的逻辑在 webpack/lib/HotModuleReplacement.runtime 中。
+1. 首先，更新过的模块，现在都属于 outdated 的模块，所以先找出过期的模块及其依赖:
+
+        //webpack/lib/HotModuleReplacement.runtime
+        
+        function getAffectedStuff(updateModuleId) {
+            var outdatedModules = [updateModuleId];
+            var outdatedDependencies = {};
+            ...
+            return {
+                type: "accepted",
+                moduleId: updateModuleId,
+                outdatedModules: outdatedModules,
+                outdatedDependencies: outdatedDependencies
+            };
+    }
+2. 根据调用的 Api 信息，对结果进行标注及处理。
+
+        switch (result.type) {
+            case "self-declined":
+                ...
+                break;
+            case "declined":
+                ...
+                break;
+            case "unaccepted":
+                ...
+                break;
+            case "accepted":
+                if (options.onAccepted) options.onAccepted(result);
+                doApply = true;
+                break;
+            case "disposed":
+                if (options.onDisposed) options.onDisposed(result);
+                doDispose = true;
+                break;
+            default:
+                throw new Error("Unexception type " + result.type);
+        }
+3. 从缓存中删除过期的模块和依赖
+
+        // remove module from cache
+        delete installedModules[moduleId];
+
+        // when disposing there is no need to call dispose handler
+        delete outdatedDependencies[moduleId];
+
+        // remove "parents" references from all children
+        for (j = 0; j < module.children.length; j++) {
+            var child = installedModules[module.children[j]];
+            if (!child) continue;
+            idx = child.parents.indexOf(moduleId);
+            if (idx >= 0) {
+                child.parents.splice(idx, 1);
+            }
+        }
+        // remove outdated dependency from module children
+		var dependency;
+		var moduleOutdatedDependencies;
+		for (moduleId in outdatedDependencies) {
+			if (
+				Object.prototype.hasOwnProperty.call(outdatedDependencies, moduleId)
+			) {
+				module = installedModules[moduleId];
+				if (module) {
+					moduleOutdatedDependencies = outdatedDependencies[moduleId];
+					for (j = 0; j < moduleOutdatedDependencies.length; j++) {
+						dependency = moduleOutdatedDependencies[j];
+						idx = module.children.indexOf(dependency);
+						if (idx >= 0) module.children.splice(idx, 1);
+					}
+				}
+			}
+		}
+4. 将新的模块添加到 modules 中，当下次调用 __webpack_require__ (webpack 重写的 require 方法)方法的时候，就是获取到了新的模块代码了。
+
+        // insert new code
+		for (moduleId in appliedUpdate) {
+			if (Object.prototype.hasOwnProperty.call(appliedUpdate, moduleId)) {
+				modules[moduleId] = appliedUpdate[moduleId];
+			}
+		}
+最后就是错误的兼容了，如果热加载失败，将会刷新浏览器。
+
+### 最后
+这里只是对 HMR 的一个大概流程梳理，贴出的都是源码。源码比较庞大，细节处得自己慢慢理解才能吃透。

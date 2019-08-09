@@ -198,3 +198,7 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 以上代码可以看出，如果选择了热加载，输出的 bundle.js 会包含接收 websocket 消息的代码。而且 plugin 也会注入一个 HotModuleReplacementPlugin，构建过程中热加载相关的逻辑都在这个插件中。这个插件主要处理两部分逻辑：
 + 注入 HMR runtime 逻辑
 + 找到修改的模块，生成一个补丁 js 文件和更新描述 json 文件
+
+先看一张图，看看 websocket 中的消息长什么样子：
+
+#### 对模块进行热更新或刷新页面

@@ -34,7 +34,7 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 
 #### 实现过程
 1. watch 编译过程、devServer 推送更新消息到浏览器
-2. "浏览器"接收到服务端消息做出响应
+2. 浏览器接收到服务端消息做出响应
 3. 对模块进行热更新或刷新页面
 
 #### watch 编译过程、devServer 推送更新消息到浏览器
@@ -105,7 +105,7 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
             }
         }
 
-#### "浏览器"接收到服务端消息做出响应
+#### 浏览器接收到服务端消息做出响应
 
 1. 这里的主要逻辑位于 webpack-dev-server/client-src 中，webpack-dev-server 修改了webpack 配置中的 entry 属性，在里面添加了 webpack-dev-client 的代码，这样在最后的 bundle.js 文件中就会有接收 websocket 消息的代码了。
 
@@ -299,6 +299,9 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 			}
 		}
 最后就是错误的兼容了，如果热加载失败，将会刷新浏览器。
+
+#### 参考资料
+https://zhuanlan.zhihu.com/p/30669007
 
 ### 最后
 这里只是对 HMR 的一个大概流程梳理，贴出的都是源码。源码比较庞大，细节处得自己慢慢理解才能吃透。

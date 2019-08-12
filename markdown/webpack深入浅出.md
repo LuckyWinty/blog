@@ -34,6 +34,135 @@ webpack是一个打包模块化 JavaScript 的工具，在 webpack里一切文�
 2. 生成依赖图谱
 3. 生成最后打包代码
 
+先看一个简化后的 webpack 打包好的文件：
+
+    (function(modules) { // webpackBootstrap
+        var installedModules = {};
+        function __webpack_require__(moduleId) {
+
+          // Check if module is in cache
+          if(installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+          }
+          // Create a new module (and put it into the cache)
+          var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+          };
+          modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+          module.l = true;
+          return module.exports;
+        }
+        // expose the modules object (__webpack_modules__)
+        __webpack_require__.m = modules;
+
+        // expose the module cache
+        __webpack_require__.c = installedModules;
+
+        // define getter function for harmony exports
+        __webpack_require__.d = function(exports, name, getter) {
+          if(!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, { enumerable: true, get: getter });
+          }
+        };
+
+        // define __esModule on exports
+        __webpack_require__.r = function(exports) {
+          if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+          }
+          Object.defineProperty(exports, '__esModule', { value: true });
+        };
+
+        // create a fake namespace object
+        // mode & 1: value is a module id, require it
+        // mode & 2: merge all properties of value into the ns
+        // mode & 4: return value when already ns object
+        // mode & 8|1: behave like require
+        __webpack_require__.t = function(value, mode) {
+          if(mode & 1) value = __webpack_require__(value);
+          if(mode & 8) return value;
+          if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+          var ns = Object.create(null);
+          __webpack_require__.r(ns);
+          Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+          if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+          return ns;
+        };
+
+        // getDefaultExport function for compatibility with non-harmony modules
+        __webpack_require__.n = function(module) {
+          var getter = module && module.__esModule ?
+            function getDefault() { return module['default']; } :
+            function getModuleExports() { return module; };
+          __webpack_require__.d(getter, 'a', getter);
+          return getter;
+        };
+
+        // Object.prototype.hasOwnProperty.call
+        __webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+
+        // __webpack_public_path__
+        __webpack_require__.p = "";
+
+        // Load entry module and return exports
+        return __webpack_require__(__webpack_require__.s = "./src/index.js");
+      })({
+      "./src/index.js":(function(module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony import */ var _info_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./info.js */ "./src/info.js");
+      console.log(_info_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+      }),
+      "./src/info.js":
+      (function(module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony import */ var _name_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./name.js */ "./src/name.js");
+
+      const info = `${_name_js__WEBPACK_IMPORTED_MODULE_0__["name"]} is beautiful`
+      /* harmony default export */ __webpack_exports__["default"] = (info);
+      }),
+      "./src/name.js":
+      (function(module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "name", function() { return name; });
+      const name = 'winty'
+      })
+    }); 
+
+这里的moduleId就是模块路径，如./src/commonjs/index.js。
+
+>webpack4中只有optimization.namedModules为true，此时moduleId才会为模块路径，否则是数字id。为了方便开发者调试，在development模式下optimization.namedModules参数默认为true。
+
+**ES6 module： export/export default 打包**
+
+    "./src/info.js":
+      (function(module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony import */ var _name_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./name.js */ "./src/name.js");
+
+      const info = `${_name_js__WEBPACK_IMPORTED_MODULE_0__["name"]} is beautiful`
+      /* harmony default export */ __webpack_exports__["default"] = (info);
+      }),
+      "./src/name.js":
+      (function(module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "name", function() { return name; });
+      const name = 'winty'
+      })
+
+这里用到了挂载在__webpack_require__上的两个函数d和r：
+
++ d在exports对象上为某一属性设置getter函数。
++ r在exports对象上设置属性__esModule: true。
+
+设置getter是为了实现ES6模块的动态绑定，即export的值修改之后能够动态更新到import。但如果export default一个非函数或class，则不会动态绑定。
+
 #### Loader模型
 
     module.exports = function (source ) { 

@@ -158,3 +158,112 @@ webpack默认提供了UglifyJS插件来压缩JS代码，但是它使用的是单
     }
 采用这种方法优化后， Webpack 消耗的内存和 CPU 将会大大减少。
 ### 优化输出质量
+1. Webpack 实现 CON 的接入
+
+总之，构建需要实现以下几点:
++ 静态资源的导入  URL 需要变成指向 DNS 服务的绝对路径的 URL，而不是相对 HTML 文件的
++ 静态资源的文件名需要带上由文件内容算出来的 Hash 值，以防止被缓存
++ 将不同类型的资源放到不同域名的 DNS 服务上，以防止资源的并行加载被阻塞
+
+http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-9CDN%E5%8A%A0%E9%80%9F.html
+
+2. 使用 Tree Shaking 
+Tree Shaking 正常工作的前提是，提交给 Webpack 的 JavaScript 代码必须采用了 ES6 的模块化语法，因为 ES6 模块化语法是静态的，可以进行静态分析。
+
+首先，为了将采用 ES6 模块化的代码提交给 Webpack ，需要配置 Babel 以让其保留 ES6 模块化语句。
+修改 .babelrc 文件如下：
+
+    {
+        'presets':[
+            [
+                'env',{ 
+                    'module':false
+                }
+            ]
+        ]
+    }
+第二个要求，需要使用UglifyJsPlugin插件。如果在mode:"production"模式，这个插件已经默认添加了，如果在其它模式下，可以手工添加它。
+
+另外要记住的是打开optimization.usedExports。在mode: "production"模式下，它也是默认打开了的。它告诉webpack每个模块明确使用exports。这样之后，webpack会在打包文件中添加诸如/* unused harmony export */这样的注释，其后UglifyJsPlugin插件会对这些注释作出理解。
+
+    module.exports = {
+        mode: 'none',
+        optimization: {
+            minimize: true,
+            minimizer: [
+                new UglifyJsPlugin()
+            ],
+            usedExports: true,
+            sideEffects: true
+        }
+    }
+
+3. 提取公共代码
+
+大型网站通常由多个页面组成，每个页面都是一个独立的单页应，但由于所有页面都采用同样的技术栈及同一套样式代码，就导致这些页面之间有很多相同的代码。可以使用 splitChunks 进行分包：
+
+    splitChunks: {
+        chunks: "async",
+        minSize: 30000,
+        minChunks: 1,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
+        automaticNameDelimiter: '~',
+        name: true,
+        cacheGroups: {
+            vendors: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: -10
+            },
+        default: {
+                minChunks: 2,
+                priority: -20,
+                reuseExistingChunk: true
+            }
+        }
+    }
+
+4. 分割代码以按需加载
+
+Webpack 支持两种动态代码拆分技术：
++ 符合 ECMAScript proposal 的 import() 语法，推荐使用
++ 传统的 require.ensure
+
+import() 用于动态加载模块，其引用的模块及子模块会被分割打包成一个独立的 chunk。
+Webpack 还允许以注释的方式传参，进而更好的生成 chunk。
+
+    // single target
+    import(
+    /* webpackChunkName: "my-chunk-name" */
+    /* webpackMode: "lazy" */
+    'module'
+    );
+
+    // multiple possible targets
+    import(
+    /* webpackInclude: /\.json$/ */
+    /* webpackExclude: /\.noimport\.json$/ */
+    /* webpackChunkName: "my-chunk-name" */
+    /* webpackMode: "lazy" */
+    `./locale/${language}`
+    );
+
+回归到实际业务场景，页面基本上都是通过路由的方式呈现，如果按照路由的方式实现页面级的异步加载，岂不是方便很多。例如，react 中可使用 loadable :
+
+    import React from 'react'
+    import { Route } from 'react-router-dom'
+    import { loadable } from 'react-common-lib'
+
+    const Test = loadable({
+        loader: () => import('./test'),
+    })
+
+    const AppRouter = () => (
+    <>
+        <Route path="/test" exact component={Test} />
+    </>
+    )
+
+5. 分析工具
+
+官方可视化工具：http://webpack.github.io/analyse/

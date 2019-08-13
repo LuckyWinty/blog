@@ -84,18 +84,16 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
 
         // webpack-dev-server/lib/Server.js
         const addHooks = (compiler) => {
-        ...
-        done.tap('webpack-dev-server', (stats) => {
-            this._sendStats(this.sockets, this.getStats(stats));
-            this._stats = stats;
-        });
+            ...
+            done.tap('webpack-dev-server', (stats) => {
+                this._sendStats(this.sockets, this.getStats(stats));
+                this._stats = stats;
+            });
         };
         ...
-        // send stats to a socket or multiple sockets
         _sendStats(sockets, stats, force) {
             ...
             this.sockWrite(sockets, 'hash', stats.hash);
-
             if (stats.errors.length > 0) {
                 this.sockWrite(sockets, 'errors', stats.errors);
             } else if (stats.warnings.length > 0) {
@@ -206,7 +204,6 @@ Hot Module Replacement（以下简称 HMR）是 webpack 发展至今引入的最
             ...
                 return hotDownloadManifest(hotRequestTimeout).then(function(update) {
                     ...
-                        /*globals chunkId */
                         hotEnsureUpdateChunk(chunkId);
                     ...
                     return promise;

@@ -24,5 +24,3 @@
 #### | 翻译
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)
 
-#### | 学习之路
-+ [每周学习&成果输出记录](https://github.com/LuckyWinty/blog/blob/master/markdown/record/%E6%AF%8F%E5%91%A8%E5%AD%A6%E4%B9%A0%26%E6%88%90%E6%9E%9C%E8%BE%93%E5%87%BA%E8%AE%B0%E5%BD%95.md)

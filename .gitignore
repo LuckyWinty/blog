@@ -10,6 +10,7 @@
 /dist
 /out
 /code/bundleBuild/dist
+/code/bundleBuild/build
 
 # misc
 .DS_Store

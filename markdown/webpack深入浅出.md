@@ -163,10 +163,4 @@ webpack是一个打包模块化 JavaScript 的工具，在 webpack里一切文�
 
 设置getter是为了实现ES6模块的动态绑定，即export的值修改之后能够动态更新到import。但如果export default一个非函数或class，则不会动态绑定。
 
-#### Loader模型
-
-    module.exports = function (source ) { 
-      //source compiler 传递给 Loader 的一个文件的原内容
-      //该函数需要返回处理后的内容，这里为了简单起见，直接将原内容返回了，相当于该Loader 有做任何转换
-      return source; 
-    }
+打包更多相关：https://cloud.tencent.com/developer/article/1172453

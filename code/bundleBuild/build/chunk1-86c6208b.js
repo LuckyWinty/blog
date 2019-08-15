@@ -135,25 +135,3 @@ const name = 'winty'
 /***/ })
 
 /******/ });
-
-class SyncHook {
-   constructor () { 
-     this.hooks = {}
-   }
-
-   //订阅
-   tap(name, fn) {
-     if(!hooks[name]){
-        this.hooks[name] = [fn]
-        return
-     }
-     this.hooks[name].push(fn)
-   }
-
-   //发布
-   call(name) { 
-     this.hooks[name].forEach(hook => {
-        hook(...arguments)
-     });
-   }
-}

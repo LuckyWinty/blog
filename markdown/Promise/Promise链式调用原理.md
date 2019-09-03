@@ -128,7 +128,7 @@ function test(id) {
 //result1 { test: 1 }
 //result2 Promise {then: ƒ}
 ```
-用上面的 Promise 模型，得到的结果显然不是我们想要的。
+用上面的 Promise 模型，得到的结果显然不是我们想要的。认真看上面的模型，执行 callback.resolve 时，传入的参数是 callback.onFulfilled 执行完成的返回，显然这个测试例子返回的就是一个 Promise，而我们的 Promise 模型中的 resolve 方法并没有特殊处理。那么我们增加一个逻辑，如果 newValue 是一个 Promise，那么我们就将
 ```js
     function Promise(fn){ 
         let state = 'pending';

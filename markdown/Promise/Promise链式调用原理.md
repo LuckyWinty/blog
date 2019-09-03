@@ -128,7 +128,60 @@ function test(id) {
 //result1 { test: 1 }
 //result2 Promise {then: ƒ}
 ```
-用上面的 Promise 模型，得到的结果显然不是我们想要的。认真看上面的模型，执行 callback.resolve 时，传入的参数是 callback.onFulfilled 执行完成的返回，显然这个测试例子返回的就是一个 Promise，而我们的 Promise 模型中的 resolve 方法并没有特殊处理。那么我们增加一个逻辑，如果 newValue 是一个 Promise，那么我们就将
+用上面的 Promise 模型，得到的结果显然不是我们想要的。认真看上面的模型，执行 callback.resolve 时，传入的参数是 callback.onFulfilled 执行完成的返回，显然这个测试例子返回的就是一个 Promise，而我们的 Promise 模型中的 resolve 方法并没有特殊处理。那么我们在 resolve 中增加这么一个逻辑:
+
+```js
+    function Promise(fn){ 
+        ...
+        function resolve(newValue){
+            const fn = ()=>{
+                if(state !== 'pending')return
+
+                if(newValue && (typeof newValue === 'object' || || typeof newValue === 'function')){
+                    const {then} = newValue
+                    if(typeof then === 'function'){
+                        then.call(newValue,this.resolve.bind(this))
+                        return
+                    }
+                }
+                state = 'onFulfilled';
+                value = newValue
+                handelFulfilledCb()
+            }
+            
+            setTimeout(fn,0)
+        }
+        ...
+    }
+```
+用这个模型，再测试我们的例子，就得到了正确的结果：
+```js
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({ test: 1 })
+        }, 1000)
+    }).then((data) => {
+        console.log('result1', data)
+        //dosomething
+        return test()
+    }).then((data) => {
+        console.log('result2', data)
+    })
+
+    function test(id) {
+        return new Promise(((resolve) => {
+            setTimeout(() => {
+            resolve({ test: 2 })
+            }, 5000)
+        }))
+    }
+    //result1 { test: 1 }
+    //result2 { test: 2 }
+```
+
+
+
+
 ```js
     function Promise(fn){ 
         let state = 'pending';

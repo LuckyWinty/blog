@@ -43,7 +43,7 @@ Promise 必须为以下三种状态之一：等待态（Pending）、执行态�
 
         this.then = function (onFulfilled){
             return new Promise((resolve, reject)=>{
-                handle({
+                handle({ //桥梁，将新 Promise 的 resolve 方法，放到前一个 promise 的回调对象中
                     onFulfilled, 
                     resolve
                 })
@@ -61,8 +61,8 @@ Promise 必须为以下三种状态之一：等待态（Pending）、执行态�
                     callback.resolve(value)
                     return;
                 }
-                const ret = callback.onFulfilled(value)
-                callback.resolve(ret)
+                const ret = callback.onFulfilled(value) //处理回调
+                callback.resolve(ret) //处理下一个 promise 的resolve
             }
         }
         function resolve(newValue){
@@ -87,7 +87,9 @@ Promise 必须为以下三种状态之一：等待态（Pending）、执行态�
         fn(resolve)
     }
 ```
-这个模型简单易懂，也通过了上面的例子测试。但是如果仅仅是例子中的情况，我们可以这样写：
+**这个模型简单易懂，这里最关键的点就是在 then 中新创建的 Promise，它的状态变为 fulfilled 的节点是在上一个 Promise的回调执行完毕的时候。也就是说当一个 Promise 的状态被 fulfilled 之后，会执行其回调函数，而回调函数返回的结果会被当作 value，返回给下一个 Promise(也就是then 中产生的 Promise)，同时下一个 Promise的状态也会被改变(执行 resolve 或 reject)，然后再去执行其回调,以此类推下去...链式调用的效应就出来了。**
+
+但是如果仅仅是例子中的情况，我们可以这样写：
 ```js
     new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -122,9 +124,11 @@ function test(id) {
     }, 5000)
   }))
 }
+//输出
 //result1 { test: 1 }
-//result2 { test: 2 }
+//result2 Promise {then: ƒ}
 ```
+用上面的 Promise 模型，得到的结果显然不是我们想要的。
 ```js
     function Promise(fn){ 
         let state = 'pending';

@@ -35,12 +35,12 @@ Promise 必须为以下三种状态之一：等待态（Pending）、执行态�
 2. 只输出第一次 resolve 的内容，reject 的内容没有输出，即 Promise 是有状态且状态只可以由pending -> fulfilled或 pending-> rejected,是不可逆的。
 3. then 中返回了新的 Promise,但是then中注册的回调仍然是属于上一个 Promise 的。
 
-基于以上几点，我们先写个 只含 resolve 方法的 Promise 模型:
+基于以上几点，我们先写个基于 [PromiseA+](https://promisesaplus.com/) 规范的只含 resolve 方法的 Promise 模型:
 ```js
     function Promise(fn){ 
         let state = 'pending';
         let value = null;
-        const resolveCbs = [];
+        const callbacks = [];
 
         this.then = function (onFulfilled){
             return new Promise((resolve, reject)=>{
@@ -53,11 +53,11 @@ Promise 必须为以下三种状态之一：等待态（Pending）、执行态�
 
         function handle(callback){
             if(state === 'pending'){
-                resolveCbs.push(callback)
+                callbacks.push(callback)
                 return;
             }
             
-            if(state === 'onFulfilled'){
+            if(state === 'fulfilled'){
                 if(!callback.onFulfilled){
                     callback.resolve(value)
                     return;
@@ -70,17 +70,17 @@ Promise 必须为以下三种状态之一：等待态（Pending）、执行态�
             const fn = ()=>{
                 if(state !== 'pending')return
 
-                state = 'onFulfilled';
+                state = 'fulfilled';
                 value = newValue
-                handelFulfilledCb()
+                handelCb()
             }
             
-            setTimeout(fn,0)
+            setTimeout(fn,0) //基于 PromiseA+ 规范
         }
         
-        function handelFulfilledCb(){
-            while(resolveCbs.length) {
-                const fulfiledFn = resolveCbs.shift();
+        function handelCb(){
+            while(callbacks.length) {
+                const fulfiledFn = callbacks.shift();
                 handle(fulfiledFn);
             };
         }
@@ -138,18 +138,18 @@ function test(id) {
             const fn = ()=>{
                 if(state !== 'pending')return
 
-                if(newValue && (typeof newValue === 'object' || || typeof newValue === 'function')){
+                if(newValue && (typeof newValue === 'object' || typeof newValue === 'function')){
                     const {then} = newValue
                     if(typeof then === 'function'){
-                        // newValue 为新产生的 Promise,this.resolve.bind(this)为上个 promise 的resolve
+                        // newValue 为新产生的 Promise,此时resolve为上个 promise 的resolve
                         //相当于调用了新产生 Promise 的then方法，注入了上个 promise 的resolve 为其回调
-                        then.call(newValue,this.resolve.bind(this))
+                        then.call(newValue,resolve)
                         return
                     }
                 }
-                state = 'onFulfilled';
+                state = 'fulfilled';
                 value = newValue
-                handelFulfilledCb()
+                handelCb()
             }
             
             setTimeout(fn,0)
@@ -172,7 +172,7 @@ function test(id) {
     })
 
     function test(id) {
-        return new Promise(((resolve) => {
+        return new Promise(((resolve, reject) => {
             setTimeout(() => {
             resolve({ test: 2 })
             }, 5000)
@@ -186,7 +186,8 @@ function test(id) {
 显然如果没有回调函数，执行 resolve 的时候，是没办法链式下去的。因此，我们需要主动为其注入回调函数。 
 
 我们只要把第一个 then 中产生的 Promise 的 resolve 函数的执行，延迟到 test 里面的 Promise 的状态为 onFulfilled 的时候再执行，那么链式就可以继续了。所以，当 resolve 入参为 Promise 的时候，调用其 then 方法为其注入回调函数，而注入的是前一个 Promise 的 resolve 方法，所以要用 call 来绑定 this 的指向。
-上面的执行过程产生的 Promise 实例及其回调函数，可以用看下表：
+
+基于新的 Promise 模型，上面的执行过程产生的 Promise 实例及其回调函数，可以用看下表：
 
 Promise | callback
 ---- | ---
@@ -196,21 +197,28 @@ P3 (P2 调用 then 时产生) |  []
 P4 (执行c1中产生[调用 test ]) | [{onFulfilled:p2resolve,resolve:p5resolve}]
 P5 (调用p2resolve 时，进入 then.call 逻辑中产生) |  []
 
-有了这个表格，我们就可以知道各个实例中 callback 执行的顺序是：
+有了这个表格，我们就可以清晰知道各个实例中 callback 执行的顺序是：
 
 c1 -> p2resolve -> c2 -> p3resolve -> [] -> p5resolve -> []
+
+以上就是链式调用的原理了。
+
+#### reject
+下面我们再来补全 reject 的逻辑。只需要在注册回调、状态改变时加上 reject 的逻辑即可。
+
+完整代码如下:
 
 ```js
     function Promise(fn){ 
         let state = 'pending';
         let value = null;
-        const resolveCbs = [];
-        const rejectCbs = [];
+        const callbacks = [];
 
-        this.then = function (onFulfilled){
+        this.then = function (onFulfilled,onRejected){
             return new Promise((resolve, reject)=>{
                 handle({
                     onFulfilled, 
+                    onRejected,
                     resolve, 
                     reject
                 })
@@ -219,79 +227,197 @@ c1 -> p2resolve -> c2 -> p3resolve -> [] -> p5resolve -> []
 
         function handle(callback){
             if(state === 'pending'){
-                resolveCbs.push(callback)
+                callbacks.push(callback)
                 return;
             }
             
-            if(state === 'onFulfilled'){
-                if(!callback.onFulfilled){
-                    callback.resolve(value)
-                    return;
-                }
-                const ret = callback.onFulfilled(value)
-                callback.resolve(ret)
+            const cb = state === 'fulfilled' ? callback.onFulfilled:callback.onRejected;
+            const next = state === 'fulfilled'? callback.resolve:callback.reject;
+
+            if(!cb){
+                next(value)
+                return;
             }
-            if(state === 'rejected'){
-                if(!callback.onFulfilled){
-                    callback.resolve(value)
-                    return;
-                }
-                const ret = callback.onFulfilled(value)
-                callback.resolve(ret)
-            }
+            const ret = cb(value)
+            next(ret)
         }
         function resolve(newValue){
             const fn = ()=>{
                 if(state !== 'pending')return
 
-                state = 'onFulfilled';
+                if(newValue && (typeof newValue === 'object' || typeof newValue === 'function')){
+                    const {then} = newValue
+                    if(typeof then === 'function'){
+                        // newValue 为新产生的 Promise,此时resolve为上个 promise 的resolve
+                        //相当于调用了新产生 Promise 的then方法，注入了上个 promise 的resolve 为其回调
+                        then.call(newValue,resolve, reject)
+                        return
+                    }
+                }
+                state = 'fulfilled';
                 value = newValue
-                handelFulfilledCb()
+                handelCb()
             }
             
             setTimeout(fn,0)
         }
-        function reject(newValue){
-            const fn = ()=>{
-                if(this.state !== 'pending')return
+        function reject(error){
 
-                this.state = 'rejected';
-                value = newValue
-                handelRejectedCb()
+            const fn = ()=>{
+                if(state !== 'pending')return
+
+                if(error && (typeof error === 'object' || typeof error === 'function')){
+                    const {then} = error
+                    if(typeof then === 'function'){
+                        then.call(error,resolve, reject)
+                        return
+                    }
+                }
+                state = 'rejected';
+                value = error
+                handelCb()
             }
             setTimeout(fn,0)
         }
-        function handelFulfilledCb(){
-            while(resolveCbs.length) {
-                const fulfiledFn = resolveCbs.shift();
-                handle(fulfiledFn);
-            };
-        }
-        function handelRejectedCb(){
-            while(rejectCbs.length) {
-                const rejectFn = rejectCbs.shift();
-                handle(rejectFn);
+        function handelCb(){
+            while(callbacks.length) {
+                const fn = callbacks.shift();
+                handle(fn);
             };
         }
         fn(resolve, reject)
     }
 ```
+#### 异常处理
+异常通常是指在执行成功/失败回调时代码出错产生的错误，对于这类异常，我们使用 try-catch 来捕获错误，并将 Promise 设为 rejected 状态即可。
 
+handle代码改造如下：
+```js
+    function handle(callback){
+        if(state === 'pending'){
+            callbacks.push(callback)
+            return;
+        }
+        
+        const cb = state === 'fulfilled' ? callback.onFulfilled:callback.onRejected;
+        const next = state === 'fulfilled'? callback.resolve:callback.reject;
 
+        if(!cb){
+            next(value)
+            return;
+        }
+        try {
+            const ret = cb(value)
+            next(ret)
+        } catch (e) {
+            callback.reject(e);
+        }  
+    }
+```
+我们实际使用时，常习惯注册 catch 方法来处理错误，例：
 
+```js
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({ test: 1 })
+        }, 1000)
+    }).then((data) => {
+        console.log('result1', data)
+        //dosomething
+        return test()
+    }).catch((ex) => {
+        console.log('error', ex)
+    })
+```
+实际上，错误也好，异常也罢，最终都是通过reject实现的。也就是说可以通过 then 中的错误回调来处理。所以我们可以增加这样的一个 catch 方法：
 
+```js
+    function Promise(fn){ 
+        ...
+        this.then = function (onFulfilled,onRejected){
+            return new Promise((resolve, reject)=>{
+                handle({
+                    onFulfilled, 
+                    onRejected,
+                    resolve, 
+                    reject
+                })
+            })
+        }
+        this.catch = function (onError){
+            this.then(null,onError)
+        }
+        ...
+    }
+```
+#### Finally方法
+在实际应用的时候，我们很容易会碰到这样的场景，不管Promise最后的状态如何，都要执行一些最后的操作。我们把这些操作放到 finally 中，也就是说 finally 注册的函数是与 Promise 的状态无关的，不依赖 Promise 的执行结果。所以我们可以这样写 finally 的逻辑：
 
+```js
+    function Promise(fn){ 
+        ...
+        this.catch = function (onError){
+            this.then(null,onError)
+        }
+        this.finally = function (onDone){
+            this.then(onDone,onError)
+        }
+        ...
+    }
+```
+#### resolve 方法和 reject 方法
+实际应用中，我们可以使用 Promise.resolve 和 Promise.reject 方法，用于将于将非 Promise 实例包装为 Promise 实例。如下例子：
 
+```js
+Promise.resolve({name:'winty'})
+Promise.reject({name:'winty'})
+// 等价于
+new Promise(resolve => resolve({name:'winty'}))
+new Promise((resolve,reject) => reject({name:'winty'}))
+```
+这些情况下，Promise.resolve 的入参可能有以下几种情况：
++ 无参数 [直接返回一个resolved状态的 Promise 对象]
++ 普通数据对象 [直接返回一个resolved状态的 Promise 对象]
++ 一个Promise实例 [直接返回当前实例]
++ 一个thenable对象(thenable对象指的是具有then方法的对象) [转为 Promise 对象，并立即执行thenable对象的then方法。]
 
+基于以上几点，我们可以实现一个 Promise.resolve 方法如下：
 
+```js
+    function Promise(fn){ 
+        ...
+        this.resolve = function (value){
+            if (value && value instanceof Promise) {
+                return value;
+            } else if (value && typeof value === 'object' && typeof value.then === 'function'){
+                let then = value.then;
+                return new Promise(resolve => {
+                    then(resolve);
+                });
+            } else if (value) {
+                return new Promise(resolve => resolve(value));
+            } else {
+                return new Promise(resolve => resolve());
+            }
+        }
+        ...
+    }
+```
+Promise.reject与Promise.resolve类似，区别在于Promise.reject始终返回一个状态的rejected的Promise实例，而Promise.resolve的参数如果是一个Promise实例的话，返回的是参数对应的Promise实例，所以状态不一 定。
+因此，reject 的实现就简单多了，如下：
 
-
-
-
-
-
-
-
+```js
+function Promise(fn){ 
+        ...
+        this.reject = function (value){
+            return new Promise(function(resolve, reject) {
+				reject(value);
+			});
+        }
+        ...
+    }
+```
+#### Promise.all
 
 
 

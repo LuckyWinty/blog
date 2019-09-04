@@ -1,4 +1,4 @@
-### Promise链式调用原理
+## Promise链式调用原理
 
 Promise 必须为以下三种状态之一：等待态（Pending）、执行态（Fulfilled）和拒绝态（Rejected）。一旦Promise 被 resolve 或 reject，不能再迁移至其他任何状态（即状态 immutable）。
 
@@ -11,6 +11,7 @@ Promise 必须为以下三种状态之一：等待态（Pending）、执行态�
 
 **真正的链式Promise是指在当前promise达到fulfilled状态后，即开始进行下一个promise.**
 
+### 链式调用
 先从 Promise 执行结果看一下，有如下一段代码：
 ```js
     new Promise((resolve, reject) => {
@@ -203,7 +204,7 @@ c1 -> p2resolve -> c2 -> p3resolve -> [] -> p5resolve -> []
 
 以上就是链式调用的原理了。
 
-#### reject
+### reject
 下面我们再来补全 reject 的逻辑。只需要在注册回调、状态改变时加上 reject 的逻辑即可。
 
 完整代码如下:
@@ -288,7 +289,7 @@ c1 -> p2resolve -> c2 -> p3resolve -> [] -> p5resolve -> []
         fn(resolve, reject)
     }
 ```
-#### 异常处理
+### 异常处理
 异常通常是指在执行成功/失败回调时代码出错产生的错误，对于这类异常，我们使用 try-catch 来捕获错误，并将 Promise 设为 rejected 状态即可。
 
 handle代码改造如下：
@@ -350,7 +351,7 @@ handle代码改造如下：
         ...
     }
 ```
-#### Finally方法
+### Finally方法
 在实际应用的时候，我们很容易会碰到这样的场景，不管Promise最后的状态如何，都要执行一些最后的操作。我们把这些操作放到 finally 中，也就是说 finally 注册的函数是与 Promise 的状态无关的，不依赖 Promise 的执行结果。所以我们可以这样写 finally 的逻辑：
 
 ```js
@@ -365,7 +366,7 @@ handle代码改造如下：
         ...
     }
 ```
-#### resolve 方法和 reject 方法
+### resolve 方法和 reject 方法
 实际应用中，我们可以使用 Promise.resolve 和 Promise.reject 方法，用于将于将非 Promise 实例包装为 Promise 实例。如下例子：
 
 ```js
@@ -417,7 +418,7 @@ Promise.reject与Promise.resolve类似，区别在于Promise.reject始终返回�
         ...
     }
 ```
-#### Promise.all
+### Promise.all
 入参是一个 Promise 的实例数组，然后注册一个 then 方法，然后是数组中的 Promise 实例的状态都转为 fulfilled 之后则执行 then 方法。这里主要就是一个计数逻辑，每当一个 Promise 的状态变为 fulfilled 之后就保存该实例返回的数据，然后将计数减一，当计数器变为 0 时，代表数组中所有 Promise 实例都执行完毕。
 ```js
     function Promise(fn){ 
@@ -455,7 +456,7 @@ Promise.reject与Promise.resolve类似，区别在于Promise.reject始终返回�
         ...
     }
 ```
-#### Promise.race
+### Promise.race
 有了 Promise.all 的理解，Promise.race 理解起来就更容易了。它的入参也是一个 Promise 实例数组，然后其 then 注册的回调方法是数组中的某一个 Promise 的状态变为 fulfilled 的时候就执行。因为 Promise 的状态只能改变一次，那么我们只需要把 Promise.race 中产生的 Promise 对象的 resolve 方法，注入到数组中的每一个 Promise 实例中的回调函数中即可。
 
 ```js
@@ -481,7 +482,7 @@ Promise 源码不过几百行，我们可以从执行结果出发，分析每一
 
 ### 完整 Promise 模型
 ```js
-    function Promise(fn) {
+function Promise(fn) {
   let state = 'pending'
   let value = null
   const callbacks = []

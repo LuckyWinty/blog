@@ -7,6 +7,8 @@
 + [HMR原理](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/HMR%E5%8E%9F%E7%90%86.md)
 + [webpack性能优化](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/Webpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.md)
 
+#### 原理探索
++ [Promise链式调用原理](https://github.com/LuckyWinty/blog/blob/master/markdown/Promise/Promise%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%8E%9F%E7%90%86.md)
 #### | Node
 + [问题记录](https://github.com/LuckyWinty/blog/blob/master/markdown/node/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
 

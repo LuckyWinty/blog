@@ -128,7 +128,7 @@ function test(id) {
 //result1 { test: 1 }
 //result2 Promise {then: ƒ}
 ```
-用上面的 Promise 模型，得到的结果显然不是我们想要的。认真看上面的模型，执行 callback.resolve 时，传入的参数是 callback.onFulfilled 执行完成的返回，显然这个测试例子返回的就是一个 Promise，而我们的 Promise 模型中的 resolve 方法并没有特殊处理。那么我们在 resolve 中增加这么一个逻辑:
+用上面的 Promise 模型，得到的结果显然不是我们想要的。认真看上面的模型，执行 callback.resolve 时，传入的参数是 callback.onFulfilled 执行完成的返回，显然这个测试例子返回的就是一个 Promise，而我们的 Promise 模型中的 resolve 方法并没有特殊处理。那么我们将 resolve 改一下:
 
 ```js
     function Promise(fn){ 
@@ -140,6 +140,8 @@ function test(id) {
                 if(newValue && (typeof newValue === 'object' || || typeof newValue === 'function')){
                     const {then} = newValue
                     if(typeof then === 'function'){
+                        // newValue 为新产生的 Promise,this.resolve.bind(this)为上个 promise 的resolve
+                        //相当于调用了新产生 Promise 的then方法，注入了上个 promise 的resolve 为其回调
                         then.call(newValue,this.resolve.bind(this))
                         return
                     }
@@ -178,10 +180,21 @@ function test(id) {
     //result1 { test: 1 }
     //result2 { test: 2 }
 ```
+显然，新增的逻辑就是针对 resolve 入参为 Promise 的时候的处理。我们观察一下 test 里面创建的 Promise，它是没有调用 then方法的。从上面的分析我们已经知道 Promise 的回调函数就是通过调用其 then 方法注册的，因此 test 里面创建的 Promise 其回调函数为空。
 
+显然如果没有回调函数，执行 resolve 的时候，是没办法链式下去的。因此，我们需要主动为其注入回调函数。 
 
+我们只要把第一个 then 中产生的 Promise 的 resolve 函数的执行，延迟到 test 里面的 Promise 的状态为 onFulfilled 的时候再执行，那么链式就可以继续了。所以，当 resolve 入参为 Promise 的时候，调用其 then 方法为其注入回调函数，而注入的是前一个 Promise 的 resolve 方法，所以要用 call 来绑定 this 的指向。
+上面的执行过程产生的 Promise 实例及其回调函数，可以用看下表：
+Promise | callback
+---- | ---
+P1 | [{onFulfilled:c1(第一个then中的fn),resolve:p2resolve}]
+P2 (P1 调用 then 时产生) |  [{onFulfilled:c2(第二个then中的fn),resolve:p3resolve}]
+P3 (P2 调用 then 时产生) |  []
+P4 (执行c1中产生[调用 test ]) | [{onFulfilled:p2resolve,resolve:p5resolve}]
+P5 (调用p2resolve 时，进入 then.call 逻辑中产生) |  []
 
-
+有了这个表格，我们就可以知道各个实例中 callback 执行的顺序是：c1 -> p2resolve -> c2 -> p3resolve -> [] -> p5resolve -> []
 ```js
     function Promise(fn){ 
         let state = 'pending';

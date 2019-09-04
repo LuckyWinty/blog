@@ -407,7 +407,7 @@ Promise.reject与Promise.resolve类似，区别在于Promise.reject始终返回�
 因此，reject 的实现就简单多了，如下：
 
 ```js
-function Promise(fn){ 
+    function Promise(fn){ 
         ...
         this.reject = function (value){
             return new Promise(function(resolve, reject) {
@@ -418,91 +418,215 @@ function Promise(fn){
     }
 ```
 #### Promise.all
+入参是一个 Promise 的实例数组，然后注册一个 then 方法，然后是数组中的 Promise 实例的状态都转为 fulfilled 之后则执行 then 方法。这里主要就是一个计数逻辑，每当一个 Promise 的状态变为 fulfilled 之后就保存该实例返回的数据，然后将计数减一，当计数器变为 0 时，代表数组中所有 Promise 实例都执行完毕。
+```js
+    function Promise(fn){ 
+        ...
+        this.all = function (arr){
+            var args = Array.prototype.slice.call(arr);
+            return new Promise(function(resolve, reject) {
+                if(args.length === 0) return resolve([]);
+                var remaining = args.length;
 
-
-
-
-
-
-
-
+                function res(i, val) {
+                    try {
+                        if(val && (typeof val === 'object' || typeof val === 'function')) {
+                            var then = val.then;
+                            if(typeof then === 'function') {
+                                then.call(val, function(val) {
+                                    res(i, val);
+                                }, reject);
+                                return;
+                            }
+                        }
+                        args[i] = val;
+                        if(--remaining === 0) {
+                            resolve(args);
+                        }
+                    } catch(ex) {
+                        reject(ex);
+                    }
+                }
+                for(var i = 0; i < args.length; i++) {
+                    res(i, args[i]);
+                }
+            });
+        }
+        ...
+    }
+```
+#### Promise.race
+有了 Promise.all 的理解，Promise.race 理解起来就更容易了。它的入参也是一个 Promise 实例数组，然后其 then 注册的回调方法是数组中的某一个 Promise 的状态变为 fulfilled 的时候就执行。因为 Promise 的状态只能改变一次，那么我们只需要把 Promise.race 中产生的 Promise 对象的 resolve 方法，注入到数组中的每一个 Promise 实例中的回调函数中即可。
 
 ```js
-//test
-function Promise(fn) {
+function Promise(fn){ 
+    ...
+    this.race = function(values) {
+        return new Promise(function(resolve, reject) {
+            for(var i = 0, len = values.length; i < len; i++) {
+                values[i].then(resolve, reject);
+            }
+        });
+    }
+    ...
+    }  
+```
+### 总结
+Promise 源码不过几百行，我们可以从执行结果出发，分析每一步的执行过程，然后思考其作用即可。其中最关键的点就是要理解 then 函数是负责注册回调的，真正的执行是在 Promise 的状态被改变之后。而当 resolve 的入参是一个 Promise 时，要想链式调用起来，就必须调用其 then 方法(then.call),将上一个 Promise 的 resolve 方法注入其回调数组中。
+
+### 参考资料
++ [PromiseA+规范](https://promisesaplus.com/)
++ [Promise 实现原理精解](https://zhuanlan.zhihu.com/p/58428287)
++ [30分钟，让你彻底明白Promise原理](https://mengera88.github.io/2017/05/18/Promise%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/)
+
+### 完整 Promise 模型
+```js
+    function Promise(fn) {
   let state = 'pending'
   let value = null
   const callbacks = []
 
-  this.then = function (onFulfilled) {
-    console.log('---------regist then,enter then')
-    return new Promise(((resolve) => {
+  this.then = function (onFulfilled, onRejected) {
+    return new Promise((resolve, reject) => {
       handle({
-        onFulfilled: onFulfilled || null,
+        onFulfilled,
+        onRejected,
         resolve,
+        reject,
       })
+    })
+  }
+
+  this.catch = function (onError) {
+    this.then(null, onError)
+  }
+
+  this.finally = function (onDone) {
+    this.then(onDone, onError)
+  }
+
+  this.resolve = function (value) {
+    if (value && value instanceof Promise) {
+      return value
+    } if (value && typeof value === 'object' && typeof value.then === 'function') {
+      const { then } = value
+      return new Promise((resolve) => {
+        then(resolve)
+      })
+    } if (value) {
+      return new Promise(resolve => resolve(value))
+    }
+    return new Promise(resolve => resolve())
+  }
+
+  this.reject = function (value) {
+    return new Promise(((resolve, reject) => {
+      reject(value)
     }))
   }
+
+  this.all = function (arr) {
+    const args = Array.prototype.slice.call(arr)
+    return new Promise(((resolve, reject) => {
+      if (args.length === 0) return resolve([])
+      let remaining = args.length
+
+      function res(i, val) {
+        try {
+          if (val && (typeof val === 'object' || typeof val === 'function')) {
+            const { then } = val
+            if (typeof then === 'function') {
+              then.call(val, (val) => {
+                res(i, val)
+              }, reject)
+              return
+            }
+          }
+          args[i] = val
+          if (--remaining === 0) {
+            resolve(args)
+          }
+        } catch (ex) {
+          reject(ex)
+        }
+      }
+      for (let i = 0; i < args.length; i++) {
+        res(i, args[i])
+      }
+    }))
+  }
+
+  this.race = function (values) {
+    return new Promise(((resolve, reject) => {
+      for (let i = 0, len = values.length; i < len; i++) {
+        values[i].then(resolve, reject)
+      }
+    }))
+  }
+
   function handle(callback) {
-    console.log('--------------handle state', state, typeof callback.onFulfilled)
     if (state === 'pending') {
       callbacks.push(callback)
       return
     }
-    // 如果then中没有传递任何东西
-    if (!callback.onFulfilled) {
-      callback.resolve(value)
+
+    const cb = state === 'fulfilled' ? callback.onFulfilled : callback.onRejected
+    const next = state === 'fulfilled' ? callback.resolve : callback.reject
+
+    if (!cb) {
+      next(value)
       return
     }
-    console.log('--------------apply handle onFulfilled fn', callback.onFulfilled.toString())
-    const ret = callback.onFulfilled(value)
-    console.log('--------------callback return', ret)
-    callback.resolve(ret)
-  }
-
-  function resolve(newValue) {
-    console.log('--------------resolve', newValue)
-    if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
-      const { then } = newValue
-      if (typeof then === 'function') {
-        console.log('-------newValue.then', newValue.callback, then.toString())
-        then.call(newValue, this.resolve.bind(this))
-        return
-      }
+    try {
+      const ret = cb(value)
+      next(ret)
+    } catch (e) {
+      callback.reject(e)
     }
-    state = 'fulfilled'
-    value = newValue
-    // setTimeout(() => {
-    console.log('------------apply callback', callbacks, 'length', callbacks.length)
-    callbacks.forEach((callback) => {
-      handle(callback)
-    })
-    // }, 0)
   }
-  fn(resolve)
-}
+  function resolve(newValue) {
+    const fn = () => {
+      if (state !== 'pending') return
 
-new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve({ test: 1 })
-  }, 1000)
-}).then((data) => {
-  console.log('****result1', data)
-  const p1 = getUserJobById()
-    .then((data1) => {
-      console.log('****getUserJobById', data1)
-    })
-  console.log('######', p1)
-  return p1
-}).then((data) => {
-  console.log('****result2', data)
-})
+      if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
+        const { then } = newValue
+        if (typeof then === 'function') {
+          // newValue 为新产生的 Promise,此时resolve为上个 promise 的resolve
+          // 相当于调用了新产生 Promise 的then方法，注入了上个 promise 的resolve 为其回调
+          then.call(newValue, resolve, reject)
+          return
+        }
+      }
+      state = 'fulfilled'
+      value = newValue
+      handelCb()
+    }
 
-function getUserJobById(id) {
-  return new Promise(((resolve) => {
-    setTimeout(() => {
-      console.log('****getUserJobById apply resolve')
-      resolve({ test: 2 })
-    }, 5000)
-  }))
+    setTimeout(fn, 0)
+  }
+  function reject(error) {
+    const fn = () => {
+      if (state !== 'pending') return
+
+      if (error && (typeof error === 'object' || typeof error === 'function')) {
+        const { then } = error
+        if (typeof then === 'function') {
+          then.call(error, resolve, reject)
+          return
+        }
+      }
+      state = 'rejected'
+      value = error
+      handelCb()
+    }
+    setTimeout(fn, 0)
+  }
+  function handelCb() {
+    while (callbacks.length) {
+      const fn = callbacks.shift()
+      handle(fn)
+    }
+  }
+  fn(resolve, reject)
 }
+```

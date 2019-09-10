@@ -27,6 +27,8 @@
 + [探索 Serverless 中的前端开发模式](https://juejin.im/post/5cdc3dc2e51d453b6c1d9d3a)
 + [Node应用没有错误监控怎么行？](https://mp.weixin.qq.com/s/P8zP0j6hzo1KOcPnZwE8UQ)
 
+#### | 其他
++ [前端中的接口聚合](https://github.com/LuckyWinty/blog/blob/master/markdown/other/npm%E5%8C%85%E6%8E%A5%E5%8F%A3%E8%81%9A%E5%90%88%E7%9A%84%E5%8F%91%E5%B8%83%E8%BF%87%E7%A8%8B.md)
 #### | 翻译
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)
 

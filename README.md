@@ -27,6 +27,9 @@
 + [探索 Serverless 中的前端开发模式](https://juejin.im/post/5cdc3dc2e51d453b6c1d9d3a)
 + [Node应用没有错误监控怎么行？](https://mp.weixin.qq.com/s/P8zP0j6hzo1KOcPnZwE8UQ)
 
+#### | 设计模式
++[设计模式基础知识](https://github.com/LuckyWinty/blog/blob/master/markdown/%20designPatterns/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
+
 #### | 其他
 + [前端中的接口聚合](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AF%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%81%9A%E5%90%88.md)
 + [走进安卓的重灾区----video](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E8%B5%B0%E8%BF%9B%E5%AE%89%E5%8D%93%E7%9A%84%E9%87%8D%E7%81%BE%E5%8C%BA---video.md)

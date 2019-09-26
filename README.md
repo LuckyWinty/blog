@@ -33,6 +33,7 @@
 #### | 其他
 + [前端中的接口聚合](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AF%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%81%9A%E5%90%88.md)
 + [走进安卓的重灾区----video](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E8%B5%B0%E8%BF%9B%E5%AE%89%E5%8D%93%E7%9A%84%E9%87%8D%E7%81%BE%E5%8C%BA---video.md)
++ [给自己搭个脚手架](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%BB%99%E8%87%AA%E5%B7%B1%E6%90%AD%E4%B8%AA%E8%84%9A%E6%89%8B%E6%9E%B6.md)
 #### | 翻译
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)
 

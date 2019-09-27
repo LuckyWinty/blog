@@ -17,8 +17,6 @@
 // Eat supper~
 // 以此类推。
 
-// https://juejin.im/post/5bfe809351882579117f86fe
-
 function LazyMan(name) {
     if(!(this instanceof LazyMan)){
         return new LazyMan(name)

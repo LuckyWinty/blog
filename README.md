@@ -29,6 +29,7 @@
 
 #### | 设计模式
 +[设计模式基础知识](https://github.com/LuckyWinty/blog/blob/master/markdown/%20designPatterns/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
++ [从大厂面试题看观察者模式](https://github.com/LuckyWinty/blog/blob/master/markdown/%20designPatterns/%E4%BB%8E%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9C%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.md)
 
 #### | 其他
 + [前端中的接口聚合](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AF%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%81%9A%E5%90%88.md)

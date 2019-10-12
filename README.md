@@ -28,7 +28,7 @@
 + [Node应用没有错误监控怎么行？](https://mp.weixin.qq.com/s/P8zP0j6hzo1KOcPnZwE8UQ)
 
 #### | 设计模式
-+[设计模式基础知识](https://github.com/LuckyWinty/blog/blob/master/markdown/%20designPatterns/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
++ [设计模式基础知识](https://github.com/LuckyWinty/blog/blob/master/markdown/%20designPatterns/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
 + [从大厂面试题看观察者模式](https://github.com/LuckyWinty/blog/blob/master/markdown/%20designPatterns/%E4%BB%8E%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9C%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.md)
 
 #### | 其他

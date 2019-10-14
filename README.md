@@ -13,7 +13,7 @@
 
 #### 原理探索
 + [Promise链式调用原理](https://github.com/LuckyWinty/blog/issues/3)
-+ [浏览器原理相关总结(面试题)](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%9F%E7%90%86%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93(%E9%9D%A2%E8%AF%95%E9%A2%98).md)
++ [浏览器相关原理详细总结一(面试题)](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E6%80%BB%E7%BB%93%E4%B8%80(%E9%9D%A2%E8%AF%95%E9%A2%98).md)
 #### | Node
 + [问题记录](https://github.com/LuckyWinty/blog/blob/master/markdown/node/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
 

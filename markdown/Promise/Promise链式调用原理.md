@@ -634,3 +634,7 @@ function Promise(fn) {
   fn(resolve, reject)
 }
 ```
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有态度的技术人...
+![GitHub](https://user-gold-cdn.xitu.io/2019/9/6/16d0486eb83cf250?w=2800&h=800&f=jpeg&s=174941)

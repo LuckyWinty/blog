@@ -2,7 +2,7 @@
 -- 帮到你的话请点 star，想订阅点 watch
 
 欢迎关注公众号 **前端Q** 一起学习成长～～
-![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/official_account.png)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/%E9%BB%98%E8%AE%A4%E6%A0%87%E9%A2%98_%E6%A8%AA%E7%89%88%E4%BA%8C%E7%BB%B4%E7%A0%81_2019.10.19.png)
 
 #### | Webpack
 + [Tree-shaking之模块输出](https://github.com/LuckyWinty/blog/issues/1)

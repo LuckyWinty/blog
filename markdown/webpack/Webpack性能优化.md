@@ -284,3 +284,8 @@ Webpack 还允许以注释的方式传参，进而更好的生成 chunk。
 5. 分析工具
 
 官方可视化工具：http://webpack.github.io/analyse/
+
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有态度的技术人...
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode_for_gh_f9d37093c0ed_1280.jpg)

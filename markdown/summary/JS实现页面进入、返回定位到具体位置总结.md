@@ -23,9 +23,11 @@
 
 2. 初始化页面的时候，需要给每个模块指定一个唯一的id。打开页面的时候，如果url带着位置参数则解释参数定位，如果没有，默认为第一个。代码逻辑如下：
 ```js
-function initPos(){//定位，主要是初始化第几个tabvar hashs = location.hash.slice(1).split('&');
+function initPos(){//定位，主要是初始化第几个tabvar 
+
+    hashs = location.hash.slice(1).split('&');
     hashs = hashs.map(function(hash){
-            return decodeURIComponent(hash)
+        return decodeURIComponent(hash)
     })
    if(parseInt(hashs[0])&gt;=0&&parseInt(hashs[0])&lt;100){
         navHash = parseInt(hashs[0])  //第几个tab

@@ -1,5 +1,5 @@
 ### 优化开发体验
-1. 优化 Loader 配置
+##### 1. 优化 Loader 配置
 由于 Loader 对文件的转换操作很耗时，所以需要让尽可能少的文件被 Loader 处理。可以通过 test include exclude 三个配置项来命中 Loader 要应用规则的文件。
 ```js
         module .exports = { 
@@ -17,7 +17,7 @@
 ```
 webpack 官方文档中提到:https://www.webpackjs.com/loaders/babel-loader/#babel-loader-%E5%BE%88%E6%85%A2-
 
-2. 优化 resolve.modules 配置
+##### 2. 优化 resolve.modules 配置
 
 resolve.modules 的默认值是［'node_modules'］，含义是先去当前目录的 node_modules 目录下去找我们想找的模块，如果没找到就去上一级目录 ../node_modules 中找，再没有就去 ../../node_modules 中找，以此类推。 这和 Node.js 的模块寻找机制很相似。
 
@@ -29,7 +29,7 @@ resolve.modules 的默认值是［'node_modules'］，含义是先去当前目�
         },
     }
 ```
-3. 优化 resolve.mainFields 配置
+##### 3. 优化 resolve.mainFields 配置
 
 在安装的第三方模块中都会有一个 package.json 文件，用于描述这个模块的属性,其中可以存在多个字段描述入口文件，原因是某些模块可以同时用于多个环境中，针对不同的运行环境需要使用不同的代码。
 
@@ -48,7 +48,7 @@ resolve.mainFields 的默认值和当前的 target 配置有关系，对应的�
         }
     }
 ```
-4. 优化 resolve.alias 配置
+##### 4. 优化 resolve.alias 配置
 
 resolve.alias 配置项通过别名来将原导入路径映射成一个新的导入路径。
 
@@ -70,7 +70,7 @@ resolve.alias 配置项通过别名来将原导入路径映射成一个新的导
 ```
 **但是，对某些库使用本优化方法后，会影响到使用 Tree-Sharking 去除无效代码的优化，因为打包好的完整文件中有部分代码在我们的项目中可能永远用不上。一般对整体性比较强的库采用本方法优化，因为完整文件中的代码是一个整体，每一行都是不可或缺的 但是对于一些工具类的库，则不建议用此方法。**
 
-5. 优化 resolve.extensions 配置
+##### 5. 优化 resolve.extensions 配置
 
 在导入语句没带文件后缀时，Webpack 会自动带上后缀去尝试询问文件是否存在。如果这个列表越长，或者正确的后缀越往后，就会造成尝试的次数越多，所以resolve .extensions 的配置也会影响到构建的性能 在配置resolve.extensions 时需要遵守 以下几点，以做到尽可能地优化构建性能。
 
@@ -85,7 +85,7 @@ resolve.alias 配置项通过别名来将原导入路径映射成一个新的导
             }
         } 
 ```
-6. 优化 module.noParse 配置
+##### 6. 优化 module.noParse 配置
 module.noParse 配置项可以让 Webpack 忽略对部分没采用模块化的文件的递归解析处理，这样做的好处是能提高构建性能。原因是一些库如 jQuery。
 ```js
         module.exports = {
@@ -94,7 +94,7 @@ module.noParse 配置项可以让 Webpack 忽略对部分没采用模块化的�
             }
         };
 ```
-7. 使用 DllPlugin
+##### 7. 使用 DllPlugin
 
 DLLPlugin 和 DLLReferencePlugin 用某种方法实现了拆分 bundles，同时还大大提升了构建的速度。
 
@@ -128,7 +128,7 @@ const plugins = [
 更开心的是，这个插件，webapck4就可以用啦，赶紧用起来吧～
 **注意：该插件与测量各流程耗时的插件speed-measure-webpack-plugin不兼容。**
 
-8. 使用 HappyPack
+##### 8. 使用 HappyPack
 
 Webpack 是单线程模型的，也就是说 Webpack 需要一个一个地处理任务，不能同时处理多个任务。HappyPack将任
 务分解给多个子进程去并发执行，子进程处理完后再将结果发送给主进程,从而发挥多核 CPU 电脑的威力。
@@ -155,13 +155,13 @@ Webpack 是单线程模型的，也就是说 Webpack 需要一个一个地处理
 ```
 在整个 Webpack 构建流程中，最耗时的流程可能就是 Loader 对文件的转换操作了，因为要转换的文件数据量巨大，而且这些转换操作都只能一个一个地处理 HappyPack 的核心原理就是将这部分任务分解到多个进程中去并行处理，从而减少总的构建时间。
 
-9. 使用 ParallelUglifyPlugin
+##### 9. 使用 ParallelUglifyPlugin
 
 webpack默认提供了UglifyJS插件来压缩JS代码，但是它使用的是单线程压缩代码，也就是说多个js文件需要被压缩，它需要一个个文件进行压缩。所以说在正式环境打包压缩代码速度非常慢(因为压缩JS代码需要先把代码解析成用Object抽象表示的AST语法树，再去应用各种规则分析和处理AST，导致这个过程耗时非常大)。
 
 当webpack有多个JS文件需要输出和压缩时候，原来会使用UglifyJS去一个个压缩并且输出，但是ParallelUglifyPlugin插件则会开启多个子进程，把对多个文件压缩的工作分别给多个子进程去完成，但是每个子进程还是通过UglifyJS去压缩代码。无非就是变成了并行处理该压缩了，并行处理多个子任务，效率会更加的提高。
 
-10. 优化文件监昕的性能
+##### 10. 优化文件监昕的性能
 
 在开启监听模式时，默认情况下会监听配置的 Entry 文件和所有 Entry 递归依赖的文件，在这些文件中会有很多存在于 node_modules 下，因为如今的 Web 项目会依赖大量的第三方模块， 所以在大多数情况下我们都不可能去编辑 node_modules 下的文件，而是编辑自己建立的源码文件，而一个很大的优化点就是忽略 node_modules 下的文件，不监听它们。
 ```js
@@ -174,7 +174,7 @@ webpack默认提供了UglifyJS插件来压缩JS代码，但是它使用的是单
 ```
 采用这种方法优化后， Webpack 消耗的内存和 CPU 将会大大减少。
 ### 优化输出质量
-1. Webpack 实现 CDN 的接入
+##### 1. Webpack 实现 CDN 的接入
 
 总之，构建需要实现以下几点:
 + 静态资源的导入  URL 需要变成指向 DNS 服务的绝对路径的 URL，而不是相对 HTML 文件的
@@ -183,7 +183,7 @@ webpack默认提供了UglifyJS插件来压缩JS代码，但是它使用的是单
 
 http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-9CDN%E5%8A%A0%E9%80%9F.html
 
-2. 使用 Tree Shaking 
+##### 2. 使用 Tree Shaking 
 Tree Shaking 正常工作的前提是，提交给 Webpack 的 JavaScript 代码必须采用了 ES6 的模块化语法，因为 ES6 模块化语法是静态的，可以进行静态分析。
 
 首先，为了将采用 ES6 模块化的代码提交给 Webpack ，需要配置 Babel 以让其保留 ES6 模块化语句。
@@ -215,7 +215,7 @@ Tree Shaking 正常工作的前提是，提交给 Webpack 的 JavaScript 代码�
         }
     }
 ```
-3. 提取公共代码
+##### 3. 提取公共代码
 
 大型网站通常由多个页面组成，每个页面都是一个独立的单页应，但由于所有页面都采用同样的技术栈及同一套样式代码，就导致这些页面之间有很多相同的代码。可以使用 splitChunks 进行分包：
 ```js
@@ -240,7 +240,7 @@ Tree Shaking 正常工作的前提是，提交给 Webpack 的 JavaScript 代码�
         }
     }
 ```
-4. 分割代码以按需加载
+##### 4. 分割代码以按需加载
 
 Webpack 支持两种动态代码拆分技术：
 + 符合 ECMAScript proposal 的 import() 语法，推荐使用
@@ -281,11 +281,14 @@ Webpack 还允许以注释的方式传参，进而更好的生成 chunk。
     </>
     )
 ```
-5. 分析工具
+##### 5. 分析工具
 
 官方可视化工具：http://webpack.github.io/analyse/
+
+### 参考资料
+书籍：《Webpack 深入浅出》
 
 ### 最后
 + 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
 + 欢迎关注「前端Q」,认真学前端，做个有态度的技术人...
-![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode_for_gh_f9d37093c0ed_1280.jpg)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/1571395642.png)

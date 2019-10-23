@@ -1,5 +1,6 @@
->本文为翻译文章，原文链接：https://blog.usejournal.com/npm-tips-and-tricks-c96356fd1b12。如有错误，欢迎指正～
+>本文为翻译文章，原文链接：https://blog.usejournal.com/npm-tips-and-tricks-c96356fd1b12。
 
+**如有错误，欢迎指正～**
 
 如果你日常工作中有使用 NPM ，我相信你会喜欢这些使用技巧的。
 
@@ -42,7 +43,7 @@ npm i vue --no-save
 ```
 #### 获取安装包信息
 使用`npm view xxx`或`npm v xxx`可以查看包信息，例如：
-
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/npm/WechatIMG117.png)
 如果你只是想看安装包最近的版本信息，你可以这样：
 ```js
 > npm v vue version
@@ -79,7 +80,7 @@ npm search gulp debug
 npm s gulp debug
 ```
 这将打印出包含说明、作者等其他信息的安装包列表。如图：
-
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/npm/WechatIMG119.png)
 #### 卸载包
 如果你不想转到`package.json`文件并手动删除依赖包，则可以用以下方法删除：
 ```js
@@ -118,7 +119,7 @@ npm ls -g -depth 0
 npm outdate
 ```
 这个命令将会列出所有你可能有更新的过时的安装包列表，如图：
-
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/npm/1_uuG2qo4JwOM1cL4Q0HTN4g.png)
 #### 执行测试
 你可以使用`npm run tests`来执行测试用例，但是你可以更方便地用`npm test`或者`npm t`来执行。
 #### 显示可用脚本
@@ -204,3 +205,7 @@ npm_config_sso_type=oauth
 gulp build --dist ./dist
 ```
 以上就是一些我最爱的日常工作中用到的命令，如有更多，欢迎来告诉我～
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/1571395642.png)

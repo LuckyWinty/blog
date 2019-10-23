@@ -40,4 +40,5 @@
 + [移动端真机调试方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
 #### | 翻译
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)
++ [npm命令使用技巧总结](https://github.com/LuckyWinty/blog/blob/master/markdown/translate/NPM%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.md)
 

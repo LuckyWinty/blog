@@ -1,0 +1,21 @@
+<html>
+<head>
+</head>
+<body>
+<button id="createBtn">增加节点</button>
+<script> 
+var detachedNodes;
+
+function create() {
+  var ul = document.createElement('ul');
+  for (var i = 0; i < 10; i++) {
+    var li = document.createElement('li');
+    ul.appendChild(li);
+  }
+  detachedTree = ul;
+}
+
+document.getElementById('createBtn').addEventListener('click', create);
+</script>
+</body>
+</html>

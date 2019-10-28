@@ -1,7 +1,7 @@
 # webpack插件机制
 webpack 插件机制是整个 webpack 工具的骨架，而 webpack 本身也是利用这套插件机制构建出来的。
 
-#### 插件概念
+### 插件概念
 专注处理 webpack 在编译过程中的某个特定的任务的功能模块，可以称为插件。最常见的如 html-webpack-plugin 。
 
 那么怎么样的一个东西可以称之为 webpack 插件呢？一个完整的 webpack 插件需要满足以下几点规则和特征：
@@ -13,7 +13,8 @@ webpack 插件机制是整个 webpack 工具的骨架，而 webpack 本身也是
 + 完成自定义子编译流程并处理 complition 对象的内部数据。
 + 如果异步编译插件的话，数据处理完成后执行 callback 回调。
 
-#### Webpakck插件的基本模型
+### Webpakck插件的基本模型
+```js
     // 1、BasicPlugin.js 文件（独立模块）
     // 2、模块对外暴露的 js 函数
     class BasicPlugin{ 
@@ -35,9 +36,10 @@ webpack 插件机制是整个 webpack 工具的骨架，而 webpack 本身也是
     } 
     // 7、暴露 js 函数
     module.exports = BasicPlugin;
-##### Apply方法的定义
-webpack中调用插件的方式就是plugin.apply()。webpack部分[源码](https://github.com/webpack/webpack/blob/10282ea20648b465caec6448849f24fc34e1ba3e/lib/webpack.js#L35)：
-
+```
+### apply方法的由来
+因为webpack中调用插件的方式就是plugin.apply()。webpack部分[源码](https://github.com/webpack/webpack/blob/10282ea20648b465caec6448849f24fc34e1ba3e/lib/webpack.js#L35)：
+```js
     const webpack = (options, callback) => {
         ...
         for (const plugin of options.plugins) {
@@ -45,10 +47,11 @@ webpack中调用插件的方式就是plugin.apply()。webpack部分[源码](http
         }
         ...
     }
-##### Compiler对象
+```
+### 入参Compiler对象解释
 compiler 对象是 webpack 的编译器对象，compiler 对象会在启动 webpack 的时候被一次性的初始化，compiler 对象中包含了所有 webpack 可自定义操作的配置，例如 loader 的配置，plugin 的配置，entry 的配置等各种原始 webpack 配置等，在 webpack 插件中的自定义子编译流程中，我们肯定会用到 compiler 对象中的相关配置信息，我们相当于可以通过 compiler 对象拿到 webpack 的主环境所有的信息。
 webpack部分[源码](https://github.com/webpack/webpack/blob/10282ea20648b465caec6448849f24fc34e1ba3e/lib/webpack.js#L30)
-
+```js
     // webpack/lib/webpack.js
     const Compiler = require("./Compiler")
 
@@ -63,17 +66,18 @@ webpack部分[源码](https://github.com/webpack/webpack/blob/10282ea20648b465ca
         }
         ...
     }
-
-##### Compilation 对象
+```
+### 区分Compilation 对象
 compilation 实例继承于 compiler，compilation 对象代表了一次单一的版本 webpack 构建和生成编译资源(编译资源是 webpack 通过配置生成的一份静态资源管理 Map（一切都在内存中保存），以 key-value 的形式描述一个 webpack 打包后的文件，编译资源就是这一个个 key-value 组成的 Map)的过程。当运行 webpack 开发环境中间件时，每当检测到一个文件变化，一次新的编译将被创建，从而生成一组新的编译资源以及新的 compilation 对象。一个 compilation 对象包含了 当前的模块资源、编译生成资源、变化的文件、以及 被跟踪依赖的状态信息。编译对象也提供了很多关键点回调供插件做自定义处理时选择使用。
 
 **Compiler 和 Compilation 的区别在于： Compiler 代表了整个 Webpack 从启动到关闭的生命周期，而 Compilation 只代表一次新的编译。**
 
-##### Tapable & Tapable 实例
+### Tapable & Tapable 实例
 webpack 的插件架构主要基于 Tapable 实现的，Tapable 是 webpack 项目组的一个内部库，主要是抽象了一套插件机制。webpack 源代码中的一些 Tapable 实例都继承或混合了 Tapable 类。Tapable 能够让我们为 javaScript 模块添加并应用插件。 它可以被其它模块继承或混合。它类似于 NodeJS 的 EventEmitter 类，专注于自定义事件的触发和操作。 除此之外, Tapable 允许你通过回调函数的参数访问事件的生产者。
-##### Plugin调用流程
-1. 注册，类似于 EventEmitter 的 on
 
+### Plugin调用流程
+1. 注册，类似于 EventEmitter 的 on
+```js
         compiler.plugin('emit', (compilation, callback) => {
              // 在生成资源并输出到目录之前完成某些逻辑
         })
@@ -95,8 +99,9 @@ webpack 的插件架构主要基于 Tapable 实现的，Tapable 是 webpack 项�
             return true;
         }
     };
+```
 2. 执行，类似于 EventEmitter 的emit
-
+```js
 **对应[源码](https://github.com/webpack/webpack/blob/e7c8fa414b718ac98d94a96e2553faceabfbc92f/lib/Compiler.js#L307)**
 
     this.hooks.emit.callAsync(compilation, err => {
@@ -104,9 +109,11 @@ webpack 的插件架构主要基于 Tapable 实现的，Tapable 是 webpack 项�
         outputPath = compilation.getPath(this.outputPath);
         this.outputFileSystem.mkdirp(outputPath, emitFiles);
     });
-
-##### 开发调试
+```
+### 开发调试Plugin&Loader
 **npm link**
+
+##### 适合场景：Plugin&Loader
 
 Npm link 专门用于开发和调试本地的 Npm 模块，能做到在不发布模块的情况下， 将本地的一个正在开发的模块的源码链接到项目的 node_modules 目录下，让项目可以直接使
 用本地的 Npm 模块。由于是通过软链接的方式实现的，编辑了本地的 Npm 模块的代码，所以在项目中也能使用到编辑后的代码。
@@ -116,10 +123,12 @@ Npm link 专门用于开发和调试本地的 Npm 模块，能做到在不发布
 
 **Resolveloader**
 
+##### 适合场景：loader
+
 ResolveLoader 用于配置 Webpack 如何寻找 Loader ，它在默认情
 况下只会去 node_modules 目录下寻找。为了让 Webpack 加载放在本地项目中的 Loader,
 需要修改 resolveLoader.modules。
-
+```js
     //假设本地项目中的 Loader 在项目目录的 ./loaders/loader-name 下
     module.exports = { 
         resolveLoader:{ 
@@ -127,6 +136,9 @@ ResolveLoader 用于配置 Webpack 如何寻找 Loader ，它在默认情
             modules :['node modules','./loaders/'], 
         }
     }
+```
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
 
-##### Webpack的一些钩子
-https://webpack.docschina.org/api/compiler/#%E4%BA%8B%E4%BB%B6%E9%92%A9%E5%AD%90
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/1571395642.png)

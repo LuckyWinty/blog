@@ -77,12 +77,11 @@ webpack 的插件架构主要基于 Tapable 实现的，Tapable 是 webpack 项�
 
 ### Plugin调用流程
 1. 注册，类似于 EventEmitter 的 on
-```js
-        compiler.plugin('emit', (compilation, callback) => {
-             // 在生成资源并输出到目录之前完成某些逻辑
-        })
 **对应[源码](https://github.com/webpack/tapable/blob/42b520760e138c23e7808881cb4322557e878307/lib/Tapable.js#L35)**
-
+```js
+    compiler.plugin('emit', (compilation, callback) => {
+            // 在生成资源并输出到目录之前完成某些逻辑
+    })
     // Tapable.js
     options => {
         ...

@@ -2,7 +2,7 @@
 
 在Safari浏览器下(此Safari浏览器包括iOS的Safari，iPhone上的微信浏览器，以及Mac OS X系统的Safari浏览器)，当我们使用3D transform变换的时候，如果祖先元素没有overflow:hidden/scroll/auto等限制，则会直接忽略自身和其他元素的`z-index`层叠顺序设置，而直接使用真实世界的3D视角进行渲染。
 例如下面的场景，图中红框里面的模块，使用 3D transform变换，进行旋转动画，但是在Safari浏览器下，忽略了二维码遮罩层的`z-index`,结果使用了真实世界的3D视角进行渲染。出现了重叠的bug：
-
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/WechatIMG128.png)
 ##### 解决方法：
 1. 父级，任意父级，非body级别，设置overflow:hidden可恢复和其他浏览器一样的渲染。
 2. 以毒攻毒。有时候，页面复杂，我们不能给父级设置overflow:hidden，那么可以将被影响的元素设置一个足够大的translateZ值就可以，如translateZ(100px)。
@@ -92,6 +92,7 @@ transform: scale(0.5);
 ```
 #### 5. 利用灰色滤镜做样式的disable效果
 灰色图可以直接加滤镜，不用切多一张图。如图：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/WechatIMG129.png)
 ##### 解决方法：
 ```CSS
 .coupon_style .disable {
@@ -101,12 +102,28 @@ transform: scale(0.5);
 #### 6. 曲线阴影的实现
 + 多个阴影重叠，就是正常阴影+曲线阴影
 + 正常情况下，有个矩形有正常的阴影，作为主投影，这时候再定义一个有一定弧度圆角的圆角矩形，然后放在正常矩形的下面，并露出一点点底部有弧度的阴影，这样的话就可以形成曲线投影的效果。
-#### 7. 翘边阴影的实现
 
+效果：
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/WechatIMG130.png)
+代码：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/09BF9EAB-8D67-4448-A7E5-75155D6A2BE1.png)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/WechatIMG132.png)
+#### 7. 翘边阴影的实现
 利用:before和:after，加上绝对定位的性质，可以形成一个矩形，这个时候结合CSS3的倾斜属性skew和旋转属性rote。就可以形成一个有旋转角度的平行四边形，这个时候再和原来的矩形重叠，则可产生翘边效果。
+
+效果：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/WechatIMG131.png)
+
+代码：
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/7354F2E5-9ECD-45D5-8B03-FC87E70BA52A.png)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/8B4E491B-2B82-4777-B94E-C14F702669F2.png)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/88577E60-A07E-407B-BDAB-47B7A542CA33.png)
 
 #### 8.利用-webkit-mask实现蒙版效果
 效果图：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/A1CDFCA0-0F5F-42DB-94B0-CB9A386C8362.png)
 代码：
 ```CSS
 background: url("images/logo.png") no-repeat;
@@ -179,3 +196,8 @@ html {
     }
 }
 ```
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/1571395642.png)

@@ -2,7 +2,7 @@
 
 在Safari浏览器下(此Safari浏览器包括iOS的Safari，iPhone上的微信浏览器，以及Mac OS X系统的Safari浏览器)，当我们使用3D transform变换的时候，如果祖先元素没有overflow:hidden/scroll/auto等限制，则会直接忽略自身和其他元素的`z-index`层叠顺序设置，而直接使用真实世界的3D视角进行渲染。
 例如下面的场景，图中红框里面的模块，使用 3D transform变换，进行旋转动画，但是在Safari浏览器下，忽略了二维码遮罩层的`z-index`,结果使用了真实世界的3D视角进行渲染。出现了重叠的bug：
-![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/WechatIMG128.png)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/css/WechatIMG135.png)
 ##### 解决方法：
 1. 父级，任意父级，非body级别，设置overflow:hidden可恢复和其他浏览器一样的渲染。
 2. 以毒攻毒。有时候，页面复杂，我们不能给父级设置overflow:hidden，那么可以将被影响的元素设置一个足够大的translateZ值就可以，如translateZ(100px)。

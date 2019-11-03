@@ -15,7 +15,7 @@
 + [Promise链式调用原理](https://github.com/LuckyWinty/blog/issues/3)
 + [浏览器相关原理详细总结一(面试题)](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E6%80%BB%E7%BB%93%E4%B8%80(%E9%9D%A2%E8%AF%95%E9%A2%98).md)
 + [浏览器相关原理详细总结二(面试题)](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E6%80%BB%E7%BB%93%E4%BA%8C(%E9%9D%A2%E8%AF%95%E9%A2%98).md)
-+ [Chrome 浏览器垃圾回收机制与内存泄漏分析](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E6%80%BB%E7%BB%93%E4%BA%8C(%E9%9D%A2%E8%AF%95%E9%A2%98).md)
++ [Chrome 浏览器垃圾回收机制与内存泄漏分析](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/Chrome%20%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%88%86%E6%9E%90.md)
 #### | Node
 + [问题记录](https://github.com/LuckyWinty/blog/blob/master/markdown/node/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
 
@@ -40,8 +40,8 @@
 + [给自己搭个脚手架](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%BB%99%E8%87%AA%E5%B7%B1%E6%90%AD%E4%B8%AA%E8%84%9A%E6%89%8B%E6%9E%B6.md)
 + [移动端真机调试方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
 
-+ [你应该知道的https知识]()
-+ [GIT场景解决方法总结]()
++ [你应该知道的https知识](https://github.com/LuckyWinty/blog/blob/master/markdown/network/%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84https%E7%9F%A5%E8%AF%86.md)
++ [GIT场景解决方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/Git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
 #### | 翻译
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)
 + [npm命令使用技巧总结](https://github.com/LuckyWinty/blog/blob/master/markdown/translate/NPM%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.md)

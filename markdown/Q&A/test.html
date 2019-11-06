@@ -4,18 +4,28 @@
 <body>
 <button id="createBtn">增加节点</button>
 <script> 
-var detachedNodes;
-
-function create() {
-  var ul = document.createElement('ul');
-  for (var i = 0; i < 10; i++) {
-    var li = document.createElement('li');
-    ul.appendChild(li);
-  }
-  detachedTree = ul;
+// const startTime = Date.now()
+// function bar() {
+//     console.log('bar')
+//     const endTime = Date.now()
+//     console.log('cost time',endTime - startTime)
+// }
+// function foo() {
+//     setTimeout(bar, 0);
+//     for (let i = 0; i < 5000; i++) {
+//         let i = 5+8+8+8
+//         console.log(i)
+//     }
+// }
+// foo()
+let startTime = Date.now()
+function cb() { 
+  const endTime = Date.now()
+  console.log('cost time',endTime - startTime)
+  startTime = startTime
+  setTimeout(cb, 0); 
 }
-
-document.getElementById('createBtn').addEventListener('click', create);
+setTimeout(cb, 0);
 </script>
 </body>
 </html>

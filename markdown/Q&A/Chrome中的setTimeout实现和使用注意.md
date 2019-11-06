@@ -84,6 +84,7 @@ function foo() {
 foo()
 ```
 执行结果如图：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/setTimeout/WechatIMG140.png)
 从结果可以看到，执行 foo 函数所消耗的时长是 365 毫秒，这也就意味着通过 setTimeout 设置的任务被推迟了 365 毫秒才执行，而设置 setTimeout 的回调延迟时间是 0。
 
 2. 使用 setTimeout 设置的回调函数中的 this 环境不是指向回调函数
@@ -124,6 +125,8 @@ function cb() {
 setTimeout(cb, 0);
 ```
 执行结果：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/setTimeout/WechatIMG141.jpeg)
+
 从结果可以看出，前面五次调用的时间间隔比较小，嵌套调用超过五次以上，后面每次的调用最小时间间隔是 4 毫秒(我运行的结果，间隔基本是 5ms，考虑有代码执行的计算误差)。
 
 之所以出现这样的情况，是因为在 Chrome 中，定时器被嵌套调用 5 次以上，系统会判断该函数方法被阻塞了，如果定时器的调用时间间隔小于 4 毫秒，那么浏览器会将每次调用的时间间隔设置为 4 毫秒。可以看下`源码(https://cs.chromium.org/chromium/src/third_party/blink/renderer/core/frame/dom_timer.cc)：`
@@ -156,6 +159,8 @@ function foo(){
 var timerID = setTimeout(foo,2147483648);//会被立即调用执行
 ```
 执行结果：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/setTimeout/WechatIMG142.png)
+
 运行后可以看到，这段代码是立即被执行的。但如果将延时值修改为小于 2147483647 毫秒的某个值，那么执行时就没有问题了。
 
 ### 参考资料

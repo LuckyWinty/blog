@@ -2,6 +2,7 @@
 -- 帮到你的话请点 star，想订阅点 watch
 
 欢迎关注公众号 **前端Q** 一起学习成长～～
+
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)
 
 #### | Webpack

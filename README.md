@@ -16,6 +16,8 @@
 + [浏览器相关原理详细总结一(面试题)](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E6%80%BB%E7%BB%93%E4%B8%80(%E9%9D%A2%E8%AF%95%E9%A2%98).md)
 + [浏览器相关原理详细总结二(面试题)](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E6%80%BB%E7%BB%93%E4%BA%8C(%E9%9D%A2%E8%AF%95%E9%A2%98).md)
 + [Chrome 浏览器垃圾回收机制与内存泄漏分析](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/Chrome%20%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%88%86%E6%9E%90.md)
++ [async/await 原理及执行顺序分析](https://github.com/LuckyWinty/blog/blob/master/markdown/Promise/async-await%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90.md)
++ [Chrome中的setTimeout实现和使用注意](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/Chrome%E4%B8%AD%E7%9A%84setTimeout%E5%AE%9E%E7%8E%B0%E5%92%8C%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F.md)
 #### | Node
 + [问题记录](https://github.com/LuckyWinty/blog/blob/master/markdown/node/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
 

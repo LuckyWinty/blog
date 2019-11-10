@@ -1,4 +1,6 @@
-之前写了篇文章《这一次，彻底理解Promise原理》，剖析了Promise的相关原理。我们都知道，Promise解决了回调地狱的问题，但是如果遇到复杂的业务，代码里面会包含大量的 then 函数，使得代码依然不是太容易阅读。
+之前写了篇文[《这一次，彻底理解Promise原理》](https://juejin.im/post/5d6f7c83e51d4561c541a712)，剖析了Promise的相关原理,反应不错，这次把学习到的相关的知识也写下。
+
+我们都知道，Promise解决了回调地狱的问题，但是如果遇到复杂的业务，代码里面会包含大量的 then 函数，使得代码依然不是太容易阅读。
 
 基于这个原因，ES7 引入了 async/await，这是 JavaScript 异步编程的一个重大改进，提供了在不阻塞主线程的情况下使用同步代码实现异步访问资源的能力，并且使得代码逻辑更加清晰，而且还支持 try-catch 来捕获异常，非常符合人的线性思维。
 
@@ -181,12 +183,60 @@ let promise_ = new Promise((resolve,reject){ resolve(undefined)})
 ```
 执行完成，执行await后面的语句，输出`async1 end`
 + 最后，执行下一个宏任务，即执行setTimeout，输出`setTimeout`
+
+#### 注意
+新版的chrome浏览器中不是如上打印的，因为chrome优化了,await变得更快了,输出为:
+```js
+// script start => async2 end => Promise => script end => async1 end => promise1 => promise2 => setTimeout
+```
+但是这种做法其实是违法了规范的，当然规范也是可以更改的，这是 V8 团队的一个 [PR](https://github.com/tc39/ecma262/pull/1250#issue-197979338) ，目前新版打印已经修改。
+知乎上也有相关讨论,可以看看 https://www.zhihu.com/question/268007969
+
+我们可以分2种情况来理解：
+1. 如果await 后面直接跟的为一个变量，比如：await 1；这种情况的话相当于直接把await后面的代码注册为一个微任务，可以简单理解为promise.then(await下面的代码)。然后跳出async1函数，执行其他代码，当遇到promise函数的时候，会注册promise.then()函数到微任务队列，注意此时微任务队列里面已经存在await后面的微任务。所以这种情况会先执行await后面的代码（async1 end），再执行async1函数后面注册的微任务代码(promise1,promise2)。
+
+2. 如果await后面跟的是一个异步函数的调用，比如上面的代码，将代码改成这样：
+```js
+console.log('script start')
+
+async function async1() {
+await async2()
+console.log('async1 end')
+}
+async function async2() {
+console.log('async2 end')
+return Promise.resolve().then(()=>{
+  console.log('async2 end1')
+})
+}
+async1()
+
+setTimeout(function() {
+console.log('setTimeout')
+}, 0)
+
+new Promise(resolve => {
+console.log('Promise')
+resolve()
+})
+.then(function() {
+console.log('promise1')
+})
+.then(function() {
+console.log('promise2')
+})
+
+console.log('script end')
+```
+此时执行完awit并不先把await后面的代码注册到微任务队列中去，而是执行完await之后，直接跳出async1函数，执行其他代码。然后遇到promise的时候，把promise.then注册为微任务。其他代码执行完毕后，需要回到async1函数去执行剩下的代码，然后把await后面的代码注册到微任务队列当中，注意此时微任务队列中是有之前注册的微任务的。所以这种情况会先执行async1函数之外的微任务(promise1,promise2)，然后才执行async1内注册的微任务(async1 end). 
+
 ### 参考资料
-+ 极客时间《浏览器工作原理与实践》
-+ http://es6.ruanyifeng.com/?search=...&x=0&y=0#docs/async
-+ https://juejin.im/post/5d401ce4e51d4561d106cb63
++ 极客时间[《浏览器工作原理与实践》](https://time.geekbang.org/column/intro/100033601)
++ 阮一峰[《es6入门》](http://es6.ruanyifeng.com/?search=...&x=0&y=0#docs/async)
+### Promise资料
++ [《这一次，彻底理解Promise原理》](https://juejin.im/post/5d6f7c83e51d4561c541a712)
 ### 最后
 + 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
 + 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
 
-![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/1571395642.png)
+![GitHub](https://user-gold-cdn.xitu.io/2019/11/5/16e3b328764c6dc6?w=300&h=300&f=png&s=4613)

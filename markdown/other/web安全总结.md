@@ -122,3 +122,12 @@ rel=noopener 规定禁止新页面传递源页面的地址，通过设置了此�
 3. 升级服务器软件以避免路径解析漏洞；
 4. 升级用到的开源编辑器；
 5. 管理后台设置强密码。
+
+### 参考资料
++ 极客时间《浏览器工作原理与实践》
+
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)

@@ -45,6 +45,9 @@
 
 + [你应该知道的https知识](https://github.com/LuckyWinty/blog/blob/master/markdown/network/%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84https%E7%9F%A5%E8%AF%86.md)
 + [GIT场景解决方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/Git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
++ [web安全总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/web%E5%AE%89%E5%85%A8%E6%80%BB%E7%BB%93.md)
++ [JS模块化总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E6%80%BB%E7%BB%93.md)
+
 #### | 翻译
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)
 + [npm命令使用技巧总结](https://github.com/LuckyWinty/blog/blob/master/markdown/translate/NPM%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.md)

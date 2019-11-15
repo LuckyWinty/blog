@@ -80,3 +80,9 @@ Google 在推SPDY的时候就已经意识到了这些问题，于是就另起炉
 + 集成了TLS加密功能。目前QUIC使用的是TLS1.3，相较于早期版本TLS1.3有更多的优点，其中最重要的一点是减少了握手所花费的RTT个数。
 
 + 多路复用，彻底解决TCP中队头阻塞的问题
+
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/1571395642.png)

@@ -1,8 +1,8 @@
 很多关注我的人都不太了解前端Q这个名字的由来，这篇文章就来讲讲前端Q的前世今生，顺便送大大福利(文末有惊喜)，哈哈～～
 
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/count.png)
+
 **`恭喜！前端Q总用户数突破千啦~~`**
-
-
 
 ### 前端Q前世
 
@@ -47,16 +47,14 @@
 
 开奖时间：
 
-2019年11月23日 早上10:00 星期日
+2019年11月23日 早上10:00 星期六
 
 领奖方式：
 
 添加微信号winty230，备注领奖～～
 
-
-
 直接上奖品图，给大家看看：
-
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/awards.png)
 
 
 
@@ -74,8 +72,8 @@
 
 关注本公众号前端Q，号内回复 抽奖 ，即可参与～
 
-
-
 ### 最后
 + 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
 + 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)

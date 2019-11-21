@@ -1,1 +1,5 @@
-> Node.js 是一个基于 chrome v8 引擎的 javascript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。
+如果你对 JS 模块化相关的知识不够熟悉，请你先看了这篇《js 模块化总结》，再来看这篇文章。
+
+### CommonJS 
+
+CommonJS 是一种模块化规范，使用 CommonJS 规范来作为 Node.js 的模块导出、引入机制，相当于把每个 JavaScript 文件或者模块当作一个不会污染全局的闭包

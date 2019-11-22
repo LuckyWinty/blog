@@ -45,7 +45,7 @@ Chrome 有丰富的插件, 可以扩展出很多功能, 提高我们的工作效
 
 ![Infinity 新标签页](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/chromePlugin/infinity-home.png)
 
-替换 chrome 原有首页的一个选择, 功能完善, 可以管理方便的管理和查找书签, 每天更换一个壁纸, 点击下边的小风车, 可以随机切换壁纸
+替换 chrome 原有首页的一个选择, 功能完善, 可以方便的管理和查找书签, 每天更换一个壁纸, 点击下边的小风车, 可以随机切换壁纸
 
 不仅如此, 点击右上角的 + 号, 可进行登录, 常规, 外观, 壁纸设置, 还可以对标签页的图标进行整理替换
 
@@ -152,7 +152,7 @@ FeHelper 由 Alien 开源, 是一款前端工具集大成的插件, 前端开发
 
 #### React Developer Tools
 
-当我知道有 react 开发者竟然不会使用这个 react 开发工具时, 也是一脸震惊. 现在推荐的 React Developer Tools 是官方维护的一个 react 开发辅助工具, 他能让你像审查元素一样, 审查 react 组件, 看到 react 组件的 state, props, state, props 也可以修改实时修改, 触发 react 重复渲染.
+当我知道有 react 开发者竟然不会使用这个 react 开发工具时, 也是一脸震惊. 现在推荐的 React Developer Tools 是官方维护的一个 react 开发辅助工具, 他能让你像审查元素一样, 审查 react 组件, 看到 react 组件的 state, props, state, props 也可以实时修改, 触发 react 重复渲染.
 
 ![React Developer Tools](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/chromePlugin/react-developer-tools-0.png)
 
@@ -174,7 +174,7 @@ Redux DevTools 让我们方便地追踪数据流的变化, 看到每一个改变
 
 #### SwitchyOmega
 
-一款浏览器代理工具, 可以让你浏览器的请求代理都指定的服务, 比如将所有请求指向 whistle, 将 *.oa.com 的服务指向内网, 将你需要的请求指向科学上网的代理服务, 让你轻松应对复杂的网络环境.
+一款浏览器代理工具, 可以让浏览器的请求代理都指向代理服务, 比如将所有请求指向 whistle, 将 *.oa.com 的服务指向内网, 将你需要的请求指向科学上网的代理服务, 让你轻松应对复杂的网络环境.
 
 ![SwitchyOmega](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/chromePlugin/switchyomega-0.png)
 

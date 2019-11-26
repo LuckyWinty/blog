@@ -60,6 +60,7 @@ echo "import { sep } from 'path'; console.log(sep);" | node --input-type=module
 
 目前13.2.0版本的官方文档对ES Module的标记是 `Stability: 1 `，你已经可以安装新版本来试验啦。相信在社区的共同努力下，很快就会进入 `Stability: 2` 正式稳定版了。
 
+本地开发的时候，经常需要快速更新或切换不同的node版本。可以使用 nvm、n 等方案，还有一个跨平台的本地管理方案就是 nvs。都可以选择使用，这里我举的例子，就是使用 nvs：
 ```js
 $ nvs add node/13.2.0
 $ nvs use 13.2.0

@@ -79,15 +79,15 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 [https://service-r3uca4yw-1253736472.gz.apigw.tencentcs.com/release/test](./https://service-r3uca4yw-1253736472.gz.apigw.tencentcs.com/release/test)
 
-如果你改完代码想发布, 只需要点一下保存, 就可以发布了~
-
 以上就是我们对云函数的初步认识, 接下来我们一步步深入, 带你打造一个简易博客系统
 
 ### Tencent Serverless Toolkit for VS Code
 
 首先, 我们需要一个本地开发环境, 虽然线上编辑器的体验与 vscode 已经比较相近了, 但毕竟本地代码编辑经过我们配置, 还是更好用的. 那我们在本地修改了代码, 怎么发布云函数呢?
 
-以 VSCode 为例, 我们需要安装 "Tencent Serverless Toolkit for VS Code", 我们可以在 VSCode 的插件里搜索安装, 插件首页的安装说明很清楚的.如图：
+以 VSCode 为例, 我们需要安装 "Tencent Serverless Toolkit for VS Code", 可以在 VSCode 的插件里搜索安装, 插件首页会有详细地安装说明, 这里就不再赘述.
+
+插件界面如图:
 
 ![scf vscode 插件](./serverless-vscode-plugin.png)
 
@@ -99,7 +99,7 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 * 使用模拟的 COS、CMQ、CKafka、API 网关等触发器事件来触发函数运行。
 * 上传函数代码到云端，更新函数配置。
 
-通常前端的代码, 需要打包, 执行 `npm install`, `npm run build` 等, 云端函数没有提供这个环境, 我们可以在本地打包后, 通过这个插件发布代码. 当然, 我们还可以通过持续集成工具, 运行 cli 来发布, 这个暂时就不展开说了.
+通常前端的代码, 需要打包, 执行 `npm install`, `npm run build` 等, 云端函数没有提供这个环境, 我们可以在本地打包后, 通过这个插件发布代码. 当然, 我们还可以通过持续集成工具, 运行 cli 来发布, 这个就不展开说了.
 
 ### 数据库选择和设计
 
@@ -113,7 +113,7 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 激活云 MySQL 后, 这里可以看到内网 ip 和端口, 云函数可以通过这个 ip 和端口访问到 MySQL:
 
-![腾讯云 MySQL 入口](./mysql-ip.png)
+![腾讯云 MySQL](./mysql-ip.png)
 
 ### 数据库设计
 
@@ -260,7 +260,7 @@ module.exports = router;
 
 #### Controller
 
-Controller 可以很清晰地反应一个请求的处理过程, 一些实现细节应该封装起来, 放在 Service 中, 这点在流程复杂的项目中特别重要. 
+Controller 应该清晰地反应一个请求的处理过程, 一些实现细节要封装起来, 放在 Service 中, 这点在流程复杂的项目中特别重要. 
 
 我们两个页面的 Controller 就很简单:
 
@@ -295,7 +295,7 @@ exports.postController = async (ctx) => {
 
 1. 获取数据
 2. 数据 + 模板生成 html
-3. 返回 html 的流程. 
+3. 返回 html 
 
 我们会在接下来的 Services 里讲清楚这三个步骤的具体实现.
 
@@ -316,7 +316,7 @@ exports.getBlogList = async () => {
 }
 
 exports.getBlogById = async (blogId) => {
-    await Blog.sync({}); // 如果表不存在, 则自动创建, sequelize 的一个特性
+    await Blog.sync({});
     return await Blog.findOne({
         where: {
             id: blogId,
@@ -430,7 +430,7 @@ exports.htmlResponse = (ctx, html) => {
 
 #### Model
 
-上边的 data service, 通过 Blog Model 可以轻易的获取数据, 那 Blog 的实现是怎样的呢? 我们来看一下: 
+上边的 data service, 通过 Blog Model 可以轻易的获取数据, 那 Blog Model 的实现是怎样的呢? 我们来看一下: 
 
 /model/index.js
 ```javascript
@@ -481,7 +481,7 @@ module.exports = {
 }
 ```
 
-blog 是我们数据库名称, root 是登录的账户, 密码存放在环境变量中, 通过    `process.env.password` 获取, 也就是前边我们在云函数创建时, 填写的环境变量.
+blog 是数据库的名称, root 是登录的账户, 密码存放在环境变量中, 通过    `process.env.password` 获取, 也就是前边我们在云函数创建时, 填写的环境变量.
 
 #### View
 
@@ -541,3 +541,4 @@ blog 是我们数据库名称, root 是登录的账户, 密码存放在环境变
 + 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
 
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)
+

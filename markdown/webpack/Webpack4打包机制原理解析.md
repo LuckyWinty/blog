@@ -68,6 +68,8 @@ const exportDependencies = require('./exportDependencies')
 console.log(exportDependencies('./src/index.js'))
 ```
 控制台输出如下图：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/1574780330785.jpg)
+看图就可以理解，输出的依赖是什么啦～
 
 #### 单个文件的依赖模块Map
 有了获取单个文件依赖的基础，我们就可以在这基础上，进一步得出整个项目的模块依赖图谱了。首先，从入口开始计算，得到entryMap，然后遍历entryMap.dependencies,取出其value(即依赖的模块的路径)，然后再获取这个依赖模块的依赖图谱，以此类推递归下去即可，代码如下：
@@ -124,14 +126,14 @@ const exportCode = (entry)=>{
         (function(graph) {
             //require函数的本质是执行一个模块的代码，然后将相应变量挂载到exports对象上
             function require(module) {
-                //localRequire的本质是拿到依赖包的exports变量
-                function localRequire(relativePath) {
+                //InnerRequire的本质是拿到依赖包的exports变量
+                function InnerRequire(relativePath) {
                     return require(graph[module].dependencies[relativePath]);
                 }
                 var exports = {};
                 (function(require, exports, code) {
                     eval(code);
-                })(localRequire, exports, graph[module].code);
+                })(InnerRequire, exports, graph[module].code);
                 return exports;
                 //函数返回指向局部变量，形成闭包，exports变量在函数执行后不会被摧毁
             }
@@ -146,20 +148,20 @@ module.exports = exportCode
         (function(graph) {
             //require函数的本质是执行一个模块的代码，然后将相应变量挂载到exports对象上
             function require(module) {
-                //localRequire的本质是拿到依赖包的exports变量
-                function localRequire(relativePath) {
+                //InnerRequire的本质是拿到依赖包的exports变量
+                function InnerRequire(relativePath) {
                     return require(graph[module].dependencies[relativePath]);
                 }
                 var exports = {};
                 (function(require, exports, code) {
                     eval(code);
-                })(localRequire, exports, graph[module].code);
+                })(InnerRequire, exports, graph[module].code);
                 return exports;//函数返回指向局部变量，形成闭包，exports变量在函数执行后不会被摧毁
             }
             require('./src/index.js')
         })({"./src/index.js":{"dependencies":{"./info.js":"./src/info.js"},"code":"\"use strict\";\n\nvar _info = _interopRequireDefault(require(\"./info.js\"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { \"default\": obj }; }\n\nconsole.log(_info[\"default\"]);"},"./src/info.js":{"dependencies":{"./name.js":"./src/name.js"},"code":"\"use strict\";\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports[\"default\"] = void 0;\n\nvar _name = require(\"./name.js\");\n\nvar info = \"\".concat(_name.name, \" is beautiful\");\nvar _default = info;\nexports[\"default\"] = _default;"},"./src/name.js":{"dependencies":{},"code":"\"use strict\";\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.name = void 0;\nvar name = 'winty';\nexports.name = name;"}})
 ```
-至此，简单打包模型完成。需要看例子的移步至：https://github.com/LuckyWinty/blog/code/bundleBuild
+至此，简单打包模型完成。需要看例子的移步至：https://github.com/LuckyWinty/blog/tree/master/code/bundleBuild
 ### webpack打包流程概括
  webpack的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：
 
@@ -176,12 +178,12 @@ module.exports = exportCode
 
 #### webpack打包结果简化对比
 下面，我们直接看看，webpack4 打包后的代码长什么样，跟我们上文的简化模型有何区别(为了格式好看点，我精简了一下，用图片表示)：
-// TODO
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/1574780831775.jpg)
 可以看到，webpack中，有个`__webpack_require__`和`__webpack_exports__`是不是很眼熟？然后再认真观察，有个Module对象，key是模块名，value是代码块。输出的也是立即执行函数，从入口开始执行...
 
 #### __webpack_require__实现
 这里也是放一个简化的图，因为源码，太多啦！如下：
-//TODO
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/1574780871934.jpg)
 可以看到，这里的核心逻辑，和简化版其实是一样的。这里的moduleId就是模块路径，如./src/commonjs/index.js。
 
 要注意的是，webpack4中只有`optimization.namedModules`为true，此时moduleId才会为模块路径，否则是数字id。为了方便开发者调试，在`development`模式下optimization.namedModules参数默认为true。
@@ -190,3 +192,5 @@ module.exports = exportCode
 其实简单模型还是很好理解的。我们理解了之后，就可以更方便地深入去了解webpack的多入口打包(应该同样的机制跑2次就可以了吧)，公共包抽离(因为模块加载时有缓存，只有加上一个次数记录就可以知道这个包被加载了多少次，就可以抽离出来做公共包)了。当然还是很多细节的地方，需要耐心细致地去理解的。持续学习吧！
 
 这里有个更深入一点的讲解，可以看看：https://cloud.tencent.com/developer/article/1172453
+
+### 参考资料

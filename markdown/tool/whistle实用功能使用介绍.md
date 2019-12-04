@@ -1,24 +1,22 @@
-whistle是基于Node实现的跨平台web调试代理工具，类似的工具有Windows平台上的Fiddler，主要用于查看、修改HTTP、HTTPS、Websocket的请求、响应，也可以作为HTTP代理服务器使用，不同于Fiddler通过断点修改请求响应的方式，whistle采用的是类似配置系统hosts的方式，一切操作都可以通过配置实现，支持域名、路径、正则表达式、通配符、通配路径等多种匹配方式，且可以通过Node模块扩展功能。总体功能如下：
-
-
+whistle是基于Node实现的跨平台web调试代理工具，类似的工具有Windows平台上的Fiddler，主要用于查看、修改HTTP、HTTPS、Websocket的请求、响应，也可以作为HTTP代理服务器使用，不同于Fiddler通过断点修改请求响应的方式，whistle采用的是类似配置系统hosts的方式，一切操作都可以通过配置实现，支持域名、路径、正则表达式、通配符、通配路径等多种匹配方式，且可以通过Node模块扩展功能。
 
 如果你时间充裕，想详细了解，可见官方文档：http://wproxy.org/whistle/
 
 如果想快速上手使用常用的功能，继续往下看。
 
-一、mac安装配置
+### mac安装配置
 安装 node.js，点击链接，选择 LTS 版安装
 在命令行运行 npm install -g whistle（如果提示没有权限，以 sudo 的方式运行）
 命令行运行w2 start
 浏览器运行http://127.0.0.1:8899，如果看到如下界面则安装成功，
 
-二、whistle 的代理
-安装Chrome代理插件，打开chrome的应用商店，搜索SwitchyOmega，添加扩展程序。(如不能翻墙请参考官方文档的插件下载方式安装)。
+### whistle 的代理
+安装Chrome代理插件，打开chrome的应用商店，搜索SwitchyOmega，添加扩展程序。
 新建一个whistle的情景模式，各配置参考如下图
 
 浏览器右上角，找到SwitchOmega扩展程序，选中新建的whistle模式。打开http://local.whistlejs.com/，若能打开whistle则设置已成功，可以开始使用啦！
-三、常用功能
-
+`(如不能翻墙请到公众号回复 插件，获取插件安装包进行安装)。`
+### 常用功能
 
 1.代理接口，修改返回体。最常用的场景就是在后端接口挂了或者没有开发好的时候，可以模拟返回假数据，让前端调试可以不依赖后端。
 

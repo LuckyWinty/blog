@@ -11,6 +11,7 @@
 + [webpack插件机制](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6.md)
 + [HMR原理](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/HMR%E5%8E%9F%E7%90%86.md)
 + [webpack性能优化](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/Webpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.md)
++ [Webpack4打包机制原理解析](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/Webpack4%E6%89%93%E5%8C%85%E6%9C%BA%E5%88%B6%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90.md)
 
 #### 原理探索
 + [Promise链式调用原理](https://github.com/LuckyWinty/blog/issues/3)
@@ -21,11 +22,18 @@
 + [问题记录](https://github.com/LuckyWinty/blog/blob/master/markdown/node/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
 + [Nodejs之RPC协议简介](https://github.com/LuckyWinty/blog/blob/master/markdown/node/Nodejs%E4%B9%8BRPC%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B.md)
 
+#### | 实践技巧
++ [Git常见场景解决方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/Git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
++ [whistle实用功能使用介绍](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/whistle%E5%AE%9E%E7%94%A8%E5%8A%9F%E8%83%BD%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.md)
++ [移动端真机调试方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
++ [前端效能提升之不可忽略的 Chrome 插件](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AF%E6%95%88%E8%83%BD%E6%8F%90%E5%8D%87%E4%B9%8B%E4%B8%8D%E5%8F%AF%E5%BF%BD%E7%95%A5%E7%9A%84%20Chrome%20%E6%8F%92%E4%BB%B6.md)
+
 #### | React
 + [深入浅出react和redux读书笔记](https://github.com/LuckyWinty/blog/blob/master/markdown/react/react%E5%AD%A6%E4%B9%A0.md)
 
 #### | 调研
 + [用户行为录帧调研](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%B8%A7%E8%AE%B0%E5%BD%95.md)
++ [万字长文之 Serverless 实战指南](https://github.com/LuckyWinty/blog/blob/master/markdown/serverless/%E4%B8%87%E5%AD%97%E9%95%BF%E6%96%87%E4%B9%8B%20Serverless%20%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97.md)
 
 #### | 好文收集
 ##### 服务端相关
@@ -40,9 +48,10 @@
 + [前端中的接口聚合](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AF%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%81%9A%E5%90%88.md)
 + [走进安卓的重灾区----video](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E8%B5%B0%E8%BF%9B%E5%AE%89%E5%8D%93%E7%9A%84%E9%87%8D%E7%81%BE%E5%8C%BA---video.md)
 + [给自己搭个脚手架](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%BB%99%E8%87%AA%E5%B7%B1%E6%90%AD%E4%B8%AA%E8%84%9A%E6%89%8B%E6%9E%B6.md)
-+ [移动端真机调试方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
-+ [GIT场景解决方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/Git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
+
 + [2019 TWeb 腾讯前端技术大会精彩回顾](https://github.com/LuckyWinty/blog/blob/master/markdown/tweb/2019%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE.md)
+
++ [程序员佛系减肥指南](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BD%9B%E7%B3%BB%E5%87%8F%E8%82%A5%E6%8C%87%E5%8D%97.md)
 
 #### | 翻译
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)

@@ -36,13 +36,14 @@ https://xxx.com/test file://D:/path/test/file/test.json
 https://xxx.com/test file://{createData.json}
 #### 接口有跨域等问题，设置请求头信息
 常设信息：
-
+```js
 Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, token
 Access-Control-Allow-Methods: POST, GET, OPTIONS
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Credentials: true
 content-type: application/json
 status: 200
+```
 在value创建数据
 
 

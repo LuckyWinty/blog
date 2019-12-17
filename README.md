@@ -68,3 +68,10 @@
 
 #### js
 + [JS模块化总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E6%80%BB%E7%BB%93.md)
+
+#### 友情链接
+
+介绍一下我一个好朋友，多年全栈经验，计算机科班出身，是个硬核大佬，从前端到后端，从服务端到运维，都有涉猎。
+
+工作方面，曾手握阿里、头条等大厂 offer，现就职北京，是团队技术负责人，主导框架设计，推行 DevOps 实施，拥有丰富的线上运维经验。目前主要专注于全栈进阶方向的学习。他的博客 https://shanyue.tech。博客中有很多系列文章，前后端、服务器、DevOps，面试题等都有收录！他的公众号【全栈成长之路】，号内大量高质量原创文章，感兴趣的可以关注一下：
+![Github](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/WechatIMG8142.jpeg)

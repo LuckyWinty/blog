@@ -69,7 +69,7 @@
 #### js
 + [JS模块化总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E6%80%BB%E7%BB%93.md)
 
-#### 友情链接
+#### | 友情链接
 
 介绍一下我一个好朋友，多年全栈经验，计算机科班出身，是个硬核大佬，从前端到后端，从服务端到运维，都有涉猎。
 

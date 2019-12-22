@@ -27,6 +27,7 @@
 + [whistle实用功能使用介绍](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/whistle%E5%AE%9E%E7%94%A8%E5%8A%9F%E8%83%BD%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.md)
 + [移动端真机调试方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
 + [前端效能提升之不可忽略的 Chrome 插件](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AF%E6%95%88%E8%83%BD%E6%8F%90%E5%8D%87%E4%B9%8B%E4%B8%8D%E5%8F%AF%E5%BF%BD%E7%95%A5%E7%9A%84%20Chrome%20%E6%8F%92%E4%BB%B6.md)
++ [原生JS封装Ajax插件(同域&&jsonp跨域)](https://github.com/LuckyWinty/blog/blob/master/markdown/network/%E5%8E%9F%E7%94%9FJS%E5%B0%81%E8%A3%85Ajax%E6%8F%92%E4%BB%B6(%E5%90%8C%E5%9F%9F%26%26jsonp%E8%B7%A8%E5%9F%9F).md)
 
 #### | React
 + [深入浅出react和redux读书笔记](https://github.com/LuckyWinty/blog/blob/master/markdown/react/react%E5%AD%A6%E4%B9%A0.md)
@@ -39,6 +40,7 @@
 ##### 服务端相关
 + [探索 Serverless 中的前端开发模式](https://juejin.im/post/5cdc3dc2e51d453b6c1d9d3a)
 + [Node应用没有错误监控怎么行？](https://mp.weixin.qq.com/s/P8zP0j6hzo1KOcPnZwE8UQ)
++ [如何优雅处理前端异常](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%A4%84%E7%90%86%E5%89%8D%E7%AB%AF%E5%BC%82%E5%B8%B8.md)
 
 #### | 设计模式
 + [设计模式基础知识](https://github.com/LuckyWinty/blog/blob/master/markdown/%20designPatterns/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
@@ -52,23 +54,33 @@
 + [2019 TWeb 腾讯前端技术大会精彩回顾](https://github.com/LuckyWinty/blog/blob/master/markdown/tweb/2019%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE.md)
 
 + [程序员佛系减肥指南](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BD%9B%E7%B3%BB%E5%87%8F%E8%82%A5%E6%8C%87%E5%8D%97.md)
++ [前端Q的小小小里程碑](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AFQ%E7%9A%84%E5%B0%8F%E5%B0%8F%E5%B0%8F%E9%87%8C%E7%A8%8B%E7%A2%91.md)
 
 #### | 翻译
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)
 + [npm命令使用技巧总结](https://github.com/LuckyWinty/blog/blob/master/markdown/translate/NPM%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.md)
 
 #### | 面试
+##### 每周N题
++ [每周N题](https://github.com/LuckyWinty/fe-weekly-questions)
+
 ##### 浏览器与网络
 + [浏览器相关原理详细总结一(面试题)](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E6%80%BB%E7%BB%93%E4%B8%80(%E9%9D%A2%E8%AF%95%E9%A2%98).md)
 + [浏览器相关原理详细总结二(面试题)](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E6%80%BB%E7%BB%93%E4%BA%8C(%E9%9D%A2%E8%AF%95%E9%A2%98).md)
 + [你应该知道的https知识](https://github.com/LuckyWinty/blog/blob/master/markdown/network/%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84https%E7%9F%A5%E8%AF%86.md)
 + [http2&http3总结](https://github.com/LuckyWinty/blog/blob/master/markdown/network/http2%26http3%E6%80%BB%E7%BB%93.md)
+
 ##### 安全
 + [web安全总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/web%E5%AE%89%E5%85%A8%E6%80%BB%E7%BB%93.md)
 
+##### 其他
++ [试题自检](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E8%AF%95%E9%A2%98%E8%87%AA%E6%A3%80.md)
 #### js
 + [JS模块化总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E6%80%BB%E7%BB%93.md)
++ [离线缓存之manifest](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A6%BB%E7%BA%BF%E7%BC%93%E5%AD%98%E4%B9%8Bmanifest.md)
 
+#### css
++ [10个让你受益匪浅的css使用技巧](https://github.com/LuckyWinty/blog/blob/master/markdown/css/10%E4%B8%AA%E8%AE%A9%E4%BD%A0%E5%8F%97%E7%9B%8A%E5%8C%AA%E6%B5%85%E7%9A%84css%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.md)
 #### | 友情链接
 
 介绍一下我一个好朋友，多年全栈经验，计算机科班出身，是个硬核大佬，从前端到后端，从服务端到运维，都有涉猎。

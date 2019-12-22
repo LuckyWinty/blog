@@ -1,4 +1,11 @@
-# Webpack相关原理浅析
+# Webpack 深入浅出之公司级分享总结(内附完整ppt)
+### 背景
+前段时间，在公司做了个 Webpack 的分享。听众40多人，感觉还不错。所以总结一下，先看一下ppt的目录：
+![GitHub](https://user-gold-cdn.xitu.io/2019/12/17/16f12ca90ed65cda?w=2270&h=1208&f=jpeg&s=177086)
+
+本篇文章，如果直接贴ppt图，理解起来可能比较费劲，加上我之前已经把部分内容输出了完整的文章了，这里就大概讲一下内容，方便大家结合ppt来理解，因此本文结合ppt食用效果更佳哦～
+
+`PS：公众号后台回复 webpack 即可获取本次分享的完整ppt`
 
 ### 基本打包机制
 
@@ -143,9 +150,6 @@ compiler 对象是 webpack 的编译器对象，compiler 对象会在启动 webp
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/911587-20190620182944300-1662095128.png)
 
 webpack部分源码：https://github.com/webpack/webpack/blob/10282ea20648b465caec6448849f24fc34e1ba3e/lib/webpack.js#L30
-
-![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/1576568168894.jpg)
-
 
 #### Compilation 对象
 

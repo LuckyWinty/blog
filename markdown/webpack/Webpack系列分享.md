@@ -144,7 +144,8 @@ compiler 对象是 webpack 的编译器对象，compiler 对象会在启动 webp
 
 webpack部分源码：https://github.com/webpack/webpack/blob/10282ea20648b465caec6448849f24fc34e1ba3e/lib/webpack.js#L30
 
- 
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/1576568168894.jpg)
+
 
 #### Compilation 对象
 

@@ -42,7 +42,7 @@ FALLBACK:
 window.applicationCache.update();
 三、清除浏览器缓存：如果用户清除了浏览器缓存（手动或用其他一些工具）都会重新下载文件。
 
-问题
+### 问题
 1、manifest除了缓存manifest.appcache文件所指定的资源外，还必定会缓存当前的html页面。
 
 2、如果manifest文件，或者内部列举的某一个文件不能正常下载，整个更新过程都将失败，浏览器继续全部使用老的缓存。

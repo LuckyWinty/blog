@@ -3,7 +3,6 @@ const exportDependencies = require('./exportDependencies')
 //entry为入口文件
 const exportGraph = (entry)=>{
     const entryModule = exportDependencies(entry)
-    //这个数组是核心，虽然现在只有一个元素，往后看你就会明白
     const graphArray = [entryModule]
     for(let i = 0; i < graphArray.length; i++){
         const item = graphArray[i];

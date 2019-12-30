@@ -38,7 +38,8 @@
 #### | 调研
 + [用户行为录帧调研](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%B8%A7%E8%AE%B0%E5%BD%95.md)
 + [万字长文之 Serverless 实战指南](https://github.com/LuckyWinty/blog/blob/master/markdown/serverless/%E4%B8%87%E5%AD%97%E9%95%BF%E6%96%87%E4%B9%8B%20Serverless%20%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97.md)
-
+#### | 性能
++ [高性能javascript书写方法](https://github.com/LuckyWinty/blog/blob/master/markdown/perf/%E9%AB%98%E6%80%A7%E8%83%BDjavascript%E4%B9%A6%E5%86%99%E6%96%B9%E6%B3%95.md)
 #### | 好文收集
 ##### 服务端相关
 + [探索 Serverless 中的前端开发模式](https://juejin.im/post/5cdc3dc2e51d453b6c1d9d3a)
@@ -64,6 +65,7 @@
 #### | 面试
 ##### 每周N题
 + [每周N题](https://github.com/LuckyWinty/fe-weekly-questions)
++ [每周N题12月汇总](https://github.com/LuckyWinty/blog/blob/master/markdown/interview/%E6%AF%8F%E5%91%A8N%E9%A2%9812%E6%9C%88%E6%B1%87%E6%80%BB.md)
 
 ##### 浏览器与网络
 + [浏览器相关原理详细总结一(面试题)](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E6%80%BB%E7%BB%93%E4%B8%80(%E9%9D%A2%E8%AF%95%E9%A2%98).md)

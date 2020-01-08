@@ -1,0 +1,61 @@
+
+<style>
+      div {
+            width: 200;
+            height: 200;
+            overflow:auto;
+            background: gray;
+        } 
+</style>
+<body>
+    <div >
+        <p>所以元素有了层叠上下文的属性或者需要被剪裁，那么就会被提升成为单独一层，你可以参看下图：</p>
+        <p>从上图我们可以看到，document层上有A和B层，而B层之上又有两个图层。这些图层组织在一起也是一颗树状结构。</p>
+        <p>图层树是基于布局树来创建的，为了找出哪些元素需要在哪些层中，渲染引擎会遍历布局树来创建层树（Update LayerTree）。</p> 
+    </div>
+</body>
+
+<style>
+
+div.error , a.error {
+  color:red;
+  font-weight:bold;
+}
+
+body { font-size: 2em }
+p {color:blue;}
+span  {display: none}
+div {font-weight: bold}
+
+body { font-size: 20px }
+p {color:blue;}
+span  {display: none}
+div {font-weight: bold;color:red}
+div  p {color:green;}
+
+</style>
+<script>
+
+var a = 2
+function add(b,c){
+    return b+c
+}
+
+function addAll(b,c){
+    const d = 10
+    var result = add(b,c)
+    return  a+result+d
+}
+
+addAll(3,6)
+
+// var someData = getData();
+// setInterval(function() {
+//     var node = document.getElementById('Node');
+//     if(node) {
+//         node.innerHTML = JSON.stringify(someData);
+//     }
+// }, 1000);
+
+
+</script>

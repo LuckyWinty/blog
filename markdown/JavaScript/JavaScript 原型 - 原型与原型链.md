@@ -1,6 +1,16 @@
 原型在平时工作中用得比较少, 但原型是 JavaScript 中的基础, 是构建大型应用, 框架不可或缺的一环, 是你在写代码时, 不知不觉就应用上了的一个最基础的知识. 
 
-比如, React 和 Vue 的 git 仓库中, `prototype` 被使用到的次数分别为 `370` 次和 `1043` 次. 又比如你在使用 `class Foo extends React.Component;` 的时候, 你在使用 `const bar = {}; bar.hasOwnProperty('xxx'); bar.toString();` 的时候, 都不知不觉间用到了原型的知识
+比如, React 和 Vue 的 git 仓库中, `prototype` 被使用到的次数分别为 `370` 次和 `1043` 次. 又比如你在使用下面这些代码的时候：
+```js
+//class
+ class Foo extends React.Component;
+
+//访问原型方法
+ const bar = {}; 
+ bar.hasOwnProperty('xxx'); 
+ bar.toString();
+```
+这些代码都不知不觉间用到了原型的知识
 
 如果你还对原型一知半解, 是时候静下心把它弄懂了.
 

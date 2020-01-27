@@ -51,12 +51,14 @@
 
 ### 从性能面板分析
 
+切到 Performance 面板，点击自动重启页面，并记录整个页面加载的过程，然后来分析结果～​
+
 #### 网络&&白屏
 性能面板，有很多很多的参数，我们要看一些比较常见的。首先看白屏时间和网络加载情况，如下图：
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/5.jpg)
 上图，我们可以看几点信息：
 1. 本次页面加载的白屏时间约为 1000 ms
-2. FPS 曲线没有标红，如果说则说明页面存在渲染卡顿多的地方
+2. FPS 曲线没有标红，如果有很多标红的则说明页面存在渲染卡顿多的地方
 3. 从网络资源加载情况来看，图片没有启用 http2，因此每次可以同时加载的图片数有限，未被加载的图片有等待过程
 4. 资源的加载时间也可以看到，比如轮播的背景图加载了近 700 毫秒，时间有点长
 
@@ -65,6 +67,7 @@
 #### 火焰图
 火焰图，主要在 Main 面板中，是我们分析具体函数耗时最常看的面板，我们来看一下，如图：
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/7.png)
+
 首先，面板中会有很多的 Task，如果是耗时长的 Task，其右上角会标红(图中没有，说明页面首屏的逻辑处理分配得还不错)，这个时候，我们可以选中标红的 Task (这里就随手选中一个)，然后放大(选中，滑动鼠标可放大)，看其具体的耗时点。
 
 放大后，这里可以看到都在做哪些操作，哪些函数耗时了多少,这里代码有压缩，看到的是压缩后的函数名。然后我们点击一下某个函数，在面板最下面，就会出现代码的信息，是哪个函数，耗时多少，在哪个文件上的第几行等。这样我们就很方便地定位到耗时函数了。
@@ -81,11 +84,13 @@
 
 我们可以选区(选择从白屏到有内容的区域，代表本次的页面加载过程)，可以对照着看一下上面的时间，截图如下：
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/6.jpg)
-另外，我们可以看到页面中的内存使用的情况，比如 JS Heap(堆)，如果曲线一直在增长，则说明存在内存泄露，从图中可以看出，相当长的一段时间，内存曲线都是没有下降的，这里是有发生内存泄露的可能的，在 Onload 之后，内存才得到释放。更多内存泄露产生的原因及分析方法，可以参照我的这篇文章《[前端性能优化之自定义性能指标及上报方法详解](https://github.com/LuckyWinty/blog/blob/master/markdown/perf/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E5%8F%8A%E4%B8%8A%E6%8A%A5%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3.md)》
+另外，我们可以看到页面中的内存使用的情况，比如 JS Heap(堆)，如果曲线一直在增长，则说明存在内存泄露，从图中可以看出，相当长的一段时间，内存曲线都是没有下降的，这里是有发生内存泄露的可能的，在 Onload 之后，内存才得到释放。更多内存泄露产生的原因及分析方法，可以参照我的这篇文章《[Chrome 浏览器垃圾回收机制与内存泄漏分析](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/Chrome%20%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%88%86%E6%9E%90.md)》
 
 最下方就是页面的一个整理耗时概况，如果 Scripting 时间过长，则说明 js执行的逻辑太多，可以考虑优化js，如果渲染时间过长，则考虑优化渲染过程，如果空闲时间过多，则可以考虑充分利用起来，比如把一些上报操作放到页面空闲时间再上报等。
 
-以上就是性能面板可以看的一些信息，而 Memory 面板 和 JavaScript Profiler 面板主要是分析内存泄露的，这里就不说了，可以看我另一篇文章《[前端性能优化之自定义性能指标及上报方法详解](https://github.com/LuckyWinty/blog/blob/master/markdown/perf/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E5%8F%8A%E4%B8%8A%E6%8A%A5%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3.md)》
+### 其他面板
+
+以上就是性能面板可以看的一些信息。另外，我们可以借助 Layers面板来查看页面分层情况的3D视图，Rendering面板(点击more tools->Rendering即可打开)，勾选Layer Bordersk可以看到复合层、RenderLayer区域，可以帮助分析动画卡顿、是否开启GPU加速等问题，而 Memory 面板 和 JavaScript Profiler 面板主要是分析内存泄露的，这里就不说了，可以看我另一篇文章《[Chrome 浏览器垃圾回收机制与内存泄漏分析](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/Chrome%20%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%88%86%E6%9E%90.md)》
 
 ### 用Audits工具分析
 

@@ -1,4 +1,7 @@
-# 利用Chrome Dev Tools 进行页面性能分析
+# 一文学会利用 Chrome Dev Tools 进行页面性能分析
+
+### 背景
+我们经常使用 Chrome Dev Tools 来开发调试，但是很少知道怎么利用它来分析页面性能，这篇文章，我将详细说明怎样利用 Chrome Dev Tools 进行页面性能分析及性能报告数据如何解读。
 
 ### 分析面板介绍
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/1.png)

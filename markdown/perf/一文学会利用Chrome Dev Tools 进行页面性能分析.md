@@ -50,7 +50,7 @@
 
 #### 网络&&白屏
 性能面板，有很多很多的参数，我们要看一些比较常见的。首先看白屏时间和网络加载情况，如下图：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/5.jpg)
 上图，我们可以看几点信息：
 1. 本次页面加载的白屏时间约为 1000 ms
 2. FPS 曲线没有标红，如果说则说明页面存在渲染卡顿多的地方
@@ -61,7 +61,7 @@
 
 #### 火焰图
 火焰图，主要在 Main 面板中，是我们分析具体函数耗时最常看的面板，我们来看一下，如图：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/6.jpg)
 首先，面板中会有很多的 Task，如果是耗时长的 Task，其右上角会标红(图中没有，说明页面首屏的逻辑处理分配得还不错)，这个时候，我们可以选中标红的 Task (这里就随手选中一个)，然后放大(选中，滑动鼠标可放大)，看其具体的耗时点。
 
 放大后，这里可以看到都在做哪些操作，哪些函数耗时了多少,这里代码有压缩，看到的是压缩后的函数名。然后我们点击一下某个函数，在面板最下面，就会出现代码的信息，是哪个函数，耗时多少，在哪个文件上的第几行等。这样我们就很方便地定位到耗时函数了。
@@ -77,7 +77,7 @@
 + L: Onload Event
 
 我们可以选区(选择从白屏到有内容的区域，代表本次的页面加载过程)，可以对照着看一下上面的时间，截图如下：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/7.png)
 另外，我们可以看到页面中的内存使用的情况，比如 JS Heap(堆)，如果曲线一直在增长，则说明存在内存泄露，从图中可以看出，相当长的一段时间，内存曲线都是没有下降的，这里是有发生内存泄露的可能的，在 Onload 之后，内存才得到释放。更多内存泄露产生的原因及分析方法，可以参照我的这篇文章《xxxx》
 
 最下方就是页面的一个整理耗时概况，如果 Scripting 时间过长，则说明 js执行的逻辑太多，可以考虑优化js，如果渲染时间过长，则考虑优化渲染过程，如果空闲时间过多，则可以考虑充分利用起来，比如把一些上报操作放到页面空闲时间再上报等。
@@ -87,11 +87,11 @@
 ### 用Audits工具分析
 
 Audits 其实就是 LightHouse，LightHouse 是Google开源的一个自动化测试工具，它通过一系列的规则来对网页进行评估分析，最终给出一份评估报告。它的面板是这样的：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/8.jpg)
 
 #### 整体情况
 Audits主要从5个方面来给网页打分，当然你也可以去掉某些方面的评估。在选择了设备、评估方面、网络情况等选项后，点击 Run Audits ,我们将会得到一份报告。
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/9.jpg)
 
 上图是一个总体报告，可以看出，这个页面的性能不太合格。当然一次的测试也说明不了什么问题，只能做个参考。我们看它的性能指标分别有：
 + First Contentful Paint：内容首次开始绘制。
@@ -106,7 +106,7 @@ Audits主要从5个方面来给网页打分，当然你也可以去掉某些方�
 #### 性能指标优化建议解读
 
 性能建议主要分为3类， Opportunities 可优化项、手动诊断项、通过的审查项。本次的例子如下图：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/10.jpg)
 
 图中的每一项都可以展开来看明细解释，其中：
 
@@ -134,7 +134,7 @@ Audits主要从5个方面来给网页打分，当然你也可以去掉某些方�
 
 #### Accessibility辅助功能
 辅助功能指的是那些可能超出"普通"用户范围之外的用户的体验，他们以不同于你期望的方式访问你的网页或进行交互，本文的例子建议如下图：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/perf/11.jpg)
 
 辅助功能类别测试屏幕阅读器的能力和其他辅助技术是否能在页面中正常工作。例如：按元素来使用属性，标签使用是否规范，img 标签是否缺少 alt 属性，可辨别的元素命名等等。这一项我们不展开讲，但是还是建议大家按照审计建议修改一下网页。
 

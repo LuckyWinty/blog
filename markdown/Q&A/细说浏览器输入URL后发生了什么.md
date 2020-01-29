@@ -2,11 +2,11 @@
 
 ### 总体概览
 大体上，可以分为六步，当然每一步都可以详细都展开来说，这里先放一张总览图:
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/url.png)
 
 ### DNS域名解析
 在网络世界，也是这样的。你肯定记得住网站的名称，但是很难记住网站的 IP 地址，因而也需要一个地址簿，就是 DNS 服务器。DNS 服务器是高可用、高并发和分布式的，它是树状结构，如图：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580300339022.jpg)
 + 根 DNS 服务器 ：返回顶级域 DNS 服务器的 IP 地址
 + 顶级域 DNS 服务器：返回权威 DNS 服务器的 IP 地址
 + 权威 DNS 服务器 ：返回相应主机的 IP 地址

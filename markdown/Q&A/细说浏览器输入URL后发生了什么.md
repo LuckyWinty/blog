@@ -62,7 +62,7 @@ FIN(finis）即完，终结的意思， 用来释放一个连接。当 FIN = 1 �
 TCP连接建立后，浏览器就可以利用HTTP／HTTPS协议向服务器发送请求了。服务器接受到请求，就解析请求头，如果头部有缓存相关信息如if-none-match与if-modified-since，则验证缓存是否有效，若有效则返回状态码为304，若无效则重新返回资源，状态码为200.
 
 这里有发生的一个过程是HTTP缓存，是一个常考的考点，大致过程如图：
-![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/16dbf073d38fd016.png)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/WechatIMG24189.png)
 其过程，比较多内容，可以参考我的这篇文章[《浏览器相关原理(面试题)详细总结一》](https://juejin.im/post/5da18b1af265da5bb318ed07#heading-10)，这里我就不详细说了～
 
 ### 关闭TCP连接

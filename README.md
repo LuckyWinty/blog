@@ -14,7 +14,7 @@
 + [webpack性能优化](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/Webpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.md)
 + [Webpack4打包机制原理解析](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/Webpack4%E6%89%93%E5%8C%85%E6%9C%BA%E5%88%B6%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90.md)
 
-#### 原理探索
+#### | 原理探索
 + [Promise链式调用原理](https://github.com/LuckyWinty/blog/issues/3)
 + [Chrome 浏览器垃圾回收机制与内存泄漏分析](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/Chrome%20%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%88%86%E6%9E%90.md)
 + [async/await 原理及执行顺序分析](https://github.com/LuckyWinty/blog/blob/master/markdown/Promise/async-await%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90.md)

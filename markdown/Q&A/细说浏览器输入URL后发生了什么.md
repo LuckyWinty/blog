@@ -1,11 +1,11 @@
 # 细说浏览器输入URL后发生了什么
 
 ### 总体概览
-大体上，可以分为六步，当然每一步都可以详细都展开来说，这里先放一张总览图:
+大体上，可以分为六步，当然每一步都可以详细展开来说，这里先放一张总览图:
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/url.png)
 
 ### DNS域名解析
-在网络世界，也是这样的。你肯定记得住网站的名称，但是很难记住网站的 IP 地址，因而也需要一个地址簿，就是 DNS 服务器。DNS 服务器是高可用、高并发和分布式的，它是树状结构，如图：
+在网络世界，你肯定记得住网站的名称，但是很难记住网站的 IP 地址，因而也需要一个地址簿，就是 DNS 服务器。DNS 服务器是高可用、高并发和分布式的，它是树状结构，如图：
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580300339022.jpg)
 + 根 DNS 服务器 ：返回顶级域 DNS 服务器的 IP 地址
 + 顶级域 DNS 服务器：返回权威 DNS 服务器的 IP 地址
@@ -34,7 +34,7 @@ DNS的域名查找，在客户端和浏览器，本地DNS之间的查询方式�
 
 1. 第一次握手：建立连接。客户端发送连接请求报文段，将SYN位置为1，Sequence Number为x；然后，客户端进入SYN_SEND状态，等待服务器的确认；
 
-2. 第二次握手：服务器收到SYN报文段。服务器收到客户端的SYN报文段，需要对这个SYN报文段进行确认，设置Acknowledgment Number为x+1(Sequence Number+1)；同时，自己自己还要发送SYN请求信息，将SYN位置为1，Sequence Number为y；服务器端将上述所有信息放到一个报文段（即SYN+ACK报文段）中，一并发送给客户端，此时服务器进入SYN_RECV状态；
+2. 第二次握手：服务器收到SYN报文段。服务器收到客户端的SYN报文段，需要对这个SYN报文段进行确认，设置Acknowledgment Number为x+1(Sequence Number+1)；同时，自己还要发送SYN请求信息，将SYN位置为1，Sequence Number为y；服务器端将上述所有信息放到一个报文段（即SYN+ACK报文段）中，一并发送给客户端，此时服务器进入SYN_RECV状态；
 
 3. 第三次握手：客户端收到服务器的SYN+ACK报文段。然后将Acknowledgment Number设置为y+1，向服务器发送ACK报文段，这个报文段发送完毕以后，客户端和服务器端都进入ESTABLISHED状态，完成TCP三次握手。
 
@@ -62,7 +62,7 @@ FIN(finis）即完，终结的意思， 用来释放一个连接。当 FIN = 1 �
 TCP连接建立后，浏览器就可以利用HTTP／HTTPS协议向服务器发送请求了。服务器接受到请求，就解析请求头，如果头部有缓存相关信息如if-none-match与if-modified-since，则验证缓存是否有效，若有效则返回状态码为304，若无效则重新返回资源，状态码为200.
 
 这里有发生的一个过程是HTTP缓存，是一个常考的考点，大致过程如图：
-![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/WechatIMG24189.png)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580353230161.jpg)
 其过程，比较多内容，可以参考我的这篇文章[《浏览器相关原理(面试题)详细总结一》](https://juejin.im/post/5da18b1af265da5bb318ed07#heading-10)，这里我就不详细说了～
 
 ### 关闭TCP连接
@@ -103,14 +103,14 @@ CSS 样式来源主要有 3 种，分别是`通过 link 引用的外部 CSS 文�
 #### 页面布局
 布局过程，即排除 `script、meta` 等功能化、非视觉节点，排除 `display: none` 的节点，计算元素的位置信息，确定元素的位置，构建一棵只包含可见元素布局树。如图：
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580315271559.jpg)
-其中，这个过程需要注意的是`回流和重绘`，关于回流和重绘，详细的可以看我另一篇文章[《浏览器相关原理(面试题)详细总结一》](https://juejin.im/post/5da18b1af265da5bb318ed07#heading-10)，这里就不说了～
+其中，这个过程需要注意的是`回流和重绘`，关于回流和重绘，详细的可以看我另一篇文章[《浏览器相关原理(面试题)详细总结二》](https://juejin.im/post/5da985fae51d4525292d3145#heading-1)，这里就不说了～
 
 #### 生成分层树
 页面中有很多复杂的效果，如一些复杂的 3D 变换、页面滚动，或者使用 z-indexing 做 z 轴排序等，为了更加方便地实现这些效果，渲染引擎还需要为特定的节点生成专用的图层，并生成一棵对应的图层树（LayerTree），如图：
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580315408178.jpg)
 如果你熟悉 PS，相信你会很容易理解图层的概念，正是这些图层叠加在一起构成了最终的页面图像。在浏览器中，你可以打开 Chrome 的"开发者工具"，选择"Layers"标签。渲染引擎给页面分了很多图层，这些图层按照一定顺序叠加在一起，就形成了最终的页面。
 
-并不是布局树的每个节点都包含一个图层，如果一个节点没有对应的层，那么这个节点就从属于父节点的图层。那么需要满足什么条件，渲染引擎才会为特定的节点创建新的层呢？详细的可以看我另一篇文章[《浏览器相关原理(面试题)详细总结一》](https://juejin.im/post/5da18b1af265da5bb318ed07#heading-4)，这里就不说了～
+并不是布局树的每个节点都包含一个图层，如果一个节点没有对应的层，那么这个节点就从属于父节点的图层。那么需要满足什么条件，渲染引擎才会为特定的节点创建新的层呢？详细的可以看我另一篇文章[《浏览器相关原理(面试题)详细总结二》](https://juejin.im/post/5da985fae51d4525292d3145#heading-4)，这里就不说了～
 
 #### 栅格化
 
@@ -120,9 +120,11 @@ CSS 样式来源主要有 3 种，分别是`通过 link 引用的外部 CSS 文�
 
 通常一个页面可能很大，但是用户只能看到其中的一部分，我们把用户可以看到的这个部分叫做视口（viewport）。在有些情况下，有的图层可以很大，比如有的页面你使用滚动条要滚动好久才能滚动到底部，但是通过视口，用户只能看到页面的很小一部分，所以在这种情况下，要绘制出所有图层内容的话，就会产生太大的开销，而且也没有必要。
 
+#### 显示
 最后，合成线程发送绘制图块命令给浏览器进程。浏览器进程根据指令生成页面，并显示到显示器上，渲染过程完成。
 
 ### 参考资料
++ 极客时间《趣谈网络协议》
 + 极客时间《浏览器工作原理与实践》
 
 ### 最后

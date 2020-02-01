@@ -45,5 +45,54 @@ PS：公众号后台回复 浏览器 即可获取本次分享的完整ppt
 关于架构这章，更详细的内容可以看我这篇文章，《XXX》
 
 ### 浏览器中页面渲染过程
-渲染引擎的主要工作都是以HTML/JavaScript/CSS等文件作为输入，以可视化内容作为输出。不同的渲染引擎，主要在一些 CSS 的支持性上和渲染表现上不同。其渲染过程大致如下：
-<!-- 图 -->
+
+按照渲染的时间顺序，流水线可分为如下几个子阶段：构建 DOM 树、样式计算、布局阶段、分层、栅格化和显示。如图：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/6.png)
+1. 渲染进程将 HTML 内容转换为能够读懂DOM 树结构。
+2. 渲染引擎将 CSS 样式表转化为浏览器可以理解的styleSheets，计算出 DOM 节点的样式。
+3. 创建布局树，并计算元素的布局信息。
+4. 对布局树进行分层，并生成分层树。
+5. 为每个图层生成绘制列表，并将其提交到合成线程。合成线程将图层分图块，并栅格化将图块转换成位图。
+6. 合成线程发送绘制图块命令给浏览器进程。浏览器进程根据指令生成页面，并显示到显示器上。
+
+#### 构建 DOM 树
+浏览器从网络或硬盘中获得HTML字节数据后会经过一个流程将字节解析为DOM树,先将HTML的原始字节数据转换为文件指定编码的字符,然后浏览器会根据HTML规范来将字符串转换成各种令牌标签，如html、body等。最终解析成一个树状的对象模型，就是dom树。
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580314848819.jpg)
+
+具体步骤：
+1. 转码（Bytes -> Characters）—— 读取接收到的 HTML 二进制数据，按指定编码格式将字节转换为 HTML 字符串
+2. Tokens 化（Characters -> Tokens）—— 解析 HTML，将 HTML 字符串转换为结构清晰的 Tokens，每个 Token 都有特殊的含义同时有自己的一套规则
+3. 构建 Nodes（Tokens -> Nodes）—— 每个 Node 都添加特定的属性（或属性访问器），通过指针能够确定 Node 的父、子、兄弟关系和所属 treeScope（例如：iframe 的 treeScope 与外层页面的 treeScope 不同）
+4. 构建 DOM 树（Nodes -> DOM Tree）—— 最重要的工作是建立起每个结点的父子兄弟关系
+
+#### 样式计算
+渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式。
+
+CSS 样式来源主要有 3 种，分别是`通过 link 引用的外部 CSS 文件、style标签内的 CSS、元素的 style 属性内嵌的 CSS。`,其样式计算过程主要为：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580314997230.jpg)
+可以看到上面的 CSS 文本中有很多属性值，如 2em、blue、bold，这些类型数值不容易被渲染引擎理解，所以需要将所有值转换为渲染引擎容易理解的、标准化的计算值，这个过程就是属性值标准化。处理完成后再处理样式的继承和层叠，有些文章将这个过程称为CSSOM的构建过程。
+#### 页面布局
+布局过程，即排除 `script、meta` 等功能化、非视觉节点，排除 `display: none` 的节点，计算元素的位置信息，确定元素的位置，构建一棵只包含可见元素布局树。如图：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580315271559.jpg)
+其中，这个过程需要注意的是`回流和重绘`，关于回流和重绘，详细的可以看我另一篇文章[《浏览器相关原理(面试题)详细总结二》](https://juejin.im/post/5da985fae51d4525292d3145#heading-1)，这里就不说了～
+
+#### 生成分层树
+页面中有很多复杂的效果，如一些复杂的 3D 变换、页面滚动，或者使用 z-indexing 做 z 轴排序等，为了更加方便地实现这些效果，渲染引擎还需要为特定的节点生成专用的图层，并生成一棵对应的图层树（LayerTree），如图：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580315408178.jpg)
+如果你熟悉 PS，相信你会很容易理解图层的概念，正是这些图层叠加在一起构成了最终的页面图像。在浏览器中，你可以打开 Chrome 的"开发者工具"，选择"Layers"标签。渲染引擎给页面分了很多图层，这些图层按照一定顺序叠加在一起，就形成了最终的页面。
+
+并不是布局树的每个节点都包含一个图层，如果一个节点没有对应的层，那么这个节点就从属于父节点的图层。那么需要满足什么条件，渲染引擎才会为特定的节点创建新的层呢？详细的可以看我另一篇文章[《浏览器相关原理(面试题)详细总结二》](https://juejin.im/post/5da985fae51d4525292d3145#heading-4)，这里就不说了～
+
+#### 栅格化
+
+合成线程会按照视口附近的图块来优先生成位图，实际生成位图的操作是由栅格化来执行的。所谓栅格化，是指将图块转换为位图。如图：
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580315642763.jpg)
+
+通常一个页面可能很大，但是用户只能看到其中的一部分，我们把用户可以看到的这个部分叫做视口（viewport）。在有些情况下，有的图层可以很大，比如有的页面你使用滚动条要滚动好久才能滚动到底部，但是通过视口，用户只能看到页面的很小一部分，所以在这种情况下，要绘制出所有图层内容的话，就会产生太大的开销，而且也没有必要。
+
+#### 显示
+最后，合成线程发送绘制图块命令给浏览器进程。浏览器进程根据指令生成页面，并显示到显示器上，渲染过程完成。
+
+### 浏览器中的JavaScript运行机制
+JavaScript如何工作的，首先要理解几个概念，分别是JS Engine(JS引擎)、Context(执行上下文)、Call Stack(调用栈)、Event Loop(事件循环)。

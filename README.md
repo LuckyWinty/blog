@@ -56,9 +56,7 @@
 + [从大厂面试题看观察者模式](https://github.com/LuckyWinty/blog/blob/master/markdown/%20designPatterns/%E4%BB%8E%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9C%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.md)
 
 #### | 其他
-
 + [走进安卓的重灾区----video](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E8%B5%B0%E8%BF%9B%E5%AE%89%E5%8D%93%E7%9A%84%E9%87%8D%E7%81%BE%E5%8C%BA---video.md)
-
 + [2019 TWeb 腾讯前端技术大会精彩回顾](https://github.com/LuckyWinty/blog/blob/master/markdown/tweb/2019%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE.md)
 + [程序员佛系减肥指南](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BD%9B%E7%B3%BB%E5%87%8F%E8%82%A5%E6%8C%87%E5%8D%97.md)
 + [前端Q的小小小里程碑](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AFQ%E7%9A%84%E5%B0%8F%E5%B0%8F%E5%B0%8F%E9%87%8C%E7%A8%8B%E7%A2%91.md)
@@ -87,9 +85,8 @@
 + [JS模块化总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E6%80%BB%E7%BB%93.md)
 + [离线缓存之manifest](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A6%BB%E7%BA%BF%E7%BC%93%E5%AD%98%E4%B9%8Bmanifest.md)
 
-#### | 友情链接
+### | 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
 
-介绍一下我一个好朋友，多年全栈经验，计算机科班出身，是个硬核大佬，从前端到后端，从服务端到运维，都有涉猎。
-
-工作方面，曾手握阿里、头条等大厂 offer，现就职北京，是团队技术负责人，主导框架设计，推行 DevOps 实施，拥有丰富的线上运维经验。目前主要专注于全栈进阶方向的学习。[他的博客](https://shanyue.tech)。博客中有很多系列文章，前后端、服务器、DevOps，面试题等都有收录！他的公众号【全栈成长之路】，号内大量高质量原创文章，感兴趣的可以关注一下：
-![Github](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/WechatIMG8142.jpeg)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)

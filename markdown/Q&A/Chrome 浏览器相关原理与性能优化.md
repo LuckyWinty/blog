@@ -1,18 +1,19 @@
-# Chrome 浏览器相关原理与性能优化
+# Chrome 页面呈现原理与性能优化之公司级分享总结(内附完整ppt)
 
 ### 背景
 前段时间梳理了一下浏览器相关的知识，还做了一个公司级的分享，60多人过来听了我的分享，感觉还行，哈哈。先看一下分享目录：
-<!-- 图 -->
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580211468409.jpg)
 
 本篇文章，如果直接贴ppt图，理解起来可能比较费劲，这里就大概讲一下内容，再附上我之前已经把部分内容输出了完整的文章的链接，方便大家结合ppt来理解，因此本文结合ppt食用效果更佳哦～
 
-PS：公众号后台回复 浏览器 即可获取本次分享的完整ppt
+`PS：公众号后台回复 浏览器 即可获取本次分享的完整ppt`
 
 ### Chrome 基本架构介绍
 
 #### 整体架构
 浏览器的主要功能就是向服务器发出请求，在浏览器窗口中展示您选择的网络资源，这里所说的资源一般是指 HTML 文档，也可以是 PDF、图片或其他的类型。大体上，浏览器可以分为五部分：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580211632986.jpg)
 + 用户界面，主要负责展示页面中，除了 page 本身的内容，我们可以粗略地理解为打开一个空页面的时候呈现的界面就是浏览器的用户界面(GUI)。
 
 + 浏览器引擎，这里个人认为主要指的是在用户界面和渲染引擎之间传递指令，以及调度浏览器各方面的资源，协调为呈现页面、完成用户指令而工作。
@@ -24,11 +25,11 @@ PS：公众号后台回复 浏览器 即可获取本次分享的完整ppt
 + 特别服务层，这里主要指的是一些浏览器自带的服务，比如你填完某个网站的账号密码，浏览器可以帮你记住账号密码，又比如开启浏览器的暗黑模式等特殊的服务。
 
 以上，对前端来说，比较重要的是渲染引擎(一些文章也叫浏览器引擎)。我们可以看看都有哪些渲染引擎的内核。
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580575305733.jpg)
 
 #### 多进程架构
 早期的web浏览器是单线程的，发生⻚⾯⾏为不当、浏览器错误、浏览器插件等错误都会引起整个浏览器或当前运 ⾏的选项卡关闭。因此Chrome将chromium应⽤程序放在相互隔离的独⽴的进程，也就是多进程的一个架构。
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580212193324.jpg)
 
 多进程的优势有：
 
@@ -113,7 +114,7 @@ JavaScript 中有三种执行上下文类型。
 3. `Eval 函数执行上下文` — 执行在 eval 函数内部的代码也会有它属于自己的执行上下文，但由于 JavaScript 开发者并不经常使用 eval，所以在这里我不会讨论它。
 
 创建执行上下文有两个阶段：1) 编辑(创建)阶段 和 2) 执行阶段。举个例子：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580571096637.jpg)
 #### Call Stack(调用栈)
 JavaScript 引擎正是利用栈的这种结构来管理执行上下文的。在执行上下文创建好后，JavaScript 引擎会将执行上下文压入栈中，通常把这种用来管理执行上下文的栈称为执行上下文栈，又称调用栈。
 
@@ -142,10 +143,10 @@ micro-task大概包括:
 + MutationObserver(html5新特性)
 
 整体执行，我画了一个流程图：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580573233619.jpg)
 
 总的结论就是，执行宏任务，然后执行该宏任务产生的微任务，若微任务在执行过程中产生了新的微任务，则继续执行微任务，微任务执行完毕后，再回到宏任务中进行下一轮循环。举个例子：
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580573491676.jpg)
 
 结合流程图理解，答案输出为：async2 end => Promise => async1 end => promise1 => promise2 => setTimeout
 
@@ -161,29 +162,30 @@ V8 中会把堆分为新生代和老生代两个区域，新生代中存放的�
 #### 新生代算法
 新生代中用Scavenge 算法来处理，把新生代空间对半划分为两个区域，一半是对象区域，一半是空闲区域。新加入的对象都会存放到对象区域，当对象区域快被写满时，就需要执行一次垃圾清理操作。
 
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580574039525.jpg)
 在新生代空间中，内存空间分为两部分，分别为 From 空间和 To 空间。在这两个空间中，必定有一个空间是使用的，另一个空间是空闲的。新分配的对象会被放入 From 空间中，当 From 空间被占满时，新生代 GC 就会启动了。算法会检查 From 空间中存活的对象并复制到 To 空间中，如果有失活的对象就会销毁。当复制完成后将 From 空间和 To 空间互换，这样 GC 就结束了。
 
 为了执行效率，一般新生区的空间会被设置得比较小,也正是因为新生区的空间不大，所以很容易被存活的对象装满整个区域。为了解决这个问题，JavaScript 引擎采用了对象晋升策略,也就是经过两次垃圾回收依然还存活的对象，会被移动到老生区中。
 
 #### 老生代算法
 老生代中用 标记 - 清除（Mark-Sweep）和 标记 - 整理（Mark-Compact）的算法来处理。标记阶段就是从一组根元素开始，递归遍历这组根元素(遍历调用栈)，能到达的元素称为活动对象,没有到达的元素就可以判断为垃圾数据.然后在遍历过程中标记，标记完成后就进行清除过程。
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580574106040.jpg)
 
 #### 算法比较
-<!-- 图 -->
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580623950553.jpg)
 在上述三种算法执行时，都需要将暂停应用逻辑（JS 执行），GC 完成后再执行应用逻辑。此时会有一个停顿时间（称为全停顿，stop-the-world）
 故 V8 采用了增量标记（Incremental Marking）算法，将标记过程分为一个个的子标记过程，同时让垃圾回收标记和 JavaScript 应用逻辑交替进行，直到标记阶段完成。
 
 ### 内存泄露
-不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。泄露的原因主要有缓存、闭包、全局变量、计时器中引用没有清除等原因。这里我写了一篇更详细具体的文章，《XXX》，大家可以看一下，这里就不详细说了～
+不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。泄露的原因主要有缓存、闭包、全局变量、计时器中引用没有清除等原因。这里我写了一篇更详细具体的文章，《[Chrome 浏览器垃圾回收机制与内存泄漏分析](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/Chrome%20%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%88%86%E6%9E%90.md)》，大家可以看一下，这里就不详细说了～
 
 ### 利用浏览器进行性能分析
 
 这部分的内容，比较重要。我用了2篇文章来详细说了。
 
-+ xxx
-+ xxx
++ [前端性能优化之自定义性能指标及上报方法详解](https://github.com/LuckyWinty/blog/blob/master/markdown/perf/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E5%8F%8A%E4%B8%8A%E6%8A%A5%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3.md)
++ [一文学会利用Chrome Dev Tools 进行页面性能分析](https://github.com/LuckyWinty/blog/blob/master/markdown/perf/%E4%B8%80%E6%96%87%E5%AD%A6%E4%BC%9A%E5%88%A9%E7%94%A8Chrome%20Dev%20Tools%20%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90.md)
+
 大家可以看一下，这里就不详细说了～
 
 ### 参考资料

@@ -144,7 +144,7 @@ micro-task大概包括:
 
 整体执行，我画了一个流程图：
 
-![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580573233619.jpg)
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1571395642.png)
 
 总的结论就是，执行宏任务，然后执行该宏任务产生的微任务，若微任务在执行过程中产生了新的微任务，则继续执行微任务，微任务执行完毕后，再回到宏任务中进行下一轮循环。举个例子：
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/broswer/1580573491676.jpg)

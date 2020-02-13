@@ -1,12 +1,12 @@
-## Promise链式调用原理
+# Promise链式调用原理
 
 Promise 必须为以下三种状态之一：等待态（Pending）、执行态（Fulfilled）和拒绝态（Rejected）。一旦Promise 被 resolve 或 reject，不能再迁移至其他任何状态（即状态 immutable）。
 
 基本过程：
 
 1. 初始化 Promise 状态（pending）
-2. 执行 then(..) 注册回调处理数组（then 方法可被同一个 promise 调用多次）
-3. 立即执行 Promise 中传入的 fn 函数，将Promise 内部 resolve、reject 函数作为参数传递给 fn ，按事件机制时机处理
+2. 立即执行 Promise 中传入的 fn 函数，将Promise 内部 resolve、reject 函数作为参数传递给 fn ，按事件机制时机处理
+3. 执行 then(..) 注册回调处理数组（then 方法可被同一个 promise 调用多次）
 4. Promise里的关键是要保证，then方法传入的参数 onFulfilled 和 onRejected，必须在then方法被调用的那一轮事件循环之后的新执行栈中执行。
 
 **真正的链式Promise是指在当前promise达到fulfilled状态后，即开始进行下一个promise.**
@@ -361,7 +361,7 @@ handle代码改造如下：
             this.then(null,onError)
         }
         this.finally = function (onDone){
-            this.then(onDone,onError)
+            this.then(onDone,onDone)
         }
         ...
     }
@@ -472,11 +472,11 @@ function Promise(fn){
     ...
     }  
 ```
-### 补充说明
-虽然 then 普遍认为是微任务。但是浏览器没办法模拟微任务，目前要么用 setImmediate ，这个也是宏任务，且不兼容的情况下还是用 setTimeout 打底的。还有，promise 的 polyfill (es6-promise) 里用的也是 setTimeout。因此这里就直接用 setTimeout,以宏任务来代替微任务了。
-
 ### 总结
 Promise 源码不过几百行，我们可以从执行结果出发，分析每一步的执行过程，然后思考其作用即可。其中最关键的点就是要理解 then 函数是负责注册回调的，真正的执行是在 Promise 的状态被改变之后。而当 resolve 的入参是一个 Promise 时，要想链式调用起来，就必须调用其 then 方法(then.call),将上一个 Promise 的 resolve 方法注入其回调数组中。
+
+### 补充说明
+虽然 then 普遍认为是微任务。但是浏览器没办法模拟微任务，目前要么用 setImmediate ，这个也是宏任务，且不兼容的情况下还是用 setTimeout 打底的。还有，promise 的 polyfill (es6-promise) 里用的也是 setTimeout。因此这里就直接用 setTimeout,以宏任务来代替微任务了。
 
 ### 参考资料
 + [PromiseA+规范](https://promisesaplus.com/)
@@ -502,7 +502,7 @@ function Promise(fn) {
   }
 
   this.catch = function (onError) {
-    this.then(null, onError)
+    return this.then(null, onError)
   }
 
   this.finally = function (onDone) {
@@ -580,13 +580,14 @@ function Promise(fn) {
     if (!cb) {
       next(value)
       return
-    }
+    }	
+    let ret;
     try {
-      const ret = cb(value)
-      next(ret)
+     ret = cb(value)
     } catch (e) {
       callback.reject(e)
     }
+	callback.resolve(ret);
   }
   function resolve(newValue) {
     const fn = () => {
@@ -631,10 +632,13 @@ function Promise(fn) {
       handle(fn)
     }
   }
+  try {
   fn(resolve, reject)
+  } catch(ex) {
+	reject(ex);
+  }
 }
 ```
 ### 最后
-+ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
-+ 欢迎关注「前端Q」,认真学前端，做个有态度的技术人...
+觉得内容有帮助可以关注下我的公众号 「前端Q」，一起学习成长～～
 ![GitHub](https://user-gold-cdn.xitu.io/2019/9/6/16d0486eb83cf250?w=2800&h=800&f=jpeg&s=174941)

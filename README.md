@@ -33,6 +33,7 @@
 + [前端效能提升之不可忽略的 Chrome 插件](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AF%E6%95%88%E8%83%BD%E6%8F%90%E5%8D%87%E4%B9%8B%E4%B8%8D%E5%8F%AF%E5%BF%BD%E7%95%A5%E7%9A%84%20Chrome%20%E6%8F%92%E4%BB%B6.md)
 + [原生JS封装Ajax插件(同域&&jsonp跨域)](https://github.com/LuckyWinty/blog/blob/master/markdown/network/%E5%8E%9F%E7%94%9FJS%E5%B0%81%E8%A3%85Ajax%E6%8F%92%E4%BB%B6(%E5%90%8C%E5%9F%9F%26%26jsonp%E8%B7%A8%E5%9F%9F).md)
 + [10个让你受益匪浅的css使用技巧](https://github.com/LuckyWinty/blog/blob/master/markdown/css/10%E4%B8%AA%E8%AE%A9%E4%BD%A0%E5%8F%97%E7%9B%8A%E5%8C%AA%E6%B5%85%E7%9A%84css%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.md)
++ [正则入门手册](https://github.com/LuckyWinty/blog/blob/master/markdown/RegExp/%E6%AD%A3%E5%88%99%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C.md)
 + [JS图片上传预览插件制作](https://github.com/LuckyWinty/blog/blob/master/markdown/practice/JS%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E9%A2%84%E8%A7%88%E6%8F%92%E4%BB%B6%E5%88%B6%E4%BD%9C.md)
 
 #### | React
@@ -64,6 +65,7 @@
 + [前端Q的小小小里程碑](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E5%89%8D%E7%AB%AFQ%E7%9A%84%E5%B0%8F%E5%B0%8F%E5%B0%8F%E9%87%8C%E7%A8%8B%E7%A2%91.md)
 
 #### | 翻译
++ [你应该知道的13个有用的JavaScript数组技巧](https://github.com/LuckyWinty/blog/blob/master/markdown/translate/%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%8413%E4%B8%AA%E6%9C%89%E7%94%A8%E7%9A%84JavaScript%E6%95%B0%E7%BB%84%E6%8A%80%E5%B7%A7.md)
 + [你应该避免的3个Javascript性能错误](https://github.com/LuckyWinty/blog/issues/2)
 + [npm命令使用技巧总结](https://github.com/LuckyWinty/blog/blob/master/markdown/translate/NPM%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.md)
 

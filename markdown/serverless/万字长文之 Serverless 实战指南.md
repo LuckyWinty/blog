@@ -19,7 +19,7 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 ### 简易博客系统功能概要
 
-![时序图](./blog-sequence.png)
+![时序图](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/blog-sequence.png)
 
 如上时序图所示, 本次实现的简易博客系统, 只有博客列表页和博客内容页, 不涉及评论, 登录, 侧重于 Serverless 落地相关的内容, 如云函数本身怎么编写, 怎么在本地开发, 怎么跟自定义域名关联, 怎么访问云 MySQL, 云函数内的代码, 如 Router, Controller, Service, Model 和 View 等怎么组织.
 
@@ -29,7 +29,7 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 访问 [https://cloud.tencent.com/product/scf](https://cloud.tencent.com/product/scf), 点击立即使用进入云函数:
 
-![腾讯云函数入口](./tcloud-serverless-entry.png)
+![腾讯云函数入口](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/tcloud-serverless-entry.png)
 
 为了让你不感到畏惧, 先交个底, 腾讯云函数每月有 100 万次调用的免费额度, 个人学习使用完全够了.
 
@@ -37,23 +37,23 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 在点击上图的 "立即使用" 后, 我们可以看到云函数的概览界面:
 
-![腾讯云函数概览](./tcloud-serverless-main.png)
+![腾讯云函数概览](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/tcloud-serverless-main.png)
 
 点击左侧的函数服务, 在出现的界面中, 点击新建:
 
-![新建云函数](./new-scf.png)
+![新建云函数](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/new-scf.png)
 
 出现了下方截图的这个页面, 输入函数名, 选择语言, 可以从函数模板中选择一个初始化, 这里选了右下角这个 "国庆 SCF 运营推广活动 Demo". ps, 注意这里有很多模板, 比如访问数据库, 返回页面, 图像压缩, 视频转码, 文件合并等等, 降低了我们的入门成本.
 
-![选择模板](./new-select-template.png)
+![选择模板](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/new-select-template.png)
 
 选择好模板后, 点击下一步, 出现的这个界面, 设置环境变量和网络环境
 
-![设置环境变量与网络环境](./new-env-nat.png)
+![设置环境变量与网络环境](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/new-env-nat.png)
 
 点击完成, 我们的云函数就生成啦, 来看一下效果, 虽然是云函数, 但这里不止一个文件哦, 是可以以多个文件的形式组织起来的:
 
-![云函数代码](./serverless-code.png)
+![云函数代码](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/serverless-code.png)
 
 细看代码, 做的事情很简单, 根据云函数标准, 暴露了一个 main_handler, 里边读取了一个 html 页面模板, 通过 render 函数将 html 模板 + 数据解析为 html 字符串, 最后返回.
 
@@ -61,7 +61,7 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 答案就是配置触发方式了, 我们将触发方式配置成 API 网关触发, 设置如下:
 
-![触发器配置](./serverless-trigger.png)
+![触发器配置](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/serverless-trigger.png)
 
 这里解释一些图中的概念：
 + 定时触发：通常用于一些定时任务, 如定时发邮件, 跑数据, 发提醒等.
@@ -73,7 +73,7 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 保存后, 我们就能看到云函数的访问路径了:
 
-![云函数访问路径](./serverless-url.png)
+![云函数访问路径](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/serverless-url.png)
 
 这里贴一下我例子中的访问链接, 大家可以体验一下~
 
@@ -89,7 +89,7 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 插件界面如图:
 
-![scf vscode 插件](./serverless-vscode-plugin.png)
+![scf vscode 插件](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/serverless-vscode-plugin.png)
 
 安装完后, 左侧会多一个云函数的图标. 通过这个插件, 你可以:
 
@@ -109,11 +109,11 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 注意到里边选择的网络是 Default-VPC, Default-Subnet, 需要保持跟云函数一致, 不然云函数访问不到 MySQL,如图：
 
-![腾讯云 MySQL 购买](./mysql-buy.png)
+![腾讯云 MySQL 购买](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/mysql-buy.png)
 
 激活云 MySQL 后, 这里可以看到内网 ip 和端口, 云函数可以通过这个 ip 和端口访问到 MySQL:
 
-![腾讯云 MySQL](./mysql-ip.png)
+![腾讯云 MySQL](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/mysql-ip.png)
 
 ### 数据库设计
 
@@ -141,11 +141,11 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 在购买域名后, 我们需要在[域名解析列表](https://console.cloud.tencent.com/cns)里添加域名解析:
 
-![添加域名解析](./tcloud-cns.png)
+![添加域名解析](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/tcloud-cns.png)
 
 如下图, 将 @ 和 www CNAME 到我们的云函数域名, 相当于是给云函数的域名起了个别名, 访问自定义域名, 就可以访问到云函数域名经过解析后的 ip: 
 
-![云函数解析细节](./tcloud-cns-detail.png)
+![云函数解析细节](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/tcloud-cns-detail.png)
 
 > 注意, 记录值只需要填写云函数的域名即可, 不需要填路径, 也不需要填协议
 
@@ -153,7 +153,7 @@ Serverless 让我们更专注于业务开发, 一些常见的服务端问题, Se
 
 光是将自定义域名解析到云函数域名是不够的, 我们还要映射路径, 我们打开 [API 网关的服务](https://console.cloud.tencent.com/apigateway/service?rid=1), 点击我们的云函数服务名, 打开自定义域名, 点击新建:
 
-![API 网关映射](./tcloud-cns-apigateway.png)
+![API 网关映射](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/tcloud-cns-apigateway.png)
 
 按照截图中操作后, 我们就可以在外网以自己的域名访问到云函数啦~
 
@@ -525,7 +525,7 @@ blog 是数据库的名称, root 是登录的账户, 密码存放在环境变量
 
 [https://www.momentfly.com/](https://www.momentfly.com/)
 
-![博客列表页](./blog-capture.png)
+![博客列表页](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/blog-capture.png)
 
 ### 小结
 
@@ -544,7 +544,7 @@ blog 是数据库的名称, root 是登录的账户, 密码存放在环境变量
 
 我们在本地可以模拟 API 网关, 需要我们自定义请求的方法, 路径和参数, 如下图, 我们点击 "新增测试模板", 即可进行配置了
 
-![本地调试](./local-debug.png)
+![本地调试](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/serverless/local-debug.jpeg)
 
 此外, 简易博客系统在本地要运行起来, 需要连接本地 MySQL, 可以通过修改模拟请求的测试模板, 传递特定参数来标志环境, 从而请求本地 MySQL.
 
@@ -562,10 +562,8 @@ https://service-20z5jnak-1253736472.gz.apigw.tencentcs.com/release/yourFunctionN
 router
   .get("/yourFunctionName", homeController)
 ```
-
 ### 最后
 + 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
 + 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
 
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)
-

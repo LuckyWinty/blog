@@ -229,8 +229,8 @@ function createAnother(origin){
 ```js
 function inheritPrototype(SubType,SuperType){
   var prototype=object(SuperType.prototype);
-  prototype.constructor=subType;
-  subType.prototype=prototype;
+  prototype.constructor=SubType;
+  SubType.prototype=prototype;
 }
 ```
 这个object是自定义的一个相当于ES5中Object.create()方法的函数。在兼容性方面可以两个都写。

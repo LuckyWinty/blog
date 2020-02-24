@@ -26,7 +26,8 @@ var instance=new SubType();
 console.log(instance.getSuperValue()); //true;
 ```
 例子中的实例及构造函数和原型之间的关系图：
-<!-- //图 -->
+
+![](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/JavaScript/911587-20160905112633676-1649202219.png)
 
 在例子代码中，定义了两个对象，subType和superType。
 
@@ -66,18 +67,18 @@ alert(SubType.prototype.isPrototypeOf(instance)); //true
 因为，原型继承是实质上是重写原型对象。所以，如果在继承前就在子类的prototype上定义一些方法和属性。那么继承的时候，子类的这些属性和方法将会被覆盖。
 
 如图：
-<!-- 图 -->
+![](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/JavaScript/911587-20160905165315535-979900998.png)
 
 ④ 不能使用对象字面量创建原型方法
 
 这个的原理跟第三点的实际上是一样的。当你使用对象字面量创建原型方法重写原型的时候，实质上相当于重写了原型链，所以原来的原型链就被切断了。
 
- <!-- 图 -->
+![](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/JavaScript/911587-20160905170024066-1676271321.png)
 
 ⑤ 注意父类包含引用类型的情况
 
 如图：
-<!-- 图 -->
+![](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/JavaScript/911587-20160905171954254-954754097.png)
 
 
 这个例子中的SuperType 构造函数定义了一个colors 属性，该属性包含一个数组（引用类型值）。SuperType 的每个实例都会有各自包含自己数组的colors 属性。当SubType 通过原型链继承了SuperType 之后，SubType.prototype 就变成了SuperType 的一个实例，因此它也拥有了一个它自己的colors 属性——就跟专门创建了一个SubType.prototype.colors 属性一样。但结果是什么呢？结果是SubType 的所有实例都会共享这一个colors 属性。而我们对instance1.colors 的修改能够通过instance2.colors 反映出来。也就是说，这样的修改会影响各个实例。
@@ -287,3 +288,9 @@ B.__proto__ === A // true
 B.prototype.__proto__ === A.prototype // true
 ```
 上面代码中，子类B的__proto__属性指向父类A，子类B的prototype属性的__proto__属性指向父类A的prototype属性。
+
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)

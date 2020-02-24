@@ -87,6 +87,7 @@
 + [试题自检](https://github.com/LuckyWinty/blog/blob/master/markdown/Q%26A/%E8%AF%95%E9%A2%98%E8%87%AA%E6%A3%80.md)
 #### js
 + [JS模块化总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E6%80%BB%E7%BB%93.md)
++ [一文完全吃透 JavaScript 继承(面试必备良药)](https://github.com/LuckyWinty/blog/blob/master/markdown/JavaScript/%E4%B8%80%E6%96%87%E5%AE%8C%E5%85%A8%E5%90%83%E9%80%8F%20JavaScript%20%E7%BB%A7%E6%89%BF.md)
 + [JavaScript 原型之原型与原型链](https://github.com/LuckyWinty/blog/blob/master/markdown/JavaScript/JavaScript%20%E5%8E%9F%E5%9E%8B%20-%20%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE.md)
 + [JavaScript 原型之原型继承](https://github.com/LuckyWinty/blog/blob/master/markdown/JavaScript/JavaScript%20%E5%8E%9F%E5%9E%8B%20-%20%E5%8E%9F%E5%9E%8B%E7%BB%A7%E6%89%BF.md)
 + [离线缓存之manifest](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A6%BB%E7%BA%BF%E7%BC%93%E5%AD%98%E4%B9%8Bmanifest.md)

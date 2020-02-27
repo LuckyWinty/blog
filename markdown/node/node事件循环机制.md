@@ -8,7 +8,7 @@ macro-task 大概包括：
 + setTimeout
 + setInterval
 + setImmediate
-+ script（整体代码
++ script（整体代码)
 + I/O 操作等。
 
 micro-task 大概包括：
@@ -100,5 +100,3 @@ setTimeout(()=>{
 + 如果是 node10 及其之前版本要看第一个定时器执行完，第二个定时器是否在完成队列中.
     + 如果是第二个定时器还未在完成队列中，最后的结果为`timer1=>promise1=>timer2=>promise2`
     + 如果是第二个定时器已经在完成队列中，则最后的结果为`timer1=>timer2=>promise1=>promise2`
-
-### 一些需要注意的点

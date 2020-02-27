@@ -56,7 +56,7 @@ check 阶段。这是一个比较简单的阶段，直接执行 setImmdiate 的�
 ### process.nextTick
 process.nextTick 是一个独立于 eventLoop 的任务队列。
 
-在 node11 之前，在每一个 eventLoop 阶段完成后会去检查 nextTick 队列，如果里面有任务，会让这部分任务优先于微任务执行。
+在每一个 eventLoop 阶段完成后会去检查 nextTick 队列，如果里面有任务，会让这部分任务优先于微任务执行。
 
 看一个例子：
 ```js
@@ -74,8 +74,6 @@ setImmediate(() => console.log('timeout4'));
 ```
 + 在 node11 之前，因为每一个 eventLoop 阶段完成后会去检查 nextTick 队列，如果里面有任务，会让这部分任务优先于微任务执行，因此上述代码是先进入 check 阶段，执行所有 setImmediate，完成之后执行 nextTick 队列，最后执行微任务队列，因此输出为`timeout1=>timeout2=>timeout3=>timeout4=>next tick1=>next tick2=>promise resolve`
 + 在 node11 之后，process.nextTick 是微任务的一种,因此上述代码是先进入 check 阶段，执行一个 setImmediate 宏任务，然后执行其微任务队列，再执行下一个宏任务及其微任务,因此输出为`timeout1=>next tick1=>promise resolve=>timeout2=>next tick2=>timeout3=>timeout4`
-### node 和 浏览器 eventLoop的主要区别
-两者最主要的区别在于浏览器中的微任务是在每个相应的宏任务中执行的，而nodejs中的微任务是在不同阶段之间执行的。
 
 ### node 版本差异说明
 这里主要说明的是 node11 前后的差异，因为 node11 之后一些特性已经向浏览器看齐了，一起来看看吧～
@@ -100,3 +98,6 @@ setTimeout(()=>{
 + 如果是 node10 及其之前版本要看第一个定时器执行完，第二个定时器是否在完成队列中.
     + 如果是第二个定时器还未在完成队列中，最后的结果为`timer1=>promise1=>timer2=>promise2`
     + 如果是第二个定时器已经在完成队列中，则最后的结果为`timer1=>timer2=>promise1=>promise2`
+
+### node 和 浏览器 eventLoop的主要区别
+两者最主要的区别在于浏览器中的微任务是在每个相应的宏任务中执行的，而nodejs中的微任务是在不同阶段之间执行的。

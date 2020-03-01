@@ -27,6 +27,7 @@
 #### | Node
 + [问题记录](https://github.com/LuckyWinty/blog/blob/master/markdown/node/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
 + [Nodejs之RPC协议简介](https://github.com/LuckyWinty/blog/blob/master/markdown/node/Nodejs%E4%B9%8BRPC%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B.md)
++ [node事件循环机制](https://github.com/LuckyWinty/blog/blob/master/markdown/node/node%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6.md)
 
 #### | 实践技巧
 + [Git常见场景解决方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/Git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)

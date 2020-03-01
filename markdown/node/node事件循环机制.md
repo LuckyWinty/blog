@@ -1,5 +1,5 @@
 # node事件循环机制
-浏览器中有事件循环，node 中也有，事件循环是 node 处理非阻塞 I/O 操作的机制，node中事件循环的实现是依靠的libuv引擎。由于 node 11 之后，事件循环的一些原理发生了变化，这里就以新的标准去讲，最后再列上变化点让大家了解前因后果。
+浏览器中有事件循环，node 中也有，事件循环是 node 处理非阻塞 I/O 操作的机制，node中事件循环的实现是依靠的libuv引擎。由于 node 11 之后，事件循环的一些原理发生了变化，这里就以新的标准去讲，最后再列上变化点让大家了解了解。
 
 ### 宏任务和微任务
 node 中也有宏任务和微任务，与浏览器中的事件循环类似，其中，
@@ -76,10 +76,9 @@ setImmediate(() => console.log('timeout4'));
 + 在 node11 之后，process.nextTick 是微任务的一种,因此上述代码是先进入 check 阶段，执行一个 setImmediate 宏任务，然后执行其微任务队列，再执行下一个宏任务及其微任务,因此输出为`timeout1=>next tick1=>promise resolve=>timeout2=>next tick2=>timeout3=>timeout4`
 
 ### node 版本差异说明
-这里主要说明的是 node11 前后的差异，因为 node11 之后一些特性已经向浏览器看齐了，一起来看看吧～
+这里主要说明的是 node11 前后的差异，因为 node11 之后一些特性已经向浏览器看齐了，总的变化一句话来说就是，如果是 node11 版本一旦执行一个阶段里的一个宏任务(setTimeout,setInterval和setImmediate)就立刻执行对应的微任务队列，一起来看看吧～
 
-1. 微任务的执行时机变化
-有这样的一段代码：
+1. timers 阶段的执行时机变化
 ```js
 setTimeout(()=>{
     console.log('timer1')
@@ -98,6 +97,37 @@ setTimeout(()=>{
 + 如果是 node10 及其之前版本要看第一个定时器执行完，第二个定时器是否在完成队列中.
     + 如果是第二个定时器还未在完成队列中，最后的结果为`timer1=>promise1=>timer2=>promise2`
     + 如果是第二个定时器已经在完成队列中，则最后的结果为`timer1=>timer2=>promise1=>promise2`
+2. check 阶段的执行时机变化
+```js
+setImmediate(() => console.log('immediate1'));
+setImmediate(() => {
+    console.log('immediate2')
+    Promise.resolve().then(() => console.log('promise resolve'))
+});
+setImmediate(() => console.log('immediate3'));
+setImmediate(() => console.log('immediate4'));
+```
++ 如果是 node11 后的版本，会输出`immediate1=>immediate2=>promise resolve=>immediate3=>immediate4`
++ 如果是 node11 前的版本，会输出`immediate1=>immediate2=>immediate3=>immediate4=>promise resolve`
+3. nextTick 队列的执行时机变化
+```js
+setImmediate(() => console.log('timeout1'));
+setImmediate(() => {
+    console.log('timeout2')
+    process.nextTick(() => console.log('next tick'))
+});
+setImmediate(() => console.log('timeout3'));
+setImmediate(() => console.log('timeout4'));
+```
++ 如果是 node11 后的版本，会输出`timeout1=>timeout2=>next tick=>timeout3=>timeout4`
++ 如果是 node11 前的版本，会输出`timeout1=>timeout2=>timeout3=>timeout4=>next tick`
 
+以上几个例子，你应该就能清晰感受到它的变化了，反正记着一个结论，如果是 node11 版本一旦执行一个阶段里的一个宏任务(setTimeout,setInterval和setImmediate)就立刻执行对应的微任务队列。
 ### node 和 浏览器 eventLoop的主要区别
-两者最主要的区别在于浏览器中的微任务是在每个相应的宏任务中执行的，而nodejs中的微任务是在不同阶段之间执行的。
+两者最主要的区别在于浏览器中的微任务是在每个相应的宏任务完成后执行的，而node中的微任务是在不同阶段之间执行的。
+
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)

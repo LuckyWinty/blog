@@ -247,10 +247,11 @@ function object(o){
 function inheritPrototype(SubType,SuperType){
     var prototype;
    if(typeof Object.create==='function'){
-    prototype=Object.create(SuperType.prototype);
+    prototype = Object.create(SuperType.prototype);
    }else{
-    prototype=object.create(SuperType.prototype);
-   }<br>           prototype.constructor=SubType;
+    prototype = object(SuperType.prototype);
+   }         
+   prototype.constructor=SubType;
    SubType.prototype=prototype;
 }
 ```

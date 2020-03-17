@@ -529,7 +529,7 @@ function Promise(fn) {
     }))
   }
 
-  this.all = function (arr) {
+  Promise.all = function (arr) {
     const args = Array.prototype.slice.call(arr)
     return new Promise(((resolve, reject) => {
       if (args.length === 0) return resolve([])

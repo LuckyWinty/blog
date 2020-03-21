@@ -115,24 +115,74 @@ var checkInclusion = function(s1, s2) {
         return true
     }
 };
-//字符串相乘
-//给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式
-var multiply = function(num1, num2) {
-    if(num1 === '0'||num2 ==='0') return 0
-    const arr1 = num1.length < num2.length ? num1.split('').reverse():num2.split('').reverse();
-    const arr2 = num1.length > num2.length ? num1.split('').reverse():num2.split('').reverse();
-    const result = 0;
-
-    const len1 = arr1.length;
-    const len2 = arr2.length;
-
-    let count = 0;
-    
-    for(let i = 0;i < arr1.length; i++){
-        for(let j = 0;j < arr2.length; j++){
-            let res = Number(arr1[i]) * Number(arr2[j])
-            count = res/10; // 进位
-            res = res.Math.pow(10,i);
+//三数之和
+// 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，
+// 使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+// 注意：答案中不可以包含重复的三元组。
+// 1.排序 2.遍历，双指针 3.num[i]>0 结束。num[i]===num[i-1] 跳过
+var threeSum = function(nums) {
+    let len = nums.length
+    if(!nums || len < 3) return []
+    const result = []
+    nums=nums.sort((a,b)=>{
+        return a - b
+    })
+    for(let i=0;i<len;i++){
+        if(nums[i]>0) break;
+        if(nums[i] === nums[i-1])continue;
+        let target = -nums[i]
+        let k = i+1;
+        let j = len -1;
+        while(k < j){
+            if(nums[k]+nums[j] === target){
+                result.push([nums[i],nums[k],nums[j]])
+                k++
+                j--
+                while(nums[k] === nums[k-1]){
+                    k++
+                }
+                while(nums[j] === nums[j+1]){
+                    j--
+                }
+            }
+            if(nums[k]+nums[j] > target){
+                j--;
+            }
+            if(nums[k]+nums[j] < target){
+                k++;
+            }
         }
     }
+    return result;
+}
+
+//字符串相乘
+//给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式
+//思路，从后往前开始，num[i]*num[j]的结果在，res[i+j],res[i+j+1]上面
+var multiply = function(num1, num2) {
+    if(num1 === '0'||num2 === '0')return '0'
+    let len1 = num1.length
+    let len2 = num2.length
+    let result = new Array(len1+len2).fill(0)
+
+    for(let i = len1-1; i >= 0;i--){
+        for(let j = len2-1; j >= 0;j--){
+            let sum = result[i+j+1]+Number(num1[i])*Number(num2[j])
+            result[i+j+1] = sum%10
+            result[i+j] += Math.floor(sum/10)
+        }
+    }
+    
+    let str = '';
+    let flag = false;
+    for(let i=0;i<result.length;i++){
+        if(result[i] !== '0' && !flag){
+            flag = true;
+        }
+        if(flag){
+            str += result[i]
+        }
+    }
+    return str
 };
+//翻转字符串里的单词

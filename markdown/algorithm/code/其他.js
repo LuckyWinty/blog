@@ -116,3 +116,23 @@ var checkInclusion = function(s1, s2) {
     }
 };
 //字符串相乘
+//给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式
+var multiply = function(num1, num2) {
+    if(num1 === '0'||num2 ==='0') return 0
+    const arr1 = num1.length < num2.length ? num1.split('').reverse():num2.split('').reverse();
+    const arr2 = num1.length > num2.length ? num1.split('').reverse():num2.split('').reverse();
+    const result = 0;
+
+    const len1 = arr1.length;
+    const len2 = arr2.length;
+
+    let count = 0;
+    
+    for(let i = 0;i < arr1.length; i++){
+        for(let j = 0;j < arr2.length; j++){
+            let res = Number(arr1[i]) * Number(arr2[j])
+            count = res/10; // 进位
+            res = res.Math.pow(10,i);
+        }
+    }
+};

@@ -186,3 +186,22 @@ var multiply = function(num1, num2) {
     return str
 };
 //翻转字符串里的单词
+
+var reverseWords = function(s) {
+    return s.trim().replace(/\s/g,' ').split('').reverse().join('')
+};
+//  简化路径
+var simplifyPath = function(path) {
+    const arr = path.split('/')
+    const stack = []
+
+    for(let i = 0; i < arr.length;i++){
+        if(arr[i] === '' || arr[i] === '.') continue;
+        if(arr[i] === '..'){
+            stack.pop()
+        }else{
+            stack.push(arr[i])
+        }
+    }
+    return `/${stack.join('/')}`
+};

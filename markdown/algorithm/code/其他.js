@@ -205,3 +205,35 @@ var simplifyPath = function(path) {
     }
     return `/${stack.join('/')}`
 };
+// 最长连续递增序列
+var findLengthOfLCIS = function(nums) {
+    if(!nums.length)return;
+    let target = 1;
+    let temp = [nums[0]]
+    for (let i = 1; i < nums.length; i++) {
+        if(nums[i] > temp[temp.length -1]){
+            temp.push(nums[i]);
+        }else{
+            if(temp.length > target){
+                target = temp.length
+            }
+            temp = [nums[i]]
+        }
+    }
+    if(temp.length > target){
+        target = temp.length
+    }
+    return target
+};
+// 股票买卖
+var maxProfit = function(prices) {
+    if(prices.length < 2)return 0;
+    let result = 0;
+
+    for(let i = 1; i < prices.length;i++){
+        if(prices[i] > prices[i-1]){
+            result += (prices[i]-prices[i-1]);
+        }
+    }
+    return result;
+};

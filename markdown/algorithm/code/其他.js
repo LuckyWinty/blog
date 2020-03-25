@@ -237,3 +237,52 @@ var maxProfit = function(prices) {
     }
     return result;
 };
+// 搜索旋转排序数组
+var search = function(nums, target) {
+    let left = 0;
+    let right = nums.length - 1;
+    let mid = (left + right)/2
+    let targetIndex = -1;
+    
+    while (left <= right){
+        if(nums[mid] === target){
+            targetIndex = mid;
+            break
+        }
+        if(nums[left] <= nums[mid]){
+            if(nums[left] <=  target && target <= nums[mid]){
+                right = mid -1
+            }else{
+                left = mid + 1
+            }
+        }else{
+            if(nums[mid] <= target  && target <= nums[right]){
+                left = mid + 1
+            }else{
+                right = mid - 1
+            }
+        }
+        mid = left + (right-left)/2;
+    }
+    return targetIndex
+};
+// 最长连续序列
+var longestConsecutive = function(nums) {
+    if(nums.length < 2)return nums.length
+    let max = 0;
+    let set = new Set();
+    for(let i = 0; i < nums.length; i++){
+        set.add(nums[i])
+    }
+    for(let i = 0; i < nums.length; i++){
+        let times = 1;
+        if(set.has(nums[i]-1)){
+            continue;
+        }
+        while(set.has(nums[i]+times)){
+            times++;
+        }
+        max = Math.max(max,times)
+    }
+    return max;
+};

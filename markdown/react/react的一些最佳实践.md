@@ -38,6 +38,25 @@ class Test extends PureComponent {
 }
 ```
 ### Suspense
+Suspense 开发方式改变了开发规则，因为它做到了将异步的状态管理与 UI 组件分离，所有 UI 组件都无需关心 Pending 状态，而是当作同步去执行。
+Suspense 的本质就是将异步资源对应的 Promise 给 throw 出去。然后 React 会通过 ErrorBoundary 一直往上找，找到最近的 Suspnse 为止。这个时候会用 Suspense 的 fallback 来作为它的 children 渲染。在这个 Promise 被 settled 后，React 就会用 settled 的数据，来作为 Promise 表达式的返回值，并重新渲染。
+Suspense要解决的两个问题
+1. 代码分片
+2. 异步获取数据
+
+```js
+const AppRouter = () => {
+  const { routes } = getRoutes();
+  return (
+    <BasicLayout>
+      <Suspense fallback={<Spin />}>
+        <Route path="/" exact component={() => <div />} />
+        {routes}
+      </Suspense>
+    </BasicLayout>
+  );
+};
+```
 
 ### ImmutableJS
 ImmutableJS 最大的两个特性就是：`immutable data structures（持久性数据结构）`与 `structural sharing（结构共享）`，持久性数据结构保证每一个对象都是不可变的，任何添加、修改、删除等操作都会生成一个新的对象。而结构共享是指没有改变的数据共用一个引用，这样既减少了深拷贝的性能消耗，也减少了内存。

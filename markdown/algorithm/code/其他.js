@@ -286,20 +286,76 @@ var longestConsecutive = function(nums) {
     }
     return max;
 };
-//乘积最大子数组,[2,3,-2,4],[-2,0,-1]
+//找出数组中乘积最大的连续子数组,[2,3,-2,4],[-2,0,-1]
+// 负数
 var maxProduct = function(nums) {
-    if(nums.length < 2)return nums[nums.length -1] || 0
-    let max = nums[0];
-    let sum = nums[0];
+    if(nums.length < 2) return nums[nums.length -1]
+    let max = num[i];
+    let min = num[i];
+    let imax = num[i];
 
-    for(let i = 1; i < nums.length;i++){
-        if(nums[i] >= nums[i-1] && nums[i] !=0 && sum !=0){
-            sum = sum * nums[i]
+    for(let i = 1;i < nums.length;i++) {
+        if(nums[i] <= nums[i-1]){
+            min = nums[i];
+            imax = nums[i];
             continue;
-        }else{
-            max = Math.max(max,sum)
-            sum = nums[i] 
+        }
+        if(nums[i] < 0){
+            let temp = min;
+            min = imax;
+            imax = temp;
+        }
+        min = Math.min(min * nums[i],nums[i]);
+        imax = Math.max(imax * nums[i],nums[i]);
+        max = Math.max(max,imax)
+    }
+    return max;
+};
+//二叉树的最近公共祖先
+var lowestCommonAncestor = function(root, p, q) {
+    let target = null
+    traversal(root,p,q)
+    return target
+    function traversal(node,p,q){
+        if(!node)return false
+        let min = node.val === p.val || node.val === q.val?1:0;
+        let left = traversal(node.left,p,q)?1:0;
+        let right = traversal(node.right,p,q)?1:0;
+
+        if(min + left + right >=2 ){
+            target = node
+        }
+        return (min + left + right)>0?true:false;
+    }
+};
+//使用父指针迭代
+var lowestCommonAncestor = function(root, p, q) {
+    if(!root)return null;
+    const map = new Map();
+    const stack = [];
+
+    map.set(root,null)
+    stack.push(root)
+
+    while(!map.has(p) || !map.has(q)){
+        let cur = stack.pop();
+        if(cur.left){
+            map.set(cur.left,cur)
+            stack.push(cur.left)
+        }
+        if(cur.right){
+            map.set(cur.right,cur)
+            stack.push(cur.right)
         }
     }
-    return Math.max(max,sum)
+
+    const ancestor = new Set();
+    while(p){
+        ancestor.add(p)
+        p = map.get(p)
+    }
+    while(!ancestor.has(q)){
+        q = map.get(q)
+    }
+    return q;
 };

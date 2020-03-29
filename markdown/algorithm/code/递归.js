@@ -3,7 +3,6 @@ function tailCallOptimize(f) {
     let active = false;
     const accumulated = [];
     return function accumulator() {
-        debugger;
         accumulated.push(arguments);
         if (!active) {
             active = true;

@@ -359,3 +359,27 @@ var lowestCommonAncestor = function(root, p, q) {
     }
     return q;
 };
+//Excel表列序号
+var titleToNumber = function(s) {
+    let res = 0;
+
+    for(let i = 0; i < s.length; i++){
+        let curNum = s.charCodeAt(s.length - 1 - i) - 64;
+        res = res + Math.pow(26,i)*curNum
+    }
+    return res
+}
+//根据输入数字求Excel表列序号
+// A 1
+// B 2
+// String.fromCharCode(65, 66, 67);  // returns "ABC"
+var convertToTitle = function(num) {
+    let res = '';
+    while(num > 0){
+        num--;
+        let curChar = String.fromCharCode(num % 26 + 65)
+        res = curChar + res
+        num = Math.floor(num/26)
+    }
+    return res
+}

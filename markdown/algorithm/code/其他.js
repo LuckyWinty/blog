@@ -383,3 +383,35 @@ var convertToTitle = function(num) {
     }
     return res
 }
+//分割数组为连续子序列
+var isPossible = function(nums) {
+    const countMap = {}
+    const chainMap = {}
+
+    nums.forEach((item)=>{
+        chainMap[item] = 0;
+        if(countMap[item]){
+            countMap[item]++
+        }else{
+            countMap[item] = 1
+        }
+    })
+
+    for(let i = 0;i < nums.length -1 ;i++){
+        if(countMap[nums[i]] === 0)continue;
+        if(countMap[nums[i]] > 0 && chainMap[nums[i]-1] > 0){
+            countMap[nums[i]]--;
+            chainMap[nums[i]]++;
+            chainMap[nums[i]-1]--;
+        }else if(countMap[nums[i]] > 0 && countMap[nums[i]+1] > 0 && countMap[nums[i]+2] > 0){
+            countMap[nums[i]]--;
+            countMap[nums[i]+1]--;
+            countMap[nums[i]+2]--;
+            chainMap[nums[i]+2]++;
+        }else{
+            return false
+        }
+    }
+    return true
+};
+//有效三角形的个数

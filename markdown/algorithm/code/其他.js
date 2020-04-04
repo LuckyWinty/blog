@@ -415,3 +415,50 @@ var isPossible = function(nums) {
     return true
 };
 //有效三角形的个数
+var triangleNumber = function(nums) {
+    nums = quickSort(nums)
+    let res = 0;
+    const cache = {}
+
+    for(let i = 0; i < nums.length; i++){
+        let left = i + 1;
+        let right = nums.length - 1;
+
+        while(left < right){
+            if(nums[left] + nums[right] > nums[i]){
+                res += right - left
+                right--;
+            }else{
+                left++;
+            }
+        }
+    }
+    return res
+};
+//快排
+function quickSort(arr){
+    recursive(arr,0,arr.length-1)
+    return arr
+    function recursive(arr,left,right){
+        if(left>=right)return;
+        let pos = getPos(arr,left,right)
+        recursive(arr,left,pos)
+        recursive(arr,pos+1,right)
+    }
+    function getPos(arr,left,right){
+        const target = arr[left];
+ 
+        while(left < right){
+            while(left < right && arr[right] >= target){
+                right--;
+            }
+            arr[left] = arr[right]
+            while(left < right && arr[left] <= target){
+                left++;
+            }
+            arr[right] = arr[left]
+        }
+        arr[left] = target
+        return left
+    }
+}

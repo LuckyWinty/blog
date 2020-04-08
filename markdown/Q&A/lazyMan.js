@@ -61,3 +61,6 @@ LazyMan.prototype.next = function(){
     const first = this.cbs.shift()
     first(this.next.bind(this))
 }
+
+
+  

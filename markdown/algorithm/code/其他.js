@@ -462,3 +462,94 @@ function quickSort(arr){
         return left
     }
 }
+//最小路径和
+var minPathSum = function(grid) {
+    if(!grid.length || !grid[0].length)return;
+    const row = grid.length
+    const column = grid[0].length
+    for(let i = 0;i < row;i++){
+        for(let j = 0;j < column;j++){
+            if(i === 0 && j === 0){
+                grid[i][j]=grid[i][j]
+            }else if(i === 0){
+                grid[i][j]=grid[i][j-1]+grid[i][j]
+            }else if(j === 0){
+                grid[i][j]=grid[i-1][j]+grid[i][j]
+            }else{
+                grid[i][j]=Math.min(grid[i-1][j],grid[i][j-1])+grid[i][j]
+            }
+        }
+    }
+    return grid[row-1][column-1]
+};
+//62. 不同路径
+var uniquePaths = function(m, n) {
+    if(m === 1||n === 1)return 1
+
+    const grid = new Array(m)
+    for(let i =0;i < m;i++){
+        grid[i]=new Array(n)
+        for(let j =0;j < n;j++){
+            grid[i][j] = 0
+        }
+    }
+
+    for(let i =0;i < m;i++){
+        for(let j =0;j < n;j++){
+            if(i === 0 || j === 0){
+                grid[i][j]=1
+            }else{
+                grid[i][j]=grid[i-1][j]+grid[i][j-1]
+            }
+        }
+    }
+    return grid[m-1][n-1]
+};
+//不同路径 II
+var uniquePathsWithObstacles = function(obstacleGrid) {
+    if(!obstacleGrid.length || !obstacleGrid[0].length)return 0;
+    if(obstacleGrid[0][0]===1)return 0;
+    const row = obstacleGrid.length
+    const column = obstacleGrid[0].length
+    if(obstacleGrid[row-1][column-1]===1)return 0;
+    const resultGrid = new Array(row)
+    for(let i =0;i < row;i++){
+        resultGrid[i]=new Array(column)
+        for(let j =0;j < column;j++){
+            resultGrid[i][j] = 0
+        }
+    }
+
+    for(let i = 0;i < row;i++){
+        for(let j = 0;j < column;j++){
+            if(i === 0 && j === 0){
+                resultGrid[i][j]=1
+            }else if(i === 0){
+                if(obstacleGrid[i][j-1] === 0){
+                    resultGrid[i][j] = 1
+                }else{
+                    obstacleGrid[i][j] = 1
+                    resultGrid[i][j] = 0
+                }
+            }else if(j === 0){
+                if(obstacleGrid[i-1][j] === 0){
+                    resultGrid[i][j] = 1
+                }else{
+                    obstacleGrid[i][j] = 1
+                    resultGrid[i][j] = 0
+                }
+            }else{
+                if(obstacleGrid[i-1][j] === 1 && obstacleGrid[i][j-1]===1){
+                    resultGrid[i][j] = 0
+                }else if(obstacleGrid[i-1][j] !== 1 && obstacleGrid[i][j-1] !== 1){
+                    resultGrid[i][j] = resultGrid[i-1][j]+resultGrid[i][j-1]
+                }else if(obstacleGrid[i-1][j] !== 1 ){
+                    resultGrid[i][j] = resultGrid[i-1][j]
+                }else{
+                    resultGrid[i][j] = resultGrid[i][j-1]
+                }
+            }
+        }
+    }
+    return resultGrid[row-1][column-1]
+};

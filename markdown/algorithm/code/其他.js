@@ -553,3 +553,25 @@ var uniquePathsWithObstacles = function(obstacleGrid) {
     }
     return resultGrid[row-1][column-1]
 };
+// 1055. 形成字符串的最短路径
+// source = "abc", target = "abcbc"
+var shortestWay = function(source, target) {
+    let count = 0;
+
+    for(let i = 0;i < target.length;){
+        let charIndex = source.indexOf(target[i]);
+        if(charIndex === -1){
+            return -1
+        }
+        i++;
+        let subStr = source.substr(charIndex)
+        charIndex = subStr.indexOf(target[i])
+        while(i < target.length && charIndex<source.length && charIndex > -1){
+            i++;
+            subStr = source.substr(charIndex)
+            charIndex = subStr.indexOf(target[i])
+        }
+        count++
+    }
+    return count
+};

@@ -92,6 +92,14 @@ var findKthLargest = function(nums, k) {
     }
 };
 // 堆排序
+// 构造初始堆
+// 调整
+// 找到第一个非叶子节点，由下而上开始调整
 function headSort(arr){
-    
+    function adjustHead(arr,lastIndex){
+
+    }
+    function creatHead(arr){
+        
+    }
 }

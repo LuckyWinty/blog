@@ -55,6 +55,7 @@
 #### | 性能
 + [高性能javascript书写方法](https://github.com/LuckyWinty/blog/blob/master/markdown/perf/%E9%AB%98%E6%80%A7%E8%83%BDjavascript%E4%B9%A6%E5%86%99%E6%96%B9%E6%B3%95.md)
 + [前端性能优化之自定义性能指标及上报方法详解](https://github.com/LuckyWinty/blog/blob/master/markdown/perf/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E5%8F%8A%E4%B8%8A%E6%8A%A5%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3.md)
++ [前端性能优化之通用性能指标定义及上报策略详解](https://github.com/LuckyWinty/blog/blob/master/markdown/perf/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E9%80%9A%E7%94%A8%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E5%AE%9A%E4%B9%89%E5%8F%8A%E4%B8%8A%E6%8A%A5%E7%AD%96%E7%95%A5%E8%AF%A6%E8%A7%A3.md)
 + [一文学会利用Chrome Dev Tools 进行页面性能分析](https://github.com/LuckyWinty/blog/blob/master/markdown/perf/%E4%B8%80%E6%96%87%E5%AD%A6%E4%BC%9A%E5%88%A9%E7%94%A8Chrome%20Dev%20Tools%20%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90.md)
 #### | 好文收集
 ##### 服务端相关

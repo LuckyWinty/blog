@@ -77,3 +77,10 @@ options 请求就是预检请求，可用于检测服务器允许的 http 方法
 - https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#Preflighted_requests
 
 * https://zhuanlan.zhihu.com/p/70032617
+
+### 最后
+
+- 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
+- 欢迎关注「前端 Q」,认真学前端，做个有专业的技术人...
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)

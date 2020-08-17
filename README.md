@@ -8,7 +8,7 @@
 
 #### ｜知识体系
 
-- - [前端知识体系梳理](https://github.com/LuckyWinty/blog/blob/master/markdown/interview/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E5%87%86%E5%A4%87.md)
+- [前端知识体系梳理](https://github.com/LuckyWinty/blog/blob/master/markdown/interview/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E5%87%86%E5%A4%87.md)
 
 #### | Webpack
 

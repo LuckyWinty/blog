@@ -6,6 +6,12 @@
 
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)
 
+#### ｜生活&前端感悟
+
+- [专心工作只想搞钱的前端女程序员的2020](https://github.com/LuckyWinty/blog/blob/master/markdown/feel/%E4%B8%93%E5%BF%83%E5%B7%A5%E4%BD%9C%E5%92%8C%E5%8F%AA%E6%83%B3%E6%90%9E%E9%92%B1%E7%9A%84%E5%A5%B3%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91.md)
+- [结合我的大学经历谈谈如何保持学习的动力](https://github.com/LuckyWinty/blog/blob/master/markdown/feel/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8C%81%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8A%A8%E5%8A%9B.md)
+- [工作很忙，如何破局](https://github.com/LuckyWinty/blog/blob/master/markdown/feel/%E5%B7%A5%E4%BD%9C%E8%BF%B7%E8%8C%AB%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%8A%9E%E6%B3%95.md)
+
 #### ｜知识体系
 
 - [前端知识体系梳理](https://github.com/LuckyWinty/blog/blob/master/markdown/interview/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E5%87%86%E5%A4%87.md)
@@ -86,8 +92,6 @@
 - [从大厂面试题看观察者模式](https://github.com/LuckyWinty/blog/blob/master/markdown/%20designPatterns/%E4%BB%8E%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9C%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.md)
 
 #### | 其他
-
-- [工作很忙，如何破局]()
 
 - [走进安卓的重灾区----video](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E8%B5%B0%E8%BF%9B%E5%AE%89%E5%8D%93%E7%9A%84%E9%87%8D%E7%81%BE%E5%8C%BA---video.md)
 - [2019 TWeb 腾讯前端技术大会精彩回顾](https://github.com/LuckyWinty/blog/blob/master/markdown/tweb/2019%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE.md)

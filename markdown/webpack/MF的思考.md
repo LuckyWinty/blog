@@ -14,11 +14,11 @@ Module Federation，中文翻译为`"模块联邦"`，是 webpack5 中的一个�
 目前，我们在跨项目/跨团队项目间复用时，主要用的方式还是以导出 npm包 为主，而npm包的抽离、发布、维护都需要一定的成本。而且当多个项目依赖同一个npm包时，若npm有升级，则所有依赖项目都要相应更新，然后重新发布。而且往往你在写某个逻辑的时候，可能并没有预想到后来有复用的可能，那么这个时候抽成npm包来复用还是比较麻烦的。
 
 而 MF 模块是可以在项目中直接导出某个模块，单独打包的，如下图：
-// 图1
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/MF1.png)
 这样就很灵活，在复用逻辑的时候可以做到尽可能对现有项目少改造，快速导出。
 
 2. 支持运行时加载，可以减少打包时的代码体积，使用起来和在同一个项目下无区别
-// 图2
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/MF2.png)
 因为拆分打包，所以有了更小的加载体积，而且当前子系统已经下载的chunk可以被共享，如果可以复用，下一个子系统将不会再次下载。这也就具备了可以在项目运行时同步更新不同项目间的同一模块逻辑依赖且节约了代码构建成本，维护成本等。
 
 3. 相比过去， externals 无法多版本共存，dll 无法共享模块，MF 完美解决。
@@ -29,7 +29,7 @@ Module Federation，中文翻译为`"模块联邦"`，是 webpack5 中的一个�
 
 首先，这是webpack5的能力，所以当然要用webpack5来构建，怕配置麻烦的同学，可以直接看我的demo，demo我已经上传到github上了，地址为：https://github.com/LuckyWinty/vue2-module-federation/tree/master
 
-// 图3
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/MF3.png)
 
 导出方配置：
 ```js
@@ -95,7 +95,7 @@ Module Federation，中文翻译为`"模块联邦"`，是 webpack5 中的一个�
 
 ### 微信小程序的限制
 小程序由于需要在上线前将所有代码打包好，然后送审通过后才能上线。因此无法做到按需动态CDN加载对应的模块。为了兼容小程序的这点，我们可以通过脚本拉取CDN地址的代码到小程序项目指定目录，然后小程序再引用。
-图4：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/webpack/MF4.png)
 
 ### MF在微前端应用上的对比
 
@@ -134,3 +134,9 @@ MF 有很多想象空间，值得继续探索和留意。MF 不是银弹，还�
 + https://nextfe.com/5-practical-ways-to-share-code/
 + https://zhuanlan.zhihu.com/p/220138948
 + https://webpack.js.org/concepts/module-federation/#motivation
+
+### 最后
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/1571395642.png)

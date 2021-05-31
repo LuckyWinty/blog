@@ -26,6 +26,7 @@
 - [HMR 原理](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/HMR%E5%8E%9F%E7%90%86.md)
 - [webpack 性能优化](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/Webpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.md)
 - [Webpack4 打包机制原理解析](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/Webpack4%E6%89%93%E5%8C%85%E6%9C%BA%E5%88%B6%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90.md)
+- [模块联邦(Module Federation)的应用介绍](https://github.com/LuckyWinty/blog/blob/master/markdown/webpack/MF%E7%9A%84%E6%80%9D%E8%80%83.md)
 
 #### | 原理探索
 

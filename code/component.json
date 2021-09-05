@@ -1,0 +1,14 @@
+{
+    "type":"input",
+    "properties":{
+        "defaultValue": 2,
+        "type": "number"
+    },
+    "directives":['v-checkNum'],
+    "validRules":[()=>{}],
+    "effects":[{
+        "onChange":()=>{}, 
+        "blur":{}=>{}
+    }],
+    "id":"test"
+}

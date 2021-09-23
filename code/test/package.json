@@ -1,0 +1,8 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "demo.js",
+  "scripts": {
+    "test":"node demo1.js & node demo2.js && node demo3.js"
+  }
+}

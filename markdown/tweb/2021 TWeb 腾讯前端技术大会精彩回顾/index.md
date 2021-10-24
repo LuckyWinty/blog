@@ -12,7 +12,7 @@
 
 讲师讲述了在河南暴雨汛情期间, 一份 "救命文档" 写下的民间史诗. 验证了腾讯文档的高性能以及重要性.
 
-![河南暴雨汛情的救援文档](河南暴雨汛情的救援文档.png)
+![河南暴雨汛情的救援文档](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/%E6%B2%B3%E5%8D%97%E6%9A%B4%E9%9B%A8%E6%B1%9B%E6%83%85%E7%9A%84%E6%95%91%E6%8F%B4%E6%96%87%E6%A1%A3.png)
 
 腾讯文档是怎么一步步优化性能的呢? 讲师从以下几步做了阐述
 
@@ -41,7 +41,7 @@
 
 根据 statista 和 stackoverflow 的统计数据, 今年 flutter 的热度已经超过了 react native.
 
-![2021跨端框架趋势](./跨端框架趋势.png)
+![2021跨端框架趋势](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/%E8%B7%A8%E7%AB%AF%E6%A1%86%E6%9E%B6%E8%B6%8B%E5%8A%BF.png)
 
 讲师介绍了 Flutter 的架构, Flutter 和 Web 开发的差异. 也介绍了腾讯实时音视频 TRTC（Tencent Real-Time Communication）在互动直播, 会议, 在线教育等场景的应用. 尤其在疫情期间, 是怎么助力线下业务搬到线上的.
 
@@ -49,7 +49,7 @@
 
 最后, 讲师介绍了 TRTC Flutter 音视频的 SDK 设计, 主要围绕以下面临的几个挑战来阐述:
 
-![trtc flutter sdk 的挑战](./flutter%20sdk%20的挑战.png)
+![trtc flutter sdk 的挑战](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/flutter%20sdk%20%E7%9A%84%E6%8C%91%E6%88%98.png)
 
 这些问题, 读者如果感兴趣, 可以获取到 ppt 后进一步了解~
 
@@ -61,8 +61,8 @@
 
 腾讯问卷的开发同学会做一些问卷的定制开发, 每份问卷, 和需求方沟通, 可能要 3 天时间才能开发完. 通常会出现如下情况:
 
-![腾讯问卷定制开发](./腾讯问卷定制开发1.png)
-![腾讯问卷定制开发](./腾讯问卷定制开发2.png)
+![腾讯问卷定制开发](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/%E8%85%BE%E8%AE%AF%E9%97%AE%E5%8D%B7%E5%AE%9A%E5%88%B6%E5%BC%80%E5%8F%911.png)
+![腾讯问卷定制开发](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/%E8%85%BE%E8%AE%AF%E9%97%AE%E5%8D%B7%E5%AE%9A%E5%88%B6%E5%BC%80%E5%8F%912.png)
 
 面对这种沟通成本巨大的场景, 需求方清楚地知道逻辑, 但不会写代码. 这种情况就适合用 DSL 来解决.
 
@@ -76,21 +76,21 @@ DSL 有如下特点:
 
 我们来看一下腾讯问卷实现的 DSL
 
-![腾讯问卷 DSL](./腾讯问卷%20DSL.png)
+![腾讯问卷 DSL](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/%E8%85%BE%E8%AE%AF%E9%97%AE%E5%8D%B7%20DSL.png)
 
 我们来简单了解下实现原理:
 
 * 通过使用解析器生成器将 DSL 翻译成可执行的语句, 腾讯问卷使用了 PEG.js
 
-![解析器生成器](./解析器生成器%20PEGjs.png)
+![解析器生成器](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/%E8%A7%A3%E6%9E%90%E5%99%A8%E7%94%9F%E6%88%90%E5%99%A8%20PEGjs.png)
 
 来看一个案例, 如何通过 DSL 表述两分钟前:
 
-![DSL案例](DSL案例.png)
+![DSL案例](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/DSL%E6%A1%88%E4%BE%8B.png)
 
 来看一下基于 peg.js 的实现:
 
-![DSL案例](DSL案例2.png)
+![DSL案例](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/DSL%E6%A1%88%E4%BE%8B2.png)
 
 可以看到, 有了 PEG.js, 我们不需要了解编译原理, 就可以很好地完成一个简单的 DSL 语言的编写.
 
@@ -103,11 +103,11 @@ DSL 有如下特点:
 
 两位讲师主要介绍了一个基于【Whistle】的代理集成多种功能的免代理平台 TDE (Tencent Debugging Experience). 对于还不了解 whistle 是什么的同学, 可以点击这里了解(todo).
 
-![TDE](./TDE.png)
+![TDE](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/TDE.png)
 
 拥有了 TDE, 我们就可以不用在本地安装 whistle, 而是通过一套系统, 在被测界面上注入操作面板解决各种代理, 抓包问题. 比如切换环境只需要在被测界面的面板点一下. 另外就是可以做到云抓包, 比如开发可以抓到测试同学的包. 同时 TDE 也解决了我们的代理配置无法共享的问题:
 
-![TDE云端配置](./TDE云端配置.png)
+![TDE云端配置](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/TDE%E4%BA%91%E7%AB%AF%E9%85%8D%E7%BD%AE.png)
 
 本次分享, 讲师还详细介绍了实现原理, 比如 whistle, nohost 的架构和实现细节, 安全机制等.
 
@@ -119,17 +119,17 @@ DSL 有如下特点:
 
 讲师介绍了 BFF (Backend for Frontend) 的由来, 在没有 BFF 层时, 前端向后端请求数据, 会面临一个 N + 1 问题 (一个界面请求 N 个接口), 如:
 
-![N+1问题](./N+1问题解释.png)
+![N+1问题](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/N%2B1%E9%97%AE%E9%A2%98%E8%A7%A3%E9%87%8A.png)
 
 这是不合理的, 渲染一个博客列表, 不仅需要查询博客列表, 还需要查询博客详情, 另外还要再分别发请求获取博客的评论, 点赞信息的请求.
 
 这里的本质问题是前端是界面思维, 后端是数据思维, 这么直接请求, 就会导致接口调用复杂失控, 不利于后期维护:
 
-![失控的接口调用](./失控的接口调用.png)
+![失控的接口调用](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/%E5%A4%B1%E6%8E%A7%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8.png)
 
 所以我们需要 BFF 层:
 
-![BFF](./BFF.png)
+![BFF](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/BFF.png)
 
 如此, 前端就不再需要请求 N 个接口, 而是将这部分工作交给了 BFF 层, 而 BFF 层请求 N 个接口, 不存在外网延时, 鉴权等问题, 服务更加可控和高效.
 
@@ -144,11 +144,11 @@ DSL 有如下特点:
 
 讲师介绍了通过 K8s 生态打造弹性环境体系来解决以上问题, 弹性环境体系可以确保每个人拥有云上独立的开发测试环境, 此外还可以通过 vscode 插件直连开发环境, 做到修改代码及时生效.
 
-![从K8s生态打造弹性环境体系](./从K8s生态打造弹性环境体系.png)
+![从K8s生态打造弹性环境体系](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/%E4%BB%8EK8s%E7%94%9F%E6%80%81%E6%89%93%E9%80%A0%E5%BC%B9%E6%80%A7%E7%8E%AF%E5%A2%83%E4%BD%93%E7%B3%BB.png)
 
 这一切, 都封装在背后, 对于开发者而言, 只是简单的改动代码, 环境, 资源都不需要考虑.
 
-![nocalhost](./nocalhost.png)
+![nocalhost](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/tweb/2021%20TWeb%20%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A%E7%B2%BE%E5%BD%A9%E5%9B%9E%E9%A1%BE/nocalhost.png)
 
 如上图, vscode 通过安装 nocalhost 插件, 点击开发环境右侧的小锤图标按钮, 即可在本地开发代码, 而这些代码, 包括 vscode 中的命令行, 都是一个云上的, 改完代码重启服务可以立即看到效果, 而无需等待漫长的 CI CD 流程.
 

@@ -49,6 +49,7 @@
 
 #### | 实践技巧
 
++ [使用oclif框架制造命令行工具教程](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/%E4%BD%BF%E7%94%A8oclif%E6%A1%86%E6%9E%B6%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%E6%95%99%E7%A8%8B.md)
 - [Git 常见场景解决方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/Git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)
 - [whistle 实用功能使用介绍](https://github.com/LuckyWinty/blog/blob/master/markdown/tool/whistle%E5%AE%9E%E7%94%A8%E5%8A%9F%E8%83%BD%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.md)
 - [移动端真机调试方法总结](https://github.com/LuckyWinty/blog/blob/master/markdown/other/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93.md)

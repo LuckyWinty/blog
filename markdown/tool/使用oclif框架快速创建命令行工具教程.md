@@ -44,12 +44,76 @@ src/
 ```
 简言之，就是创建的命令行项目可以是单个命令的或多个命令的。
 
-#### 安装
+#### 使用
 
 ```js
 // 建议全局安装
 npm i oclif -g
 ```
 
-创建一个多命令的项目：
-// TODO 图片
+执行`npx oclif multi testMul`，创建一个多命令的项目：
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/tool/oclif.png)
+
+得到项目后，执行对应的脚本命令，初始化时得到的是 `hello` 命令，因此执行 `./bin/run hello`:
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/tool/oclif_run.png)
+
+这样，就跑起来啦。其中的`run`方法就是对应脚本的入口，你的脚本逻辑就可以直接在`run`方法中调用了。
+#### 调试
+
+1. 全局使用
+当你想在其他项目中测试脚本时，可以使用`npm link`，然后就可以直接用 cli 的名字要执行对应的脚本啦，例如本例中的 `testMul hello`！
+
+2. 静态属性
+我们看下，默认的 hello 模版：
+```js
+import {Command, flags} from '@oclif/command'
+
+export default class Hello extends Command {
+  static description = 'describe the command here'
+
+  static examples = [
+    `$ testMul hello
+hello world from ./src/hello.ts!
+`,
+  ]
+
+  static flags = {
+    help: flags.help({char: 'h'}),
+    // flag with a value (-n, --name=VALUE)
+    name: flags.string({char: 'n', description: 'name to print'}),
+    // flag with no value (-f, --force)
+    force: flags.boolean({char: 'f'}),
+  }
+
+  static args = [{name: 'file'}]
+
+  async run() {
+    this.log('---run 方法就是执行入口---')
+    const {args, flags} = this.parse(Hello)
+    const name = flags.name ?? 'world'
+    this.log(`hello ${name} from ./src/commands/hello.ts`)
+    if (args.file && flags.force) {
+      this.log(`you input --force and --file: ${args.file}`)
+    }
+  }
+}
+```
+其中，有静态属性`description`,`examples`,`flags`,`args`,解释一下其中的含义：
+
++ description：描述当前脚本的作用、用法等。什么时候能看到这个描述呢，就是运行命令`testMul--help`的时候。
++ examples：它是一个数组，你可以把怎么使用这个命令的例子写在这里。
++ flags：它是一个字符串，这条命令的基本使用，可以填写一条常用的命令在这里。
++ args：命令参数。
+#### 常用命令
+
+1. `oclif single <NAME>`：在当前目录中创建一个单命令项目
+2. `oclif multi <NAME>`：在当前目录中创建一个多命令项目
+3. `oclif command <NAME>`：添加一条命令
+4. `oclif hook <NAME> --event=<hook>`：新建一个钩子
+5. `oclif plugin <pluginName>`：新建一个插件
+### 最后
++ 这是一篇之前写的笔记，现在迁移了过来...
++ 欢迎加我微信(winty230)，拉你进技术群，长期交流学习...
++ 欢迎关注「前端Q」,认真学前端，做个有专业的技术人...
+
+![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/gzh/1571395642.png)

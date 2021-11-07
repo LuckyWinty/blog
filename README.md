@@ -6,6 +6,10 @@
 
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)
 
+#### 云相关
+
+#### WebAssembly
+- [WebAssembly 应用调研](https://github.com/LuckyWinty/blog/blob/master/markdown/wasm/%E8%B0%83%E7%A0%94.md)
 #### ｜生活&前端感悟
 
 - [专心工作只想搞钱的前端女程序员的2020](https://github.com/LuckyWinty/blog/blob/master/markdown/feel/%E4%B8%93%E5%BF%83%E5%B7%A5%E4%BD%9C%E5%92%8C%E5%8F%AA%E6%83%B3%E6%90%9E%E9%92%B1%E7%9A%84%E5%A5%B3%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91.md)

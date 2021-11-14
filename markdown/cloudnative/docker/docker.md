@@ -41,8 +41,6 @@ Docker 包括三个基本概念
 + 仓库（Repository）：镜像构建完成后，可以很容易的在当前宿主机上运行，但是，如果需要在其它服务器上使用这个镜像，我们就需要一个集中的存储、分发镜像的服务，Docker Registry 就是这样的服务。
 
 一个 Docker Registry 中可以包含多个 仓库（Repository）；每个仓库可以包含多个 标签（Tag）；每个标签对应一个镜像。
-
-### 基本用法
 #### 安装
 
 1. 使用 Homebrew 安装
@@ -52,3 +50,47 @@ $ brew install --cask docker
 2. 手动下载安装
 直接下载对应系统的版本，然后安装，https://docs.docker.com/get-docker/
 #### 运行
+1. 从应用中找到 Docker 图标并点击运行。
+// TODO 图
+2. 点击启动后，可以在 bash 面板中查看docker的版本
+
+```js
+docker --version
+Docker version 20.10.8, build 3967b7d
+```
+如果 docker version、docker info 都正常的话，可以尝试运行一个 Nginx 服务器：
+```js
+$ docker run -d -p 80:80 --name webserver nginx
+```
+服务运行后，可以访问 http://localhost，如果看到了 "Welcome to nginx!"，就说明 Docker 安装成功了。
+// TODO 图
+要停止 Nginx 服务器并删除执行下面的命令：
+```js
+docker stop webserver
+docker rm webserver
+```
+当然，也可以在docker的图形界面中直接操作，如图：
+// TODO 图
+
+### 基本用法
++ 获取镜像,从 Docker 镜像仓库获取镜像的命令是 `docker pull`。其命令格式为：
+```js
+$ docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]
+```
+
+比如，拉取 `nginx` 镜像
+// TODO 图
++ 运行，`docker run` 就是运行容器的命令,如上文的示例
+```js
+docker run -d -p 80:80 --name webserver nginx
+```
+
++ 列出镜像,可以使用 `docker image ls `命令
++ 删除本地镜像,可以使用 `docker image rm `命令.其命令格式为：
+```js
+$ docker image rm [选项] <镜像1> [<镜像2> ...]
+```
+### dockerfile 指令
+### 参考资料
++ https://vuepress.mirror.docker-practice.com/image/dockerfile/copy/
++ https://yeasy.gitbook.io/docker_practice/install/mac

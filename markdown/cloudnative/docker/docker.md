@@ -1,3 +1,13 @@
+### 背景
+本文主要对 Docker的基础做个概述，如果你对下面几道题已经有答案了，那么就不用再看本文内容啦，分享给别人了解吧～
+
+* 怎么根据一个镜像, 在本地跑起来一个 docker 容器
+* 怎么进入到 docker 里面去看 log
+* 怎么写一个 dockerfile
+* 怎么将自己写的 dockerfile 变成镜像推送到公司的内部镜像源
+* 多个 docker 之间怎么联动, 比如 mysql 的 docker, 业务的 docker, redis 的 docker, 这个要了解 docker-compose
+
+如果还没有了解得很清楚的话，那就继续往下看吧～
 ### 概念
 Docker 使用 Google 公司推出的 Go 语言进行开发实现，基于 Linux 内核的 cgroup ，namespace ，以及 OverlayFS 类的 Union FS 等技术，对进程进行封装隔离，属于`操作系统层面的虚拟化技术`。由于隔离的进程独立于宿主和其它的隔离的进程，因此也称其为容器。
 
@@ -21,7 +31,7 @@ Docker 将应用程序与该程序的依赖，打包在一个文件里面。运�
 |性能	| 接近原生 |	弱于|
 |系统支持量	| 单机支持上千个容器 |	一般几十个|
 
-### 生命周期
+### 基本概念
 Docker 包括三个基本概念
 
 + 镜像（Image）：Docker 镜像 是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像`不包含`任何动态数据，其内容在构建之后也不会被改变。
@@ -32,9 +42,13 @@ Docker 包括三个基本概念
 
 一个 Docker Registry 中可以包含多个 仓库（Repository）；每个仓库可以包含多个 标签（Tag）；每个标签对应一个镜像。
 
-### 自测题
-* 怎么根据一个镜像, 在本地跑起来一个 docker 容器
-* 怎么进入到 docker 里面去看 log
-* 怎么写一个 dockerfile
-* 怎么将自己写的 dockerfile 变成镜像推送到公司的内部镜像源
-* 多个 docker 之间怎么联动, 比如 mysql 的 docker, 业务的 docker, redis 的 docker, 这个要了解 docker-compose
+### 基本用法
+#### 安装
+
+1. 使用 Homebrew 安装
+```js
+$ brew install --cask docker
+```
+2. 手动下载安装
+直接下载对应系统的版本，然后安装，https://docs.docker.com/get-docker/
+#### 运行

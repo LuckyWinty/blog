@@ -74,5 +74,7 @@ exports.handler = (event, callback) => {
 
 
 ### 参考资料
++ https://tw93.github.io/2020-03-30/serverless-two.html
++ https://www.codenong.com/cs111039530/
 + https://www.infoq.cn/article/kki1vyk62uoclw23ikyk
 + https://jinyunlong.cc/books/how-to-play-serverless-framework.html

@@ -114,6 +114,20 @@ $ docker image rm [选项] <镜像1> [<镜像2> ...]
 ```
 
 ### 怎么进入到 docker 里面去看 log
+
+我们刚刚用 nginx 启动了一个服务，我们来看看它的 log。首先，需要知道这个 docker 容器实例的 id， 我们执行 `docker ps -a` 就可以查看到：
+
+![docker ps -a](./docker-ps-a.png)
+
+可以看到上面列出了 CONTAINER ID，看 log 命令如下：
+
+`docker logs a8bc73c54e8a`
+
+![docker-logs-id](./docker-logs-id.png)
+
+这是最基本的，如果想实时地看到日志输出，类似 tail -f 都效果怎么实现呢？只需要加个 --follow 都参数就可以了。
+
+`docker logs --follow a8bc73c54e8a`
 ### dockerfile 指令
 
 ### docker-compose

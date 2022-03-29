@@ -157,12 +157,77 @@ CMD cd /home/qspace/test/ && npm run start:prod
 更多指令可以在这里了解：https://vuepress.mirror.docker-practice.com/image/dockerfile/
 
 ### 怎么将自己写的 dockerfile 变成镜像推送到公司的内部镜像源
+有时候使用 Docker Hub 这样的公共仓库可能不方便，用户可以创建一个本地仓库供私人使用。而公司一般都有自己的镜像源。
+因此，首先你要知道公司的镜像源地址，假设地址为：127.0.0.1:12701
+然后，可以使用 `docker tag` 来标记一个镜像，然后推送它到仓库
+
+1. 先在本机查看已有的镜像。
+```js
+$ docker image ls
+REPOSITORY                        TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+ubuntu                            latest              ba5877dc9bec        6 weeks ago  
+```
+2. 使用 docker tag 将 ubuntu:latest 这个镜像标记为 127.0.0.1:12701/ubuntu:latest。
+
+格式为 docker tag IMAGE[:TAG] [REGISTRY_HOST[:REGISTRY_PORT]/]REPOSITORY[:TAG]
+
+```js
+$ docker tag ubuntu:latest 127.0.0.1:12701/ubuntu:latest
+$ docker image ls
+REPOSITORY                        TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+ubuntu                            latest              ba5877dc9bec        6 weeks ago         192.7 MB
+127.0.0.1:12701/ubuntu:latest      latest              ba5877dc9bec        6 weeks ago
+```
+3. 使用 docker push 上传标记的镜像。
+4. 用 curl 查看仓库中的镜像。
+```js
+$ curl 127.0.0.1:12701/v2/_catalog
+{"repositories":["ubuntu"]}
+```
+这里可以看到 {"repositories":["ubuntu"]}，表明镜像已经被成功上传了。
 
 ### docker-compose
-### 其他注意点
-1. 时间戳
-2. 中文乱码
+Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排。Compose 定位是 `定义和运行多个 Docker 容器的应用`。
 
+我们知道使用一个 Dockerfile 模板文件，可以让用户很方便的定义一个单独的应用容器。然而，在日常工作中，经常会碰到需要多个容器相互配合来完成某项任务的情况。例如要实现一个 Web 项目，除了 Web 服务容器本身，往往还需要再加上后端的数据库服务容器，甚至还包括负载均衡容器等。
+
+Compose 恰好满足了这样的需求。它允许用户通过一个单独的 docker-compose.yml 模板文件来定义一组相关联的应用容器为一个项目。
+
+Compose 中有两个重要的概念：
+
+`服务 (service)`：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。
+
+`项目 (project)`：由一组关联的应用容器组成的一个完整业务单元，在 docker-compose.yml 文件中定义。
+
+Compose 的默认管理对象是项目，通过子命令对项目中的一组容器进行便捷地生命周期管理。
+不过，现在都流行微服务架构，很多时候，服务要scale到上百个container，并且要跨越多台机器，这时docker compose就无能为力了。一般用 k8s 来管理了。笔者这里对 docker-compose 只是有个理解，就不详细说了。感兴趣的可以看这里：https://vuepress.mirror.docker-practice.com/compose/introduction/
+
+### 其他注意点
+1. 时区
+大部分 Docker 镜像都是基于 Alpine，Ubuntu，Debian，CentOS 等基础镜像制作而成。基本上都采用 UTC 时间，默认时区为零时区。
+而我们主要用的是 CST 时间，北京时间，位于东八区。时区代号： Asia/Shanghai
+对比一下，2个时区时间上相差 8 小时。
+
+对于基于 Debian 基础镜像，CentOS 基础镜像制作的 Docker 镜像，在运行 Docker 容器时，传递环境变量-e TZ=Asia/Shanghai进去，能修改 docker 容器时区。只需要在 dockerFile 文件中加上环境变量即可，如：
+
+```js
+FROM node:14
+
+ENV TZ="Asia/Shanghai"
+
+COPY ./ /home/qspace/test/
+CMD cd /home/qspace/test/ && npm run start:prod
+```
+
+2. 中文乱码
+若在容器中出现中文乱码，可以检查一下是否是设置的编码格式不是 utf8.
+
+查看docker容器编码格式：执行locale命令
+
+解决此问题，可以在 dockerFile 文件中加上环境变量
+```js
+ENV LANG C.UTF-8
+```
 
 ### 参考资料
 + https://vuepress.mirror.docker-practice.com/image/dockerfile/copy/

@@ -128,11 +128,40 @@ $ docker image rm [选项] <镜像1> [<镜像2> ...]
 这是最基本的，如果想实时地看到日志输出，类似 tail -f 都效果怎么实现呢？只需要加个 --follow 都参数就可以了。
 
 `docker logs --follow a8bc73c54e8a`
-### dockerfile 指令
+### 怎么写一个 dockerfile
+
+首先，熟悉基本的 Dockerfile 指令
+1. **FROM**
+我们制作镜像，一般都是在基础镜像上面再进行定制的。就像我们之前运行了一个 nginx 镜像的容器，再进行修改一样，基础镜像是必须指定的。而 `FROM` 就是指定 基础镜像，因此一个 Dockerfile 中 FROM 是必备的指令，并且必须是第一条指令。
+
+2. **COPY**
+格式：
+```js
+COPY [--chown=<user>:<group>] <源路径>... <目标路径>
+COPY [--chown=<user>:<group>] ["<源路径1>",... "<目标路径>"]
+```
+COPY 指令将从构建上下文目录中 <源路径> 的文件/目录复制到新的一层的镜像内的 <目标路径> 位置。比如：
+```js
+COPY package.json /usr/src/app/
+```
+3. **CMD**
+CMD 指令用于执行目标镜像中包含的软件，可以包含参数。可以简单理解为项目的启动命令。
+
+一个简单的 dockerfile 为：
+```js
+FROM node:14
+
+COPY ./ /home/qspace/test/
+CMD cd /home/qspace/test/ && npm run start:prod
+```
+更多指令可以在这里了解：https://vuepress.mirror.docker-practice.com/image/dockerfile/
+
+### 怎么将自己写的 dockerfile 变成镜像推送到公司的内部镜像源
 
 ### docker-compose
 ### 其他注意点
-1.
+1. 时间戳
+2. 中文乱码
 
 
 ### 参考资料

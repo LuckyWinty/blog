@@ -20,7 +20,7 @@
 
 用一张图来理解它的工作机制：
 
-![Agent Skills 工作流程](./agent-skills-workflow.jpg)
+![Agent Skills 工作流程](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/AI/images/agent-skills-workflow.jpg)
 
 这里面有一个很巧妙的设计理念 —— **渐进式加载（Progressive Disclosure）**：
 
@@ -155,7 +155,7 @@ export function [Name]({ ...props }: [Name]Props) {
 
 知道了怎么写一个 SKILL.md 之后，怎么把它**写好**才是关键。我研究了大量优秀的 Skills 案例，也在自己项目里反复试错，最后总结出这 10 个核心原则。它们各自解决的问题完全不同，缺哪个都会踩坑：
 
-![10 个核心原则](./ten-core-principles.jpg)
+![10 个核心原则](https://raw.githubusercontent.com/LuckyWinty/blog/master/markdown/AI/images/ten-core-principles.jpg)
 
 #### 原则一：只写 Agent 不知道的事
 

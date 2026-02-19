@@ -7,7 +7,7 @@
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)
 
 #### AI
-- [AI 总写不对你的代码？你需要学会写 Agent Skills](https://github.com/LuckyWinty/blog/blob/master/markdown/wasm/%E8%B0%83%E7%A0%94.md)
+- [AI 总写不对你的代码？你需要学会写 Agent Skills](https://github.com/LuckyWinty/blog/blob/master/markdown/AI/AI%20%E6%80%BB%E5%86%99%E4%B8%8D%E5%AF%B9%E4%BD%A0%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%9F%E4%BD%A0%E9%9C%80%E8%A6%81%E5%AD%A6%E4%BC%9A%E5%86%99%20Agent%20Skills.md)
 
 #### WebAssembly
 - [WebAssembly 应用调研](https://github.com/LuckyWinty/blog/blob/master/markdown/wasm/%E8%B0%83%E7%A0%94.md)

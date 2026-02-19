@@ -6,7 +6,8 @@
 
 ![GitHub](https://raw.githubusercontent.com/LuckyWinty/blog/master/images/qrcode/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96%202.png)
 
-#### 云相关
+#### AI
+- [AI 总写不对你的代码？你需要学会写 Agent Skills](https://github.com/LuckyWinty/blog/blob/master/markdown/wasm/%E8%B0%83%E7%A0%94.md)
 
 #### WebAssembly
 - [WebAssembly 应用调研](https://github.com/LuckyWinty/blog/blob/master/markdown/wasm/%E8%B0%83%E7%A0%94.md)

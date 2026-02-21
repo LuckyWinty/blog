@@ -8,7 +8,7 @@
 
 #### AI
 - [Context 工程：如何把正确的上下文喂给 AI](https://github.com/LuckyWinty/blog/blob/master/markdown/AI/Context%20%E5%B7%A5%E7%A8%8B%EF%BC%9A%E5%A6%82%E4%BD%95%E6%8A%8A%E6%AD%A3%E7%A1%AE%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E5%96%82%E7%BB%99%20AI.md)
-- [用 MCP 给 AI 编辑器接上"外挂"：Figma、数据库、浏览器全打通](https://github.com/LuckyWinty/blog/blob/master/markdown/AI/%E7%94%A8%20MCP%20%E7%BB%99%20AI%20%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A5%E4%B8%8A%E2%80%9C%E5%A4%96%E6%8C%82%E2%80%9D%EF%BC%9AFigma%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%A8%E6%89%93%E9%80%9A.md)
+- [用 MCP 给 AI 编辑器接上"外挂"：Figma、数据库、浏览器全打通](https://github.com/LuckyWinty/blog/blob/master/markdown/AI/%E7%94%A8%20MCP%20%E7%BB%99%20AI%20%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A5%E4%B8%8A%22%E5%A4%96%E6%8C%82%22%EF%BC%9AFigma%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%A8%E6%89%93%E9%80%9A.md)
 - [AI 总写不对你的代码？你需要学会写 Agent Skills](https://github.com/LuckyWinty/blog/blob/master/markdown/AI/AI%20%E6%80%BB%E5%86%99%E4%B8%8D%E5%AF%B9%E4%BD%A0%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%9F%E4%BD%A0%E9%9C%80%E8%A6%81%E5%AD%A6%E4%BC%9A%E5%86%99%20Agent%20Skills.md)
 
 #### WebAssembly

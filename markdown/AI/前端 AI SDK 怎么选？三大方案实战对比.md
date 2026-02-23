@@ -6,7 +6,7 @@
 
 今天这篇文章，我把三个 SDK 拉到一起，从**安装上手、流式对话、Tool Calling、框架集成、多模型切换**五个维度做一次实战对比，帮你在动手写代码之前就选对武器。
 
-前端 AI SDK 选型
+![前端 AI SDK 选型](./images/ai-sdk-overview.jpg)
 
 ### 先说结论
 
@@ -80,122 +80,19 @@ LangChain 最早是 Python 生态的 LLM 应用框架，后来出了 JS 版。�
 
 ### 实战对比一：最简流式对话
 
-我们从最常见的场景开始——做一个**流式 AI 对话**。用户发一句话，AI 一个 token 一个 token 地"吐"回答。
+做一个流式 AI 对话，三者的开发体验差距非常大。
 
-#### Vercel AI SDK
+![流式对话代码量差距](./images/ai-sdk-streaming-compare.jpg)
 
-```typescript
-// app/api/chat/route.ts（Next.js API Route）
-import { openai } from '@ai-sdk/openai'
-import { streamText } from 'ai'
+**Vercel AI SDK** 的做法是：后端用 `streamText()` 一行发起流式请求，前端用 `useChat()` Hook 直接接——消息列表、输入状态、流式拼接、错误处理全部内置。两个文件、不到 30 行代码，一个完整的流式聊天界面就出来了。
 
-export async function POST(req: Request) {
-  const { messages } = await req.json()
-  const result = streamText({
-    model: openai('gpt-4o'),
-    messages,
-  })
-  return result.toDataStreamResponse()
-}
-```
+**LangChain.js** 和 **OpenAI SDK** 的后端流式调用都不复杂（各自十来行），但它们都**没有前端 Hook**。你需要自己处理 `fetch` + `ReadableStream` + `TextDecoder`，自己管理 SSE 解析、消息拼接和状态更新——这些"胶水代码"加起来，轻松翻倍。
 
-```tsx
-// app/page.tsx（前端页面）
-'use client'
-import { useChat } from '@ai-sdk/react'
-
-export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat()
-
-  return (
-    <div>
-      {messages.map(m => (
-        <div key={m.id}>{m.role}: {m.content}</div>
-      ))}
-      <form onSubmit={handleSubmit}>
-        <input value={input} onChange={handleInputChange} />
-      </form>
-    </div>
-  )
-}
-```
-
-**两个文件，不到 30 行代码**，一个带流式渲染的聊天界面就出来了。`useChat` 帮你管了消息列表、输入状态、流式拼接、错误处理这些脏活。
-
-#### LangChain.js
-
-```typescript
-// 后端
-import { ChatOpenAI } from '@langchain/openai'
-import { HumanMessage } from '@langchain/core/messages'
-
-const model = new ChatOpenAI({
-  modelName: 'gpt-4o',
-  streaming: true,
-})
-
-const stream = await model.stream([
-  new HumanMessage('用一句话介绍 React')
-])
-
-for await (const chunk of stream) {
-  process.stdout.write(chunk.content as string)
-}
-```
-
-LangChain.js 的流式输出用的是 AsyncIterator，你需要自己把 chunk 拼接起来，然后通过 SSE 或 WebSocket 推给前端。**没有现成的 React Hook**——前端的流式渲染逻辑需要你自己写。
-
-```tsx
-// 前端需要自己处理 SSE
-const response = await fetch('/api/chat', {
-  method: 'POST',
-  body: JSON.stringify({ message }),
-})
-
-const reader = response.body?.getReader()
-const decoder = new TextDecoder()
-
-while (true) {
-  const { done, value } = await reader!.read()
-  if (done) break
-  const text = decoder.decode(value)
-  setMessages(prev => [...prev, text])
-}
-```
-
-比 Vercel AI SDK 多了不少"胶水代码"。
-
-#### OpenAI SDK
-
-```typescript
-import OpenAI from 'openai'
-
-const client = new OpenAI()
-
-const stream = await client.responses.create({
-  model: 'gpt-4o',
-  input: '用一句话介绍 React',
-  stream: true,
-})
-
-for await (const event of stream) {
-  if (event.type === 'response.output_text.delta') {
-    process.stdout.write(event.delta)
-  }
-}
-```
-
-OpenAI SDK 的流式写法也很简洁。但和 LangChain.js 一样，**前端的流式渲染你得自己来**。
-
-#### 对比小结
-
-
-|         | Vercel AI SDK           | LangChain.js | OpenAI SDK |
-| ------- | ----------------------- | ------------ | ---------- |
-| 后端代码量   | 极少                      | 中等           | 少          |
-| 前端 Hook | `useChat` 开箱即用          | 无，自己写        | 无，自己写      |
-| 流式协议    | 内置 Data Stream Protocol | 自己处理 SSE     | 自己处理 SSE   |
-
+|  | Vercel AI SDK | LangChain.js | OpenAI SDK |
+|---|---|---|---|
+| 后端代码量 | 极少 | 中等 | 少 |
+| 前端 Hook | `useChat` 开箱即用 | 无，自己写 | 无，自己写 |
+| 流式协议 | 内置 Data Stream Protocol | 自己处理 SSE | 自己处理 SSE |
 
 **如果你做的是带前端界面的 AI 应用**，Vercel AI SDK 在这个环节的优势是碾压级的。
 
@@ -203,248 +100,63 @@ OpenAI SDK 的流式写法也很简洁。但和 LangChain.js 一样，**前端�
 
 ### 实战对比二：Tool Calling
 
-Tool Calling 是 AI 应用的标配能力——让 AI 决定什么时候调用外部工具（查天气、搜索、查数据库等）。
+Tool Calling 是 AI 应用的标配能力——让 AI 自己决定什么时候调用外部工具。三者的核心差异在于**怎么定义工具参数**。
 
-#### Vercel AI SDK
+![Tool Calling 写法对比](./images/ai-sdk-tool-calling.jpg)
 
-```typescript
-import { openai } from '@ai-sdk/openai'
-import { streamText, tool } from 'ai'
-import { z } from 'zod'
+**Vercel AI SDK** 和 **LangChain.js** 都用 **Zod** 定义参数 Schema，类型安全、自带校验。区别在于 LangChain.js 的 Tool 定义后可以通过 `bindTools` 挂到任意 Agent/Chain 上复用，可组合性更强。
 
-const result = streamText({
-  model: openai('gpt-4o'),
-  messages,
-  tools: {
-    getWeather: tool({
-      description: '查询指定城市的天气',
-      parameters: z.object({
-        city: z.string().describe('城市名'),
-      }),
-      execute: async ({ city }) => {
-        return { temperature: 26, condition: '晴' }
-      },
-    }),
-  },
-})
-```
+**OpenAI SDK** 用的是原生 JSON Schema——没有 Zod 那么爽，但不依赖任何额外库，直接照着 OpenAI 文档抄就能跑。需要注意的是，OpenAI SDK 拿到 Tool Call 结果后**需要你自己写分发逻辑**去匹配和执行对应函数，而另外两个 SDK 都能在定义时直接绑定执行逻辑。
 
-用 **Zod** 定义参数 Schema，类型安全、自带校验，写起来非常舒服。而且 `tool()` 函数同时声明了描述、参数和执行逻辑，一个对象搞定。
-
-#### LangChain.js
-
-```typescript
-import { tool } from '@langchain/core/tools'
-import { z } from 'zod'
-import { ChatOpenAI } from '@langchain/openai'
-
-const getWeather = tool(
-  async ({ city }) => {
-    return JSON.stringify({ temperature: 26, condition: '晴' })
-  },
-  {
-    name: 'getWeather',
-    description: '查询指定城市的天气',
-    schema: z.object({
-      city: z.string().describe('城市名'),
-    }),
-  }
-)
-
-const model = new ChatOpenAI({ modelName: 'gpt-4o' })
-const modelWithTools = model.bindTools([getWeather])
-const response = await modelWithTools.invoke('北京今天天气怎么样')
-```
-
-LangChain.js 的 Tool 定义也用 Zod，写法略有不同但功能是等价的。它的优势在于 Tool 可以被 Agent、Chain 等各种模块复用，**可组合性更强**。
-
-#### OpenAI SDK
-
-```typescript
-import OpenAI from 'openai'
-
-const response = await client.responses.create({
-  model: 'gpt-4o',
-  tools: [{
-    type: 'function',
-    name: 'getWeather',
-    description: '查询指定城市的天气',
-    parameters: {
-      type: 'object',
-      properties: {
-        city: { type: 'string', description: '城市名' }
-      },
-      required: ['city']
-    }
-  }],
-  input: '北京今天天气怎么样',
-})
-```
-
-OpenAI SDK 用的是原生 JSON Schema 定义参数。没有 Zod 那么爽，但好处是**不依赖任何额外库**，而且和 OpenAI 文档完全一一对应，抄文档就能跑。
-
-#### 对比小结
-
-
-|           | Vercel AI SDK | LangChain.js      | OpenAI SDK      |
-| --------- | ------------- | ----------------- | --------------- |
-| Schema 定义 | Zod（类型安全）     | Zod（类型安全）         | JSON Schema（原生） |
-| 执行逻辑      | 内置在 tool 定义中  | 内置在 tool 定义中      | 需要自己匹配和调用       |
-| 可组合性      | 中             | 高（Agent/Chain 复用） | 低               |
+| | Vercel AI SDK | LangChain.js | OpenAI SDK |
+|---|---|---|---|
+| Schema 定义 | Zod（类型安全） | Zod（类型安全） | JSON Schema（原生） |
+| 执行逻辑 | 内置在 tool 定义中 | 内置在 tool 定义中 | 需要自己匹配和调用 |
+| 可组合性 | 中 | 高（Agent/Chain 复用） | 低 |
 
 
 ---
 
 ### 实战对比三：框架集成
 
-前端开发最关心的问题之一——这些 SDK 和你用的前端框架配合得怎么样？
+Vercel AI SDK 是**唯一一个为前端框架提供官方 Hook 的 AI SDK**——React、Svelte、Vue、Solid.js 全覆盖。一个 `useChat` 就帮你管了消息列表、输入状态、流式拼接、加载态、错误处理和重新生成，写起来就像"AI 版的 useForm"。
 
-#### Vercel AI SDK：框架集成最好
+**LangChain.js** 是"后端优先"的框架，不提供任何前端 UI Hook。但好消息是它可以**和 Vercel AI SDK 混着用**——后端跑 LangChain.js 的 Agent 编排，前端用 `useChat` 做 UI，Vercel AI SDK 官方文档里有专门的集成指南。
 
-
-| 框架                 | 支持方式                                     |
-| ------------------ | ---------------------------------------- |
-| React / Next.js    | `useChat`、`useCompletion`、`useAssistant` |
-| Svelte / SvelteKit | `useChat`（Svelte 版）                      |
-| Vue / Nuxt         | `useChat`（Vue 版）                         |
-| Solid.js           | `useChat`（Solid 版）                       |
-
-
-Vercel AI SDK 是**唯一一个为前端框架提供官方 Hook 的 AI SDK**。你不需要自己处理流式数据的拼接、状态管理、错误处理和重试逻辑——`useChat` 全包了。
-
-一个 `useChat` Hook 给你提供了：
-
-- `messages` —— 消息列表（自动更新）
-- `input` / `handleInputChange` —— 输入框状态
-- `handleSubmit` —— 发送消息
-- `isLoading` —— 加载状态
-- `error` —— 错误信息
-- `reload` —— 重新生成
-- `stop` —— 停止生成
-
-如果你写过 React，你会觉得这个 Hook 就像是"AI 版的 useForm"——把所有常见的状态管理都封装好了。
-
-#### LangChain.js：没有前端 Hook
-
-LangChain.js 是一个"后端优先"的框架。它在 Node.js 端非常强大，但**不提供任何前端 UI Hook**。
-
-你需要自己搭一层"胶水"：后端用 LangChain.js 跑 Chain/Agent，通过 SSE 或 WebSocket 把结果推给前端，前端自己写状态管理逻辑。
-
-当然，你可以**把 LangChain.js 和 Vercel AI SDK 混着用**——后端用 LangChain.js 做 Agent 编排，前端用 Vercel AI SDK 的 `useChat` 做 UI。Vercel AI SDK 官方文档里甚至有专门的 LangChain 集成指南。
-
-#### OpenAI SDK：纯 API 客户端
-
-OpenAI SDK 和前端框架没有任何集成。它就是一个 HTTP 客户端，发请求、收响应，仅此而已。
-
-前端怎么渲染、状态怎么管理，全靠你自己。
+**OpenAI SDK** 和前端框架没有任何集成，纯 HTTP 客户端，前端怎么渲染全靠你自己。
 
 ---
 
 ### 实战对比四：多模型支持
 
-这是一个经常被忽略但非常重要的维度——你的项目以后会不会需要切换或新增模型？
+你的项目以后会不会需要切换或新增模型？这个问题决定了你今天选谁。
 
-三大 SDK 架构对比
+![三大 SDK 架构对比](./images/ai-sdk-architecture.jpg)
 
-#### Vercel AI SDK：40+ Provider，换模型改一行代码
+**Vercel AI SDK** 通过 Provider 插件机制支持 **40+** 模型厂商（OpenAI、Anthropic、Google、Azure、DeepSeek……）。每个厂商一个包，但对外 API 完全一致——你的业务代码**只需改一行 `model` 参数**就能切换模型，其余代码零改动。
 
-```typescript
-import { openai } from '@ai-sdk/openai'
-import { anthropic } from '@ai-sdk/anthropic'
-import { google } from '@ai-sdk/google'
+**LangChain.js** 支持 **13+** Provider，所有模型实现了统一的 `BaseChatModel` 接口，换模型改构造函数即可，而且可以直接插到 Chain 和 Agent 里用，不需要改任何编排逻辑。
 
-// 换模型只需要改这一行
-const result = streamText({
-  model: openai('gpt-4o'),
-  // model: anthropic('claude-sonnet-4-20250514'),
-  // model: google('gemini-2.0-flash'),
-  messages,
-})
-```
-
-Vercel AI SDK 通过 **Provider 插件机制**实现了多模型支持。每个模型厂商一个包（`@ai-sdk/openai`、`@ai-sdk/anthropic`、`@ai-sdk/google`……），但对外暴露的 API 完全一致。你的业务代码**只需要改一行 model 参数**就能切换模型。
-
-目前支持的 Provider 超过 40 个，涵盖了 OpenAI、Anthropic、Google、Azure、AWS Bedrock、Mistral、DeepSeek 等主流厂商。
-
-#### LangChain.js：13+ Provider，同样抽象良好
-
-```typescript
-import { ChatOpenAI } from '@langchain/openai'
-import { ChatAnthropic } from '@langchain/anthropic'
-import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
-
-const model = new ChatOpenAI({ modelName: 'gpt-4o' })
-// const model = new ChatAnthropic({ modelName: 'claude-sonnet-4-20250514' })
-// const model = new ChatGoogleGenerativeAI({ modelName: 'gemini-2.0-flash' })
-```
-
-LangChain.js 的多模型抽象也做得很好。所有模型实现了统一的 `BaseChatModel` 接口，换模型改构造函数就行。而且这些模型可以直接插到 Chain 和 Agent 里用，**不需要改任何编排逻辑**。
-
-#### OpenAI SDK：只支持 OpenAI
-
-这没什么好说的——官方 SDK 只对接官方 API。如果你以后想加 Claude 或 Gemini，要么再装一个 Anthropic SDK / Google SDK，要么换成 Vercel AI SDK 或 LangChain.js。
+**OpenAI SDK** 只对接 OpenAI 自己的 API。想加 Claude 或 Gemini？要么再装一个对应厂商的 SDK，要么换 Vercel AI SDK / LangChain.js。
 
 ---
 
 ### 实战对比五：Agent 编排能力
 
-随着 AI 应用越来越复杂，单纯的"一问一答"已经不够了。你可能需要 AI 自己决定调用哪些工具、按什么顺序处理、甚至多个 Agent 协作。
+当你的 AI 应用需要"自己决定调哪些工具、按什么顺序处理"，三者的差距就拉开了。
 
-#### Vercel AI SDK
+**Vercel AI SDK**（5.0+）通过 `maxSteps` 参数支持多轮自动 Tool Calling——AI 会循环"思考→调用工具→观察结果"直到完成任务。对简单到中等复杂度的 Agent 场景完全够用，但做不了多 Agent 协作、条件分支、状态图这类复杂编排。
 
-从 5.0 开始，Vercel AI SDK 内置了 Agent 支持：
+**LangChain.js** 是这个环节的**绝对主场**。配合 **LangGraph.js**，你可以做到：
 
-```typescript
-import { openai } from '@ai-sdk/openai'
-import { generateText, tool } from 'ai'
-import { z } from 'zod'
-
-const result = await generateText({
-  model: openai('gpt-4o'),
-  tools: {
-    searchWeb: tool({ /* ... */ }),
-    getWeather: tool({ /* ... */ }),
-    calculate: tool({ /* ... */ }),
-  },
-  maxSteps: 10,
-  prompt: '明天北京适合户外跑步吗？帮我查一下天气和空气质量',
-})
-```
-
-通过 `maxSteps` 参数，AI 会自动进行多轮 Tool Calling，直到完成任务或达到最大步数。这对于简单到中等复杂度的 Agent 场景完全够用。
-
-但如果你需要**多 Agent 协作、条件分支、状态图（State Graph）**这类复杂编排，Vercel AI SDK 就力不从心了。
-
-#### LangChain.js
-
-这是 LangChain.js 的**绝对主场**。它提供了完整的 Agent 编排能力：
-
-```typescript
-import { createReactAgent } from '@langchain/langgraph/prebuilt'
-import { ChatOpenAI } from '@langchain/openai'
-
-const agent = createReactAgent({
-  llm: new ChatOpenAI({ modelName: 'gpt-4o' }),
-  tools: [searchWeb, getWeather, calculate],
-})
-
-const result = await agent.invoke({
-  messages: [{ role: 'user', content: '明天北京适合户外跑步吗？' }]
-})
-```
-
-而且配合 **LangGraph.js**，你可以做更复杂的事情：
-
-- **State Graph**：用图结构定义 Agent 的决策流程
-- **Supervisor 模式**：一个"管理者" Agent 协调多个"专家" Agent
-- **Memory**：短期记忆（对话上下文）和长期记忆（跨会话）
-- **Human-in-the-Loop**：在关键步骤让人类审核后再继续
+- **State Graph** —— 用图结构定义 Agent 决策流程
+- **Supervisor 模式** —— 一个"管理者" Agent 协调多个"专家" Agent
+- **Memory** —— 短期记忆（对话上下文）和长期记忆（跨会话）
+- **Human-in-the-Loop** —— 在关键步骤让人类审核后再继续
 
 如果你的产品需要做"AI 自动处理工单"、"AI 辅助数据分析"这类复杂场景，LangChain.js + LangGraph.js 是目前 JS 生态的最优解。
 
-#### OpenAI SDK
-
-OpenAI SDK 本身不提供 Agent 编排能力。不过 OpenAI 推出了 **Agents SDK**（`@openai/agents`），提供了基本的 Agent 编排功能，但生态远不如 LangChain。
+**OpenAI SDK** 本身不提供 Agent 编排能力。OpenAI 推出了 Agents SDK（`@openai/agents`），但生态远不如 LangChain。
 
 ---
 
@@ -452,7 +164,7 @@ OpenAI SDK 本身不提供 Agent 编排能力。不过 OpenAI 推出了 **Agents
 
 说了这么多，到底该选哪个？我画了一个决策流程图：
 
-AI SDK 选型决策树
+![AI SDK 选型决策树](./images/ai-sdk-decision-tree.jpg)
 
 整理成文字就是：
 
@@ -482,22 +194,17 @@ AI SDK 选型决策树
 
 可以，而且很多项目就是这么干的。
 
-最常见的搭配是：**后端用 LangChain.js，前端用 Vercel AI SDK**。
+![混搭方案架构](./images/ai-sdk-mix-match.jpg)
 
-后端用 LangChain.js 搭建 Agent 编排管线，跑完之后通过 SSE 返回流式结果；前端用 Vercel AI SDK 的 `useChat` Hook 接收流式数据并渲染。两者通过标准的 HTTP 流协议对接，互不侵入。
+最常见的搭配是：**后端用 LangChain.js，前端用 Vercel AI SDK**。后端搭建 Agent 编排管线，通过 SSE 返回流式结果；前端用 `useChat` Hook 接收并渲染。两者通过标准 HTTP 流协议对接，互不侵入。
 
-```
-[前端 React]              [后端 Node.js]
-useChat Hook  ──SSE──→  LangChain.js Agent
-     ↑                       ↓
-  流式渲染              Tool Calling / RAG / Memory
-```
-
-甚至你也可以在后端同时用 OpenAI SDK 做一些简单的直连调用（比如生成摘要、翻译），同时用 LangChain.js 做复杂的 Agent 任务。**它们不是互斥的。**
+甚至你也可以在后端同时用 OpenAI SDK 做简单的直连调用（生成摘要、翻译），同时用 LangChain.js 做复杂的 Agent 任务。**它们不是互斥的。**
 
 ---
 
 ### 避坑指南
+
+![避坑指南](./images/ai-sdk-pitfalls.jpg)
 
 几个我实际踩过的坑，提前告诉你：
 
